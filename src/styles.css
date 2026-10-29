@@ -1,0 +1,482 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * NAVIK design system — "Cinematic Maritime".
+ * Midnight ocean canvas, ink panels, oxidized copper + brass accents,
+ * sea-glass greens and warm paper surfaces for forms and tables.
+ * All colors in oklch. Register new tokens in @theme inline.
+ */
+
+@theme inline {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 10px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-midnight: var(--midnight);
+  --color-ink: var(--ink);
+  --color-abyss: var(--abyss);
+  --color-copper: var(--copper);
+  --color-copper-soft: var(--copper-soft);
+  --color-brass: var(--brass);
+  --color-sea: var(--sea);
+  --color-sea-soft: var(--sea-soft);
+  --color-fog: var(--fog);
+  --color-slate: var(--slate);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-hairline: var(--hairline);
+
+  --color-paper: var(--paper);
+  --color-paper-foreground: var(--paper-foreground);
+  --color-paper-muted: var(--paper-muted);
+  --color-paper-border: var(--paper-border);
+  --color-paper-sunk: var(--paper-sunk);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --animate-drift: drift 18s ease-in-out infinite alternate;
+  --animate-sweep: sweep 6s linear infinite;
+}
+
+:root {
+  --radius: 0.375rem;
+
+  /* Palette */
+  --midnight: oklch(0.205 0.016 205);
+  --abyss: oklch(0.165 0.013 200);
+  --ink: oklch(0.24 0.012 170);
+  --copper: oklch(0.63 0.115 45);
+  --copper-soft: oklch(0.72 0.085 50);
+  --brass: oklch(0.74 0.08 80);
+  --sea: oklch(0.56 0.045 155);
+  --sea-soft: oklch(0.72 0.05 160);
+  --fog: oklch(0.917 0.015 85);
+  --slate: oklch(0.7 0.016 200);
+  --success: oklch(0.7 0.075 155);
+  --warning: oklch(0.77 0.1 78);
+  --danger: oklch(0.64 0.14 32);
+  --hairline: oklch(0.94 0.012 85 / 0.1);
+
+  /* Semantic (dark maritime canvas) */
+  --background: var(--midnight);
+  --foreground: oklch(0.95 0.011 85);
+  --card: oklch(0.235 0.014 190);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.225 0.014 195);
+  --popover-foreground: var(--foreground);
+  --primary: var(--copper);
+  --primary-foreground: oklch(0.17 0.012 60);
+  --secondary: oklch(0.285 0.015 185);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.27 0.013 190);
+  --muted-foreground: oklch(0.72 0.016 195);
+  --accent: oklch(0.31 0.02 170);
+  --accent-foreground: var(--foreground);
+  --destructive: var(--danger);
+  --destructive-foreground: oklch(0.98 0.005 85);
+  --border: oklch(0.94 0.012 85 / 0.11);
+  --input: oklch(0.94 0.012 85 / 0.16);
+  --ring: var(--brass);
+
+  /* Paper surfaces (forms, tables, reports) */
+  --paper: oklch(0.967 0.01 85);
+  --paper-foreground: oklch(0.22 0.014 190);
+  --paper-muted: oklch(0.47 0.016 190);
+  --paper-border: oklch(0.22 0.014 190 / 0.13);
+  --paper-sunk: oklch(0.93 0.014 85);
+
+  --chart-1: var(--copper);
+  --chart-2: var(--sea-soft);
+  --chart-3: var(--brass);
+  --chart-4: var(--fog);
+  --chart-5: var(--slate);
+
+  --sidebar: var(--abyss);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--copper);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: oklch(0.25 0.014 190);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--brass);
+
+  /* Gradients & shadows */
+  --gradient-ocean:
+    radial-gradient(120% 80% at 70% 0%, oklch(0.3 0.03 190 / 0.9) 0%, transparent 60%),
+    radial-gradient(90% 60% at 0% 100%, oklch(0.28 0.04 45 / 0.35) 0%, transparent 60%),
+    linear-gradient(180deg, var(--midnight), var(--abyss));
+  --gradient-horizon: linear-gradient(
+    180deg,
+    oklch(0.165 0.013 200 / 0) 0%,
+    oklch(0.165 0.013 200 / 0.65) 55%,
+    var(--abyss) 100%
+  );
+  --gradient-copper: linear-gradient(120deg, var(--copper), var(--brass));
+  --gradient-panel: linear-gradient(160deg, oklch(0.26 0.016 185), oklch(0.215 0.014 195));
+  --shadow-deep: 0 30px 80px -30px oklch(0.1 0.01 200 / 0.8);
+  --shadow-paper: 0 1px 0 oklch(1 0 0 / 0.6) inset, 0 24px 60px -32px oklch(0.1 0.01 200 / 0.7);
+  --shadow-copper: 0 12px 30px -12px oklch(0.63 0.115 45 / 0.55);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--gradient-ocean);
+    background-color: var(--color-background);
+    background-attachment: fixed;
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: oklch(0.63 0.115 45 / 0.4);
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------- Typography utilities ---------- */
+@utility font-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility text-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/** Hero-scale display heading — tighter tracking, heavier weight. */
+@utility text-display-hero {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+}
+
+/** Section-level display heading — slightly looser for readability at mid sizes. */
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/** Introductory / lead body text with generous leading. */
+@utility text-body-lead {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  letter-spacing: -0.005em;
+}
+
+/** Small technical caption — mono, muted. */
+@utility text-caption {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+@utility serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/** Serif display — upright (non-italic) for large decorative headings. */
+@utility serif-display {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+@utility text-gradient-copper {
+  background: var(--gradient-copper);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Surfaces ---------- */
+@utility surface-ink {
+  background: var(--gradient-panel);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-deep);
+}
+
+@utility surface-paper {
+  background: var(--color-paper);
+  color: var(--color-paper-foreground);
+  border: 1px solid var(--color-paper-border);
+  box-shadow: var(--shadow-paper);
+  --border: var(--paper-border);
+  --input: oklch(0.22 0.014 190 / 0.2);
+  --muted-foreground: var(--paper-muted);
+  --foreground: var(--paper-foreground);
+  --background: var(--paper);
+  --muted: var(--paper-sunk);
+  --accent: var(--paper-sunk);
+  --accent-foreground: var(--paper-foreground);
+  --popover: var(--paper);
+  --popover-foreground: var(--paper-foreground);
+  --ring: var(--copper);
+}
+
+@utility surface-glass {
+  background: oklch(0.2 0.014 200 / 0.55);
+  border: 1px solid oklch(0.94 0.012 85 / 0.12);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+}
+
+@utility hairline-t {
+  border-top: 1px solid var(--color-hairline);
+}
+
+@utility hairline-b {
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+/* Bathymetric contour rings */
+@utility contour-field {
+  background-image:
+    repeating-radial-gradient(
+      circle at 78% 22%,
+      transparent 0 26px,
+      oklch(0.94 0.012 85 / 0.05) 26px 27px
+    ),
+    repeating-radial-gradient(
+      ellipse at 12% 88%,
+      transparent 0 34px,
+      oklch(0.74 0.08 80 / 0.045) 34px 35px
+    );
+}
+
+@utility contour-field-paper {
+  background-image: repeating-radial-gradient(
+    circle at 90% 10%,
+    transparent 0 22px,
+    oklch(0.22 0.014 190 / 0.05) 22px 23px
+  );
+}
+
+/* Film grain overlay */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.09;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+}
+
+@utility bg-horizon {
+  background: var(--gradient-horizon);
+}
+
+@utility bg-copper-gradient {
+  background: var(--gradient-copper);
+}
+
+@utility shadow-copper {
+  box-shadow: var(--shadow-copper);
+}
+
+@utility shadow-deep {
+  box-shadow: var(--shadow-deep);
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.94 0.012 85 / 0.15) transparent;
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.06);
+  }
+  to {
+    transform: translate3d(-1.5%, -1%, 0) scale(1.1);
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Route map motion ---------- */
+@keyframes lane-flow {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+@keyframes port-ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@utility lane-flow {
+  stroke-dasharray: 2 10;
+  animation: lane-flow 2.4s linear infinite;
+}
+
+@utility port-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: port-ping 2.6s ease-out infinite;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ---------- Maritime Tactical & Bridge Surfaces ---------- */
+@utility surface-bridge {
+  background: linear-gradient(165deg, oklch(0.24 0.016 195 / 0.88), oklch(0.18 0.013 200 / 0.94));
+  border: 1px solid oklch(0.94 0.012 85 / 0.13);
+  box-shadow:
+    inset 0 1px 0 0 oklch(1 0 0 / 0.07),
+    0 24px 60px -20px oklch(0.1 0.01 200 / 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+@utility surface-tactical {
+  background: linear-gradient(170deg, oklch(0.22 0.015 190 / 0.9), oklch(0.17 0.012 205 / 0.95));
+  border: 1px solid oklch(0.63 0.115 45 / 0.22);
+  box-shadow:
+    inset 0 1px 0 0 oklch(0.63 0.115 45 / 0.15),
+    0 20px 50px -15px oklch(0.1 0.01 200 / 0.8);
+}
+
+@utility glow-copper {
+  box-shadow: 0 0 30px -5px oklch(0.63 0.115 45 / 0.35);
+}
+
+@utility glow-copper-subtle {
+  box-shadow: 0 0 20px -8px oklch(0.63 0.115 45 / 0.25);
+}
+
+@utility glow-brass {
+  box-shadow: 0 0 25px -6px oklch(0.74 0.08 80 / 0.3);
+}
+
+@utility glow-sea {
+  box-shadow: 0 0 25px -6px oklch(0.56 0.045 155 / 0.35);
+}
+
+@utility nautical-grid {
+  background-size: 28px 28px;
+  background-image:
+    linear-gradient(to right, oklch(0.94 0.012 85 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.94 0.012 85 / 0.035) 1px, transparent 1px);
+}
+
+@utility nautical-crosshair {
+  background-image: radial-gradient(
+    circle at center,
+    oklch(0.63 0.115 45 / 0.25) 1px,
+    transparent 1px
+  );
+  background-size: 32px 32px;
+}

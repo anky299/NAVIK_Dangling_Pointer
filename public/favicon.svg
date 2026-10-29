@@ -1,0 +1,333 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 12 826 962" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- ==================== GRADIENT DEFINITIONS ==================== -->
+    <!-- Deep Navy Outlines -->
+    <linearGradient id="navyBorder" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0E1E2F" />
+      <stop offset="100%" stop-color="#081422" />
+    </linearGradient>
+
+    <!-- Metallic Ring: 3D Toroidal Radial Lighting -->
+    <radialGradient id="ringRadial" cx="40%" cy="26%" r="72%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="20%" stop-color="#ECF3F9" />
+      <stop offset="45%" stop-color="#B2C7DA" />
+      <stop offset="75%" stop-color="#55708C" />
+      <stop offset="95%" stop-color="#283E54" />
+      <stop offset="100%" stop-color="#142638" />
+    </radialGradient>
+
+    <!-- Diamond Stock Crossbar Gradient -->
+    <linearGradient id="stockBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3A526A" />
+      <stop offset="25%" stop-color="#B8CCE0" />
+      <stop offset="50%" stop-color="#FFFFFF" />
+      <stop offset="75%" stop-color="#8EA6BD" />
+      <stop offset="100%" stop-color="#283E54" />
+    </linearGradient>
+
+    <!-- Shank Upper & Lower: Lit Side (Left) -->
+    <linearGradient id="shankLitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#BDD2E4" />
+      <stop offset="35%" stop-color="#EDF4FA" />
+      <stop offset="85%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#DEEAF4" />
+    </linearGradient>
+
+    <!-- Shank Upper & Lower: Shadow Side (Right) -->
+    <linearGradient id="shankShadowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4F6882" />
+      <stop offset="35%" stop-color="#728CA6" />
+      <stop offset="80%" stop-color="#3A526A" />
+      <stop offset="100%" stop-color="#182A3C" />
+    </linearGradient>
+
+    <!-- N Monogram: Left Pillar Main Face -->
+    <linearGradient id="nLeftFront" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="15%" stop-color="#ECF3F9" />
+      <stop offset="45%" stop-color="#B7CCE0" />
+      <stop offset="80%" stop-color="#67829C" />
+      <stop offset="100%" stop-color="#344D66" />
+    </linearGradient>
+
+    <!-- N Monogram: Left Outer Bevel -->
+    <linearGradient id="nLeftBevelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1B2D40" />
+      <stop offset="45%" stop-color="#3E5772" />
+      <stop offset="100%" stop-color="#86A1BC" />
+    </linearGradient>
+
+    <!-- N Monogram: Right Pillar Main Face -->
+    <linearGradient id="nRightFront" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F4F8FC" />
+      <stop offset="25%" stop-color="#D4E3F0" />
+      <stop offset="60%" stop-color="#93ABBF" />
+      <stop offset="90%" stop-color="#556F88" />
+      <stop offset="100%" stop-color="#283E54" />
+    </linearGradient>
+
+    <!-- N Monogram: Right Outer Bevel -->
+    <linearGradient id="nRightBevelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#86A1BC" />
+      <stop offset="60%" stop-color="#3A536C" />
+      <stop offset="100%" stop-color="#182A3C" />
+    </linearGradient>
+
+    <!-- N Monogram: Diagonal Top Ridge / Bevel (Razor-sharp light glint) -->
+    <linearGradient id="nDiagTopBevel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="25%" stop-color="#F0F6FB" />
+      <stop offset="65%" stop-color="#C2D5E6" />
+      <stop offset="100%" stop-color="#728CA6" />
+    </linearGradient>
+
+    <!-- N Monogram: Diagonal Broad Main Face -->
+    <linearGradient id="nDiagMainFace" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#DEECF7" />
+      <stop offset="20%" stop-color="#FFFFFF" />
+      <stop offset="50%" stop-color="#ADC4D9" />
+      <stop offset="80%" stop-color="#597490" />
+      <stop offset="100%" stop-color="#283F56" />
+    </linearGradient>
+
+    <!-- Anchor Flukes: Left Arm Upper (Lit Silver) -->
+    <linearGradient id="flukeLitLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="30%" stop-color="#E2EEF7" />
+      <stop offset="65%" stop-color="#A5BCCD" />
+      <stop offset="100%" stop-color="#536E89" />
+    </linearGradient>
+
+    <!-- Anchor Flukes: Left Arm Lower (Deep Shadow) -->
+    <linearGradient id="flukeShadowLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#23384D" />
+      <stop offset="45%" stop-color="#496580" />
+      <stop offset="80%" stop-color="#849EB7" />
+      <stop offset="100%" stop-color="#C2D5E6" />
+    </linearGradient>
+
+    <!-- Anchor Flukes: Right Arm Upper (Lit Silver) -->
+    <linearGradient id="flukeLitRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#DEEBF5" />
+      <stop offset="35%" stop-color="#AFC4D7" />
+      <stop offset="70%" stop-color="#647E98" />
+      <stop offset="100%" stop-color="#2C435A" />
+    </linearGradient>
+
+    <!-- Anchor Flukes: Right Arm Lower (Deep Shadow) -->
+    <linearGradient id="flukeShadowRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#162738" />
+      <stop offset="40%" stop-color="#324B63" />
+      <stop offset="75%" stop-color="#5B7691" />
+      <stop offset="100%" stop-color="#94ABC0" />
+    </linearGradient>
+
+    <!-- Glossy Blue Ribbon: Luminous Oceanic Wave -->
+    <linearGradient id="ribbonMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#026AA2" />
+      <stop offset="12%" stop-color="#0BA5EC" />
+      <stop offset="32%" stop-color="#38BDF8" />
+      <stop offset="55%" stop-color="#0284C7" />
+      <stop offset="78%" stop-color="#0369A1" />
+      <stop offset="92%" stop-color="#074B7A" />
+      <stop offset="100%" stop-color="#0B2540" />
+    </linearGradient>
+
+    <!-- Ribbon Crest Glint Glow -->
+    <linearGradient id="cyanCrestGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7DD3FC" stop-opacity="0.3" />
+      <stop offset="20%" stop-color="#BAE6FD" stop-opacity="0.95" />
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="70%" stop-color="#38BDF8" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- ============================================================== -->
+  <!-- 1. DEEP NAVY FOUNDATION BASE SILHOUETTE                        -->
+  <!-- ============================================================== -->
+  <g id="navy-base" fill="#0A1828" stroke="#0A1828" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Top Ring Outer -->
+    <circle cx="522" cy="119" r="106" />
+
+    <!-- Stock Crossbar Base -->
+    <polygon points="380,232 522,212 664,232 522,252" stroke-width="12" />
+
+    <!-- Shank Base Pillar -->
+    <rect x="468" y="210" width="108" height="665" rx="4" />
+
+    <!-- Unified "N" Monogram Base (Left Stem + Diagonal + Right Stem) -->
+    <path d="M 235,229 L 345,268 L 805,640 L 805,235 C 805,228 799,224 792,224 L 685,322 L 685,670 C 685,676 691,680 698,680 L 798,680 C 805,680 811,675 811,668 L 811,236 C 811,230 806,226 800,226 L 683,320 L 440,350 L 342,270 L 342,696 C 342,706 334,712 324,712 L 238,712 C 232,712 228,707 228,700 L 228,236 C 228,230 231,226 235,229 Z" stroke-width="14" />
+
+    <!-- Left Fluke Crescent Base -->
+    <path d="M 522,975 C 372,925 195,835 132,715 C 117,685 110,652 108,624 C 108,618 114,615 119,618 L 190,652 L 180,688 C 250,766 354,825 466,855 L 466,870 C 466,876 470,880 475,882 L 522,975 Z" stroke-width="12" />
+    
+    <!-- Right Fluke Crescent Base -->
+    <path d="M 522,975 C 672,925 849,835 912,715 C 927,685 934,652 936,624 C 936,618 930,615 925,618 L 854,652 L 864,688 C 794,766 690,825 578,855 L 578,870 C 578,876 574,880 569,882 L 522,975 Z" stroke-width="12" />
+
+    <!-- Blue Ribbon Accent Base -->
+    <path d="M 230,460 C 235,435 285,385 355,398 C 425,410 478,470 540,534 C 605,600 682,680 798,738 C 806,742 804,752 795,754 C 730,752 630,688 560,612 C 490,536 440,470 360,456 C 298,445 248,502 234,502 C 228,502 227,482 230,460 Z" stroke-width="16" />
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- 2. ANCHOR STOCK & SHANK (BEHIND THE "N")                       -->
+  <!-- ============================================================== -->
+  <g id="anchor-stock-shank">
+    <!-- Diamond Stock Crossbar -->
+    <polygon points="386,232 522,217 658,232 522,247" fill="url(#stockBar)" stroke="#0E1D2D" stroke-width="2" />
+    <line x1="388" y1="232" x2="656" y2="232" stroke="#FFFFFF" stroke-width="1.8" stroke-opacity="0.8" />
+
+    <!-- Upper Shank (Visible above N diagonal between pillars) -->
+    <!-- Lit Side (Left) -->
+    <polygon points="476,218 522,218 522,390 476,360" fill="url(#shankLitGrad)" stroke="#0E1D2D" stroke-width="2" />
+    <!-- Shadow Side (Right) -->
+    <polygon points="522,218 568,218 568,445 522,418" fill="url(#shankShadowGrad)" stroke="#0E1D2D" stroke-width="2" />
+
+    <!-- Lower Shank (Visible below N diagonal into crown) -->
+    <polygon points="476,645 522,670 522,868 476,854" fill="url(#shankLitGrad)" stroke="#0E1D2D" stroke-width="2" />
+    <polygon points="522,670 568,695 568,854 522,868" fill="url(#shankShadowGrad)" stroke="#0E1D2D" stroke-width="2" />
+
+    <!-- Central Razor Creases on Shank -->
+    <line x1="522" y1="218" x2="522" y2="390" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.85" />
+    <line x1="522" y1="670" x2="522" y2="868" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.85" />
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- 3. TOP SHACKLE RING                                            -->
+  <!-- ============================================================== -->
+  <g id="top-ring">
+    <!-- Ring Body with 3D toroidal lighting -->
+    <path fill-rule="evenodd" d="M 522,19 C 577,19 622,64 622,119 C 622,174 577,219 522,219 C 467,219 422,174 422,119 C 422,64 467,19 522,19 Z M 522,85 C 541,85 556,100 556,119 C 556,138 541,153 522,153 C 503,153 488,138 488,119 C 488,100 503,85 522,85 Z" fill="url(#ringRadial)" stroke="#0E1D2D" stroke-width="4" />
+
+    <!-- Top-left specular glint arc -->
+    <path d="M 588,168 C 615,138 617,98 596,62 C 576,32 536,23 504,26" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-opacity="0.9" />
+    
+    <!-- Bottom-right shadow rim arc -->
+    <path d="M 444,72 C 428,102 433,142 458,172 C 484,204 526,215 556,210" fill="none" stroke="#142638" stroke-width="4" stroke-linecap="round" stroke-opacity="0.8" />
+
+    <!-- Inner Hole Cutout Border -->
+    <circle cx="522" cy="119" r="34" fill="none" stroke="#0A1828" stroke-width="3.5" />
+    <path d="M 498,141 C 488,125 490,105 506,95" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-opacity="0.85" />
+    
+    <!-- Shackle Collar -->
+    <polygon points="488,212 556,212 552,228 492,228" fill="url(#shankLitGrad)" stroke="#0E1D2D" stroke-width="2" />
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- 4. "N" MONOGRAM STRUCTURE (DOMINANT FOREGROUND SYMBOL)         -->
+  <!-- ============================================================== -->
+  <g id="n-monogram">
+    <!-- === LEFT PILLAR === -->
+    <!-- Left Outer Chiseled Bevel Edge -->
+    <polygon points="241,235 268,252 268,690 241,702" fill="url(#nLeftBevelGrad)" stroke="#0E1D2D" stroke-width="2" />
+    
+    <!-- Left Pillar Front Face -->
+    <path d="M 268,252 L 336,268 L 336,672 C 336,688 322,694 300,694 L 268,690 Z" fill="url(#nLeftFront)" stroke="#0E1D2D" stroke-width="2" />
+
+    <!-- === RIGHT PILLAR === -->
+    <!-- Right Pillar Front Face -->
+    <polygon points="689,322 799,235 799,660 689,660" fill="url(#nRightFront)" stroke="#0E1D2D" stroke-width="2" />
+
+    <!-- Right Outer Bevel Edge -->
+    <polygon points="782,248 799,235 799,660 782,660" fill="url(#nRightBevelGrad)" stroke="#0E1D2D" stroke-width="1.5" />
+
+    <!-- Right Top Bevel Peak Shading -->
+    <polygon points="689,322 799,235 799,252 708,335" fill="#FFFFFF" fill-opacity="0.35" />
+
+    <!-- === BOLD CONTINUOUS DIAGONAL BAR OF "N" === -->
+    <!-- Deep Navy Drop Shadow under the diagonal -->
+    <polygon points="246,242 342,274 804,650 798,668 684,668 241,310" fill="#040C16" fill-opacity="0.4" />
+
+    <!-- Main Diagonal Body (Solid continuous strut cutting across center) -->
+    <polygon points="241,235 336,268 799,642 799,660 689,660 241,300" fill="url(#nDiagMainFace)" stroke="#0E1D2D" stroke-width="2" stroke-linejoin="round" />
+
+    <!-- Top Razor Bevel of Diagonal (High-contrast metallic silver highlight) -->
+    <polygon points="241,235 336,268 799,642 770,642 318,290 241,235" fill="url(#nDiagTopBevel)" stroke="#0E1D2D" stroke-width="1.5" />
+
+    <!-- Specular Leading Edge Highlights on N -->
+    <!-- Top-left peak glint -->
+    <line x1="241" y1="235" x2="336" y2="268" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-opacity="0.95" />
+    <!-- Full Diagonal Razor Edge Glint -->
+    <line x1="336" y1="268" x2="799" y2="642" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-opacity="0.95" />
+    <!-- Left outer vertical glint -->
+    <line x1="241" y1="235" x2="241" y2="702" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.5" />
+    <!-- Right top peak glint -->
+    <line x1="689" y1="322" x2="799" y2="235" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-opacity="0.95" />
+    <!-- Right outer vertical glint -->
+    <line x1="799" y1="235" x2="799" y2="660" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.6" />
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- 5. ANCHOR ARMS, FLUKES & KEEL CROWN                            -->
+  <!-- ============================================================== -->
+  <g id="anchor-flukes">
+    <!-- LEFT FLUKE ARM -->
+    <!-- Upper Facet (Lit Silver) -->
+    <path d="M 522,868 C 430,838 335,798 255,738 C 215,708 185,678 174,655 L 121,632 C 145,690 195,760 275,815 C 365,875 450,915 522,965 Z" fill="url(#flukeLitLeft)" stroke="#0E1D2D" stroke-width="2" />
+    
+    <!-- Lower Facet (Steel Shadow) -->
+    <path d="M 522,965 C 445,920 360,880 275,815 C 195,760 145,690 121,632 L 182,656 L 174,682 C 248,755 352,824 466,854 L 522,965 Z" fill="url(#flukeShadowLeft)" stroke="#0E1D2D" stroke-width="2" />
+
+    <!-- Left Fluke Arrowhead Barb -->
+    <polygon points="121,632 182,656 174,682 145,665" fill="#D5E4F0" stroke="#0E1D2D" stroke-width="2" />
+    <line x1="121" y1="632" x2="182" y2="656" stroke="#FFFFFF" stroke-width="2.5" stroke-opacity="0.9" />
+
+    <!-- RIGHT FLUKE ARM -->
+    <!-- Upper Facet (Lit Silver) -->
+    <path d="M 522,868 C 614,838 709,798 789,738 C 829,708 859,678 870,655 L 923,632 C 899,690 849,760 769,815 C 679,875 594,915 522,965 Z" fill="url(#flukeLitRight)" stroke="#0E1D2D" stroke-width="2" />
+    
+    <!-- Lower Facet (Steel Shadow) -->
+    <path d="M 522,965 C 599,920 684,880 769,815 C 849,760 899,690 923,632 L 862,656 L 870,682 C 796,755 692,824 578,854 L 522,965 Z" fill="url(#flukeShadowRight)" stroke="#0E1D2D" stroke-width="2" />
+
+    <!-- Right Fluke Arrowhead Barb -->
+    <polygon points="923,632 862,656 870,682 899,665" fill="#A8BFD4" stroke="#0E1D2D" stroke-width="2" />
+    <line x1="923" y1="632" x2="862" y2="656" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.85" />
+
+    <!-- Keel Spine Lines -->
+    <line x1="522" y1="868" x2="522" y2="965" stroke="#FFFFFF" stroke-width="2.2" stroke-opacity="0.95" />
+    <path d="M 522,965 C 445,920 360,880 275,815 C 195,760 145,690 121,632" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-opacity="0.9" />
+    <path d="M 522,965 C 599,920 684,880 769,815 C 849,760 899,690 923,632" fill="none" stroke="#253D54" stroke-width="2" stroke-opacity="0.85" />
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- 6. GLOSSY BLUE RIBBON / DYNAMIC NAUTICAL WAVE                  -->
+  <!-- ============================================================== -->
+  <g id="blue-ribbon">
+    <!-- Cast Shadow onto background diagonal -->
+    <path d="M 238,474 C 295,410 365,418 435,465 C 510,518 575,585 665,655 C 725,700 780,742 798,754 C 770,758 720,735 650,680 C 560,610 500,545 430,495 C 365,455 305,448 238,506 Z" fill="#040C16" fill-opacity="0.55" />
+
+    <!-- Main Front Blue Ribbon Body -->
+    <path d="M 235,466 C 242,442 290,390 355,402 C 422,414 476,472 538,536 C 605,604 682,684 795,738 C 768,746 724,720 658,664 C 585,598 528,534 460,474 C 395,418 335,424 240,494 C 234,498 231,488 235,466 Z" fill="url(#ribbonMain)" stroke="#06182C" stroke-width="3" stroke-linejoin="round" />
+
+    <!-- Luminous Cyan Crest Stroke along upper wave curve -->
+    <path d="M 240,462 C 275,416 325,400 365,406 C 425,416 480,478 545,544 C 610,610 686,690 788,736" fill="none" stroke="url(#cyanCrestGlow)" stroke-width="4" stroke-linecap="round" />
+    <path d="M 285,420 C 325,404 355,406 385,416" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-opacity="0.95" />
+
+    <!-- Secondary Reflective Rim Highlight -->
+    <path d="M 246,488 C 330,430 390,422 455,478 C 520,534 580,604 660,670" fill="none" stroke="#7DD3FC" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.65" />
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- 7. SPECULAR GLINTS & FOCAL ACCENTS                            -->
+  <!-- ============================================================== -->
+  <g id="specular-highlights">
+    <!-- Top Ring Apex Glint -->
+    <circle cx="496" cy="38" r="4.5" fill="#FFFFFF" fill-opacity="0.95" />
+    
+    <!-- Left N Pillar Apex Glint -->
+    <circle cx="336" cy="268" r="3.5" fill="#FFFFFF" fill-opacity="0.95" />
+    
+    <!-- Right N Pillar Apex Glint -->
+    <circle cx="799" cy="235" r="3.5" fill="#FFFFFF" fill-opacity="0.95" />
+
+    <!-- Left Fluke Tip Glint -->
+    <circle cx="121" cy="632" r="3" fill="#FFFFFF" fill-opacity="0.95" />
+
+    <!-- Right Fluke Tip Glint -->
+    <circle cx="923" cy="632" r="3" fill="#FFFFFF" fill-opacity="0.95" />
+
+    <!-- Keel Bottom Glint -->
+    <circle cx="522" cy="965" r="3.5" fill="#FFFFFF" fill-opacity="0.95" />
+  </g>
+</svg>
