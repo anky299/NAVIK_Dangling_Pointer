@@ -73,10 +73,10 @@ function Badge({
   children: React.ReactNode;
 }) {
   const styles = {
-    brass: "border-brass/50 bg-brass/15 text-brass",
-    warning: "border-copper/50 bg-copper/15 text-copper-soft",
+    brass: "border-[#D7B88C]/50 bg-[#D7B88C]/15 text-[#D7B88C]",
+    warning: "border-[#B96F50]/50 bg-[#B96F50]/15 text-[#FAF5EC]",
     danger: "border-crimson/50 bg-crimson/15 text-crimson",
-    success: "border-emerald-500/50 bg-emerald-500/15 text-emerald-300",
+    success: "border-[#D7B88C]/40 bg-[#79513D]/25 text-[#FAF5EC]",
     outline: "border-border/80 text-foreground/75 bg-card/40",
     neutral: "border-border/60 bg-muted/40 text-foreground/80",
   };
@@ -104,20 +104,20 @@ const SEVERITY_STYLES: Record<
     badge: "danger",
   },
   ELEVATED: {
-    border: "border-copper/50",
-    bg: "bg-copper/10",
-    text: "text-copper-soft",
+    border: "border-[#B96F50]/50",
+    bg: "bg-[#B96F50]/10",
+    text: "text-[#C88C78]",
     badge: "warning",
   },
   MODERATE: {
-    border: "border-brass/40",
-    bg: "bg-brass/10",
-    text: "text-brass",
+    border: "border-[#D7B88C]/40",
+    bg: "bg-[#D7B88C]/10",
+    text: "text-[#D7B88C]",
     badge: "brass",
   },
   LOW: {
-    border: "border-border",
-    bg: "bg-surface/50",
+    border: "border-[#79513D]/40",
+    bg: "bg-[#382720]/40",
     text: "text-fog",
     badge: "outline",
   },
@@ -189,8 +189,8 @@ export function CommandDashboardWorkspace() {
       <div className="flex flex-col gap-4 border-b border-border/60 pb-6 md:flex-row md:items-end md:justify-between">
         <div className="space-y-1.5">
           <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.14em] text-brass">
+            <span className="flex h-2 w-2 rounded-full bg-[#D7B88C] animate-pulse shadow-[0_0_8px_rgba(215,184,140,0.7)]" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.14em] text-[#D7B88C]">
               NAVIK Command Center · Active Desk
             </span>
             <Badge variant="outline" className="font-mono text-[10px] uppercase">
@@ -198,7 +198,7 @@ export function CommandDashboardWorkspace() {
             </Badge>
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-            Command <span className="text-copper">Deck</span>
+            Command <span className="text-[#B96F50]">Deck</span>
           </h1>
           <p className="max-w-2xl text-sm text-foreground/70">
             Real-time maritime telemetry, port draft limits, risk alerts, and operational decision
@@ -211,24 +211,26 @@ export function CommandDashboardWorkspace() {
             type="button"
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="inline-flex items-center gap-1.5 rounded-md border border-border/80 bg-surface/80 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-surface hover:text-copper transition disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[#D7B88C]/30 bg-surface/80 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-[#382720]/80 hover:text-[#FAF5EC] transition disabled:opacity-50"
             title="Refresh operational data"
           >
-            <RefreshCw className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin text-copper")} />
+            <RefreshCw
+              className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin text-[#B96F50]")}
+            />
             <span>Sync Telemetry</span>
           </button>
 
           <Link
             to="/market"
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-foreground hover:border-copper/40 hover:text-copper transition"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-foreground hover:border-[#B96F50]/50 hover:text-[#FAF5EC] transition"
           >
-            <LineChart className="h-3.5 w-3.5 text-copper-soft" />
+            <LineChart className="h-3.5 w-3.5 text-[#B96F50]" />
             <span>Market Terminal</span>
           </Link>
 
           <Link
             to="/charter"
-            className="inline-flex items-center gap-1.5 rounded-md bg-copper px-3.5 py-1.5 text-xs font-semibold text-ink shadow-sm hover:bg-copper-soft transition"
+            className="inline-flex items-center gap-1.5 rounded-md bg-[#B96F50] px-3.5 py-1.5 text-xs font-semibold text-[#FAF5EC] shadow-sm hover:bg-[#C67C5E] transition"
           >
             <Anchor className="h-3.5 w-3.5" />
             <span>Launch Charter Workspace</span>
@@ -238,92 +240,92 @@ export function CommandDashboardWorkspace() {
 
       {/* 2. Operational KPI Ribbon with Enhanced Numerical Hierarchy & Distinct Thematic Tints */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {/* KPI 1: Baltic Dry Index (Sage / Emerald Theme) */}
-        <Card className="p-4 border-sage/40 bg-gradient-to-br from-card/95 via-card/70 to-sage/15 hover:border-sage transition-all duration-300 shadow-deep">
+        {/* KPI 1: Baltic Dry Index (Muted Brass Theme) */}
+        <Card className="p-4 border-[#D7B88C]/40 bg-gradient-to-br from-card/95 via-card/70 to-[#D7B88C]/15 hover:border-[#D7B88C] transition-all duration-300 shadow-deep">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-sage font-semibold">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#D7B88C] font-semibold">
               Baltic Dry Index
             </span>
-            <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
+            <TrendingUp className="h-3.5 w-3.5 text-[#D7B88C]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
+          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
             {snapshot ? fmtInt(snapshot.freightIndex) : "1,842"}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">pts</span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-emerald-400 font-mono bg-emerald-950/40 border border-emerald-500/30 px-1.5 py-0.5 rounded w-fit">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#D7B88C] font-mono bg-[#D7B88C]/15 border border-[#D7B88C]/30 px-1.5 py-0.5 rounded w-fit">
             <ArrowUpRight className="h-3 w-3" />
             <span>+{snapshot?.freightIndexChangePct ?? 2.6}% 7D benchmark</span>
           </div>
         </Card>
 
-        {/* KPI 2: VLSFO Singapore (Copper Orange Theme) */}
-        <Card className="p-4 border-copper/40 bg-gradient-to-br from-card/95 via-card/70 to-copper/15 hover:border-copper transition-all duration-300 shadow-deep">
+        {/* KPI 2: VLSFO Singapore (Burnt Coral Theme) */}
+        <Card className="p-4 border-[#B96F50]/40 bg-gradient-to-br from-card/95 via-card/70 to-[#B96F50]/15 hover:border-[#B96F50] transition-all duration-300 shadow-deep">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-copper font-semibold">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#B96F50] font-semibold">
               VLSFO Singapore
             </span>
-            <Flame className="h-3.5 w-3.5 text-copper-soft" />
+            <Flame className="h-3.5 w-3.5 text-[#B96F50]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
+          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
             {snapshot ? fmtRate(snapshot.vlsfoUsdPerT) : "$618.50"}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">/t</span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-copper-soft font-mono bg-copper/15 border border-copper/30 px-1.5 py-0.5 rounded w-fit">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#FAF5EC] font-mono bg-[#B96F50]/20 border border-[#B96F50]/40 px-1.5 py-0.5 rounded w-fit">
             <ArrowUpRight className="h-3 w-3" />
             <span>+{snapshot?.vlsfoChangePct ?? 4.1}% 7D fuel escalation</span>
           </div>
         </Card>
 
-        {/* KPI 3: Anchorage Queue (Muted Brass Theme) */}
-        <Card className="p-4 border-brass/40 bg-gradient-to-br from-card/95 via-card/70 to-brass/15 hover:border-brass transition-all duration-300 shadow-deep">
+        {/* KPI 3: Anchorage Queue (Dusty Rose Theme) */}
+        <Card className="p-4 border-[#C88C78]/40 bg-gradient-to-br from-card/95 via-card/70 to-[#C88C78]/15 hover:border-[#C88C78] transition-all duration-300 shadow-deep">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-brass font-semibold">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#C88C78] font-semibold">
               Anchorage Queue
             </span>
-            <Clock className="h-3.5 w-3.5 text-brass" />
+            <Clock className="h-3.5 w-3.5 text-[#C88C78]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
+          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
             {congestionSummary.averageWaitDays}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">
               days avg
             </span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-brass font-mono bg-brass/15 border border-brass/30 px-1.5 py-0.5 rounded w-fit">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#C88C78] font-mono bg-[#C88C78]/15 border border-[#C88C78]/30 px-1.5 py-0.5 rounded w-fit">
             <span>{congestionSummary.totalWaitingVessels} vessels waiting berth</span>
           </div>
         </Card>
 
-        {/* KPI 4: Basin Fleet Avail (Sea-Glass Green Theme) */}
-        <Card className="p-4 border-sea-glass/40 bg-gradient-to-br from-card/95 via-card/70 to-deep-teal/25 hover:border-sea-glass transition-all duration-300 shadow-deep">
+        {/* KPI 4: Basin Fleet Avail (Walnut Theme) */}
+        <Card className="p-4 border-[#79513D]/40 bg-gradient-to-br from-card/95 via-card/70 to-[#79513D]/25 hover:border-[#79513D] transition-all duration-300 shadow-deep">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-sea-glass-soft font-semibold">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#FAF5EC] font-semibold">
               Basin Fleet Avail
             </span>
-            <Gauge className="h-3.5 w-3.5 text-sea-glass-soft" />
+            <Gauge className="h-3.5 w-3.5 text-[#FAF5EC]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
+          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
             {snapshot?.fleetAvailabilityPct ?? 79}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">%</span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-emerald-300 font-mono bg-sea-glass/20 border border-sea-glass/40 px-1.5 py-0.5 rounded w-fit">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#FAF5EC] font-mono bg-[#79513D]/30 border border-[#79513D]/50 px-1.5 py-0.5 rounded w-fit">
             <CheckCircle2 className="h-3 w-3" />
             <span>Adequate spot tonnage</span>
           </div>
         </Card>
 
-        {/* KPI 5: Committed Inflow (Steel / Ivory Theme) */}
-        <Card className="p-4 border-forest-charcoal/90 bg-gradient-to-br from-card/95 via-card/70 to-deep-teal/20 hover:border-copper/50 transition-all duration-300 shadow-deep col-span-2 sm:col-span-1">
+        {/* KPI 5: Committed Inflow (Warm Ivory / Espresso Theme) */}
+        <Card className="p-4 border-[#FAF5EC]/30 bg-gradient-to-br from-card/95 via-card/70 to-[#382720]/40 hover:border-[#FAF5EC]/60 transition-all duration-300 shadow-deep col-span-2 sm:col-span-1">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-warm-ivory/80 font-semibold">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#F2E6D5] font-semibold">
               Committed Inflow
             </span>
-            <Ship className="h-3.5 w-3.5 text-copper-soft" />
+            <Ship className="h-3.5 w-3.5 text-[#B96F50]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
+          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
             {fmtInt(inflowSummary.totalTonnage)}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">t</span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-copper-soft font-mono bg-card/80 border border-border/80 px-1.5 py-0.5 rounded w-fit">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#FAF5EC] font-mono bg-[#382720]/80 border border-[#D7B88C]/30 px-1.5 py-0.5 rounded w-fit">
             <span>{inflowSummary.activeFixturesCount} active fixtures</span>
           </div>
         </Card>
@@ -337,7 +339,7 @@ export function CommandDashboardWorkspace() {
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/50 pb-3 mb-4">
               <div>
                 <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
-                  <Navigation className="h-4 w-4 text-copper" />
+                  <Navigation className="h-4 w-4 text-[#B96F50]" />
                   Inbound Trade Corridors & Port Nodes
                 </h2>
                 <p className="text-xs text-foreground/60">
@@ -354,7 +356,7 @@ export function CommandDashboardWorkspace() {
                   className={cn(
                     "px-2.5 py-1 rounded text-[11px] font-medium transition",
                     selectedLaneGroup === "ALL"
-                      ? "bg-copper text-ink font-semibold"
+                      ? "bg-[#B96F50] text-[#FAF5EC] font-semibold"
                       : "text-foreground/70 hover:text-foreground",
                   )}
                 >
@@ -366,7 +368,7 @@ export function CommandDashboardWorkspace() {
                   className={cn(
                     "px-2.5 py-1 rounded text-[11px] font-medium transition",
                     selectedLaneGroup === "COAL"
-                      ? "bg-copper text-ink font-semibold"
+                      ? "bg-[#B96F50] text-[#FAF5EC] font-semibold"
                       : "text-foreground/70 hover:text-foreground",
                   )}
                 >
@@ -378,7 +380,7 @@ export function CommandDashboardWorkspace() {
                   className={cn(
                     "px-2.5 py-1 rounded text-[11px] font-medium transition",
                     selectedLaneGroup === "IRON_ORE"
-                      ? "bg-copper text-ink font-semibold"
+                      ? "bg-[#B96F50] text-[#FAF5EC] font-semibold"
                       : "text-foreground/70 hover:text-foreground",
                   )}
                 >
@@ -460,7 +462,7 @@ export function CommandDashboardWorkspace() {
                     className={cn(
                       "py-1.5 text-center rounded border transition text-xs font-mono",
                       isSelected
-                        ? "border-copper bg-copper/15 text-copper-soft font-bold"
+                        ? "border-[#B96F50] bg-[#B96F50]/20 text-[#FAF5EC] font-bold"
                         : "border-border/60 bg-ink/40 text-foreground/70 hover:border-border hover:text-foreground",
                     )}
                   >
@@ -487,7 +489,7 @@ export function CommandDashboardWorkspace() {
                       Capesize requires lightering
                     </span>
                   ) : (
-                    <span className="text-[10px] text-emerald-400 flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-[#D7B88C] flex items-center gap-1 mt-1">
                       <CheckCircle2 className="h-3 w-3 shrink-0" />
                       Deepwater berths available
                     </span>
@@ -522,8 +524,8 @@ export function CommandDashboardWorkspace() {
                       selectedPortDetail.berthOccupancyPct > 85
                         ? "bg-crimson"
                         : selectedPortDetail.berthOccupancyPct > 75
-                          ? "bg-copper"
-                          : "bg-brass",
+                          ? "bg-[#B96F50]"
+                          : "bg-[#D7B88C]",
                     )}
                     style={{ width: `${selectedPortDetail.berthOccupancyPct}%` }}
                   />
@@ -545,7 +547,7 @@ export function CommandDashboardWorkspace() {
                           className={cn(
                             "inline-flex items-center gap-1 rounded px-2 py-0.5 text-[11px] font-mono border",
                             isSupported
-                              ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                              ? "border-[#D7B88C]/40 bg-[#79513D]/25 text-[#FAF5EC]"
                               : "border-crimson/30 bg-crimson/10 text-crimson line-through opacity-70",
                           )}
                         >
@@ -563,7 +565,7 @@ export function CommandDashboardWorkspace() {
             <span className="text-xs text-foreground/50">Need full berth constraints?</span>
             <Link
               to="/feasibility"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-copper hover:text-copper-soft transition"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#B96F50] hover:text-[#C67C5E] transition"
             >
               <span>Port Feasibility Suite</span>
               <ArrowUpRight className="h-3 w-3" />
@@ -631,7 +633,7 @@ export function CommandDashboardWorkspace() {
                       <td className="py-2.5 text-right font-mono font-medium text-foreground">
                         {fmtInt(c.tonnage)} t
                       </td>
-                      <td className="py-2.5 text-right font-mono font-medium text-copper-soft">
+                      <td className="py-2.5 text-right font-mono font-medium text-[#FAF5EC]">
                         ${c.rateUsdPerT.toFixed(2)}/t
                       </td>
                       <td className="py-2.5 text-right">
@@ -663,7 +665,7 @@ export function CommandDashboardWorkspace() {
           <div className="flex items-center justify-between border-b border-border/50 pb-3 mb-4">
             <div>
               <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
-                <Compass className="h-4 w-4 text-copper" />
+                <Compass className="h-4 w-4 text-[#B96F50]" />
                 Recent Decision Logs
               </h2>
               <p className="text-xs text-foreground/60">
@@ -672,7 +674,7 @@ export function CommandDashboardWorkspace() {
             </div>
             <Link
               to="/charter"
-              className="text-xs font-medium text-copper hover:underline inline-flex items-center gap-1"
+              className="text-xs font-medium text-[#B96F50] hover:underline inline-flex items-center gap-1"
             >
               <span>Open Desk</span>
               <ArrowUpRight className="h-3 w-3" />
@@ -683,7 +685,7 @@ export function CommandDashboardWorkspace() {
             {recent.map((d) => (
               <div
                 key={d.id}
-                className="flex items-center justify-between rounded-lg border border-border/50 bg-ink/40 p-3 hover:border-copper/40 transition"
+                className="flex items-center justify-between rounded-lg border border-border/50 bg-ink/40 p-3 hover:border-[#B96F50]/40 transition"
               >
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
@@ -713,12 +715,12 @@ export function CommandDashboardWorkspace() {
                   <div className="text-sm font-bold font-mono text-foreground">
                     ${d.rateUsdPerT.toFixed(2)}/t
                   </div>
-                  <div className="text-[10px] font-mono text-emerald-400">
+                  <div className="text-[10px] font-mono text-[#D7B88C]">
                     {Math.round(d.confidence * 100)}% conf
                   </div>
                   <Link
                     to="/charter"
-                    className="text-[10px] font-semibold text-copper hover:underline inline-flex items-center gap-0.5 mt-1"
+                    className="text-[10px] font-semibold text-[#B96F50] hover:underline inline-flex items-center gap-0.5 mt-1"
                   >
                     <span>Simulate</span>
                     <ArrowUpRight className="h-2.5 w-2.5" />
@@ -754,7 +756,7 @@ export function CommandDashboardWorkspace() {
                 placeholder="Filter alerts..."
                 value={alertSearch}
                 onChange={(e) => setAlertSearch(e.target.value)}
-                className="rounded-md border border-border/80 bg-ink/70 pl-8 pr-3 py-1.5 text-xs text-foreground placeholder:text-foreground/40 focus:border-copper focus:outline-none w-44"
+                className="rounded-md border border-border/80 bg-ink/70 pl-8 pr-3 py-1.5 text-xs text-foreground placeholder:text-foreground/40 focus:border-[#B96F50] focus:outline-none w-44"
               />
             </div>
 
@@ -771,7 +773,7 @@ export function CommandDashboardWorkspace() {
                     className={cn(
                       "px-2 py-1 rounded text-[11px] font-mono transition",
                       alertSeverity === sev
-                        ? "bg-copper text-ink font-semibold"
+                        ? "bg-[#B96F50] text-[#FAF5EC] font-semibold"
                         : "text-foreground/70 hover:text-foreground",
                     )}
                   >
@@ -802,9 +804,9 @@ export function CommandDashboardWorkspace() {
               <div
                 key={alert.id}
                 className={cn(
-                  "rounded-lg border p-4 transition-all duration-200 flex flex-col justify-between bg-card/60 backdrop-blur-sm hover:border-copper/50",
+                  "rounded-lg border p-4 transition-all duration-200 flex flex-col justify-between bg-card/60 backdrop-blur-sm hover:border-[#B96F50]/50",
                   style.border,
-                  isHigh && "shadow-[0_0_20px_-8px_oklch(0.64_0.14_32_/_0.3)]",
+                  isHigh && "shadow-[0_0_20px_-8px_rgba(200,80,80,0.35)]",
                 )}
               >
                 <div>
@@ -831,10 +833,10 @@ export function CommandDashboardWorkspace() {
                 </div>
 
                 <div className="pt-2.5 border-t border-border/40 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-                  <span className="text-copper-soft">{alert.region}</span>
+                  <span className="text-[#D7B88C]">{alert.region}</span>
                   <Link
                     to={targetRoute}
-                    className="inline-flex items-center gap-1 text-[11px] text-copper-soft hover:text-copper transition"
+                    className="inline-flex items-center gap-1 text-[11px] text-[#FAF5EC] hover:text-[#B96F50] transition font-medium"
                   >
                     <span>Escalate</span>
                     <ArrowUpRight className="size-3" />

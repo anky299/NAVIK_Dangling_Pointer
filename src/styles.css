@@ -80,18 +80,27 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --color-deep-teal: var(--deep-teal);
-  --color-sea-glass: var(--sea-glass);
-  --color-sea-glass-soft: var(--sea-glass-soft);
-  --color-forest-charcoal: var(--forest-charcoal);
-  --color-copper: var(--copper);
-  --color-copper-soft: var(--copper-soft);
-  --color-brass: var(--brass);
-  --color-brass-soft: var(--brass-soft);
+  --color-espresso: var(--espresso);
+  --color-walnut: var(--walnut);
+  --color-coral: var(--burnt-coral);
+  --color-burnt-coral: var(--burnt-coral);
+  --color-brass: var(--muted-brass);
+  --color-muted-brass: var(--muted-brass);
   --color-ivory: var(--warm-ivory);
-  --color-sage: var(--soft-sage);
-  --color-sage-soft: var(--soft-sage-soft);
-  --color-crimson: var(--crimson);
+  --color-warm-ivory: var(--warm-ivory);
+  --color-parchment: var(--soft-parchment);
+  --color-soft-parchment: var(--soft-parchment);
+  --color-dusty-rose: var(--dusty-rose);
+  --color-charcoal: var(--deep-charcoal);
+  --color-deep-charcoal: var(--deep-charcoal);
+
+  /* Semantic compatibility tokens */
+  --color-copper: var(--burnt-coral);
+  --color-copper-soft: var(--dusty-rose);
+  --color-sea: var(--walnut);
+  --color-sea-soft: var(--muted-brass);
+  --color-fog: var(--warm-ivory);
+  --color-slate: var(--walnut);
 
   --animate-drift: drift 18s ease-in-out infinite alternate;
   --animate-sweep: sweep 6s linear infinite;
@@ -100,95 +109,91 @@
 :root {
   --radius: 0.375rem;
 
-  /* Maritime Intelligence Palette */
-  --deep-teal: #163d3b;
-  --sea-glass: #2d6a62;
-  --sea-glass-soft: #3d8c82;
-  --forest-charcoal: #24332c;
-  --copper: #c66f48;
-  --copper-soft: #d9855f;
-  --brass: #b9a36a;
-  --brass-soft: #cdbc87;
-  --warm-ivory: #f0e8d8;
-  --soft-sage: #a9b8a5;
-  --soft-sage-soft: #859b81;
-  --crimson: #c84b31;
+  /* NAVIK Warm Luxury Art Direction */
+  --espresso: #382720;
+  --walnut: #79513d;
+  --burnt-coral: #b96f50;
+  --muted-brass: #d7b88c;
+  --warm-ivory: #f2e6d5;
+  --soft-parchment: #faf5ec;
+  --dusty-rose: #c88c78;
+  --deep-charcoal: #25201d;
 
-  /* Ambient Canvas & Panels */
-  --midnight: #0e1718;
-  --abyss: #0b1213;
-  --ink: #142220;
-  --sea: var(--sea-glass);
-  --sea-soft: var(--sea-glass-soft);
+  /* Aliases for semantic compatibility */
+  --copper: var(--burnt-coral);
+  --copper-soft: var(--dusty-rose);
+  --brass: var(--muted-brass);
+  --brass-soft: #e6ceae;
+  --sea: var(--walnut);
+  --sea-soft: var(--muted-brass);
   --fog: var(--warm-ivory);
-  --slate: #7b8f8b;
-  --success: #70a37f;
-  --warning: #cda052;
-  --danger: var(--crimson);
-  --hairline: rgba(240, 232, 216, 0.1);
+  --slate: #8a7062;
+  --success: #8e9c78;
+  --warning: var(--muted-brass);
+  --danger: #b34e3b;
+  --hairline: rgba(242, 230, 213, 0.1);
 
-  /* Semantic (dark maritime canvas) */
-  --background: var(--midnight);
+  /* Semantic Canvas (Dark Warm Sunset Horizon) */
+  --background: var(--deep-charcoal);
   --foreground: var(--warm-ivory);
-  --card: #132221;
+  --card: #2c2522;
   --card-foreground: var(--warm-ivory);
-  --popover: #152624;
+  --popover: #2e2724;
   --popover-foreground: var(--warm-ivory);
-  --primary: var(--copper);
-  --primary-foreground: #0e1718;
-  --secondary: #1e3330;
+  --primary: var(--burnt-coral);
+  --primary-foreground: #faf5ec;
+  --secondary: #3a2f2a;
   --secondary-foreground: var(--warm-ivory);
-  --muted: #1a2d2a;
-  --muted-foreground: #9bb0a8;
-  --accent: #233d39;
+  --muted: #342b26;
+  --muted-foreground: #b5a196;
+  --accent: #40342e;
   --accent-foreground: var(--warm-ivory);
   --destructive: var(--danger);
-  --destructive-foreground: #fff7f0;
-  --border: rgba(185, 163, 106, 0.16);
-  --input: rgba(185, 163, 106, 0.22);
-  --ring: var(--brass);
+  --destructive-foreground: #faf5ec;
+  --border: rgba(215, 184, 140, 0.15);
+  --input: rgba(215, 184, 140, 0.2);
+  --ring: var(--muted-brass);
 
-  /* Paper surfaces (forms, tables, reports) */
-  --paper: #f6f3eb;
-  --paper-foreground: #142422;
-  --paper-muted: #5b6e6a;
-  --paper-border: rgba(20, 36, 34, 0.14);
-  --paper-sunk: #ece7dc;
+  /* Light Analytical Surfaces (Forms, Tables, Reports) */
+  --paper: var(--soft-parchment);
+  --paper-foreground: var(--espresso);
+  --paper-muted: var(--walnut);
+  --paper-border: rgba(56, 39, 32, 0.14);
+  --paper-sunk: #f2ece0;
 
-  /* Multi-series chart distinct colors */
-  --chart-1: #c66f48;
-  --chart-2: #2d6a62;
-  --chart-3: #b9a36a;
-  --chart-4: #a9b8a5;
-  --chart-5: #4f829e;
+  /* Multi-series chart distinct warm colors */
+  --chart-1: #b96f50; /* Burnt coral */
+  --chart-2: #d7b88c; /* Muted brass */
+  --chart-3: #79513d; /* Walnut */
+  --chart-4: #c88c78; /* Dusty rose */
+  --chart-5: #382720; /* Espresso */
 
   /* Sidebar Tokens */
-  --sidebar: #0c1515;
+  --sidebar: #1e1917;
   --sidebar-foreground: var(--warm-ivory);
-  --sidebar-primary: var(--copper);
-  --sidebar-primary-foreground: #0e1718;
-  --sidebar-accent: #172b28;
+  --sidebar-primary: var(--burnt-coral);
+  --sidebar-primary-foreground: #faf5ec;
+  --sidebar-accent: #2c2420;
   --sidebar-accent-foreground: var(--warm-ivory);
-  --sidebar-border: rgba(45, 106, 98, 0.24);
-  --sidebar-ring: var(--brass);
+  --sidebar-border: rgba(215, 184, 140, 0.12);
+  --sidebar-ring: var(--muted-brass);
 
-  /* Gradients & shadows */
+  /* Gradients & Shadows complementing sea-and-coral sunset background */
   --gradient-ocean:
-    radial-gradient(120% 80% at 75% 0%, rgba(45, 106, 98, 0.24) 0%, transparent 60%),
-    radial-gradient(90% 60% at 5% 100%, rgba(198, 111, 72, 0.15) 0%, transparent 60%),
-    radial-gradient(80% 50% at 50% 50%, rgba(22, 61, 59, 0.2) 0%, transparent 70%),
-    linear-gradient(180deg, #0e1718, #0b1213);
+    radial-gradient(120% 80% at 75% 0%, rgba(185, 111, 80, 0.12) 0%, transparent 60%),
+    radial-gradient(90% 60% at 5% 100%, rgba(215, 184, 140, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #25201d, #1c1715);
   --gradient-horizon: linear-gradient(
     180deg,
-    rgba(11, 18, 19, 0) 0%,
-    rgba(11, 18, 19, 0.72) 55%,
-    #0b1213 100%
+    rgba(37, 32, 29, 0) 0%,
+    rgba(37, 32, 29, 0.75) 55%,
+    #25201d 100%
   );
-  --gradient-copper: linear-gradient(125deg, #c66f48 0%, #d9855f 45%, #b9a36a 100%);
-  --gradient-panel: linear-gradient(160deg, #172b29, #122220);
-  --shadow-deep: 0 30px 80px -30px rgba(8, 14, 14, 0.85);
-  --shadow-paper: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 24px 60px -32px rgba(8, 14, 14, 0.65);
-  --shadow-copper: 0 12px 30px -10px rgba(198, 111, 72, 0.45);
+  --gradient-copper: linear-gradient(125deg, #b96f50 0%, #d7b88c 100%);
+  --gradient-panel: linear-gradient(160deg, #302824, #27211e);
+  --shadow-deep: 0 30px 80px -30px rgba(18, 14, 12, 0.85);
+  --shadow-paper: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 20px 50px -30px rgba(37, 32, 29, 0.35);
+  --shadow-copper: 0 12px 30px -10px rgba(185, 111, 80, 0.45);
 }
 
 @layer base {
@@ -297,15 +302,15 @@
   color: transparent;
 }
 
-@utility text-gradient-teal {
-  background: linear-gradient(135deg, #3d8c82 0%, #a9b8a5 100%);
+@utility text-gradient-coral {
+  background: linear-gradient(135deg, #b96f50 0%, #d7b88c 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 @utility text-gradient-brass {
-  background: linear-gradient(135deg, #cdbc87 0%, #f0e8d8 100%);
+  background: linear-gradient(135deg, #d7b88c 0%, #faf5ec 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -473,37 +478,33 @@
 
 /* ---------- Maritime Tactical & Bridge Surfaces ---------- */
 @utility surface-bridge {
-  background: linear-gradient(165deg, rgba(22, 61, 59, 0.55), rgba(11, 18, 19, 0.92));
-  border: 1px solid rgba(45, 106, 98, 0.38);
+  background: linear-gradient(165deg, rgba(56, 39, 32, 0.72), rgba(37, 32, 29, 0.94));
+  border: 1px solid rgba(215, 184, 140, 0.22);
   box-shadow:
-    inset 0 1px 0 0 rgba(185, 163, 106, 0.18),
-    0 24px 60px -20px rgba(8, 14, 14, 0.85);
+    inset 0 1px 0 0 rgba(242, 230, 213, 0.12),
+    0 24px 60px -20px rgba(18, 14, 12, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
 @utility surface-tactical {
-  background: linear-gradient(170deg, rgba(36, 51, 44, 0.75), rgba(14, 23, 24, 0.94));
-  border: 1px solid rgba(198, 111, 72, 0.35);
+  background: linear-gradient(170deg, rgba(48, 40, 36, 0.8), rgba(28, 23, 21, 0.96));
+  border: 1px solid rgba(185, 111, 80, 0.28);
   box-shadow:
-    inset 0 1px 0 0 rgba(198, 111, 72, 0.22),
-    0 20px 50px -15px rgba(8, 14, 14, 0.85);
+    inset 0 1px 0 0 rgba(185, 111, 80, 0.18),
+    0 20px 50px -15px rgba(18, 14, 12, 0.85);
 }
 
 @utility glow-copper {
-  box-shadow: 0 0 30px -5px rgba(198, 111, 72, 0.45);
+  box-shadow: 0 0 30px -5px rgba(185, 111, 80, 0.4);
 }
 
 @utility glow-copper-subtle {
-  box-shadow: 0 0 20px -8px rgba(198, 111, 72, 0.3);
+  box-shadow: 0 0 20px -8px rgba(185, 111, 80, 0.25);
 }
 
 @utility glow-brass {
-  box-shadow: 0 0 25px -6px rgba(185, 163, 106, 0.4);
-}
-
-@utility glow-sea {
-  box-shadow: 0 0 25px -6px rgba(45, 106, 98, 0.45);
+  box-shadow: 0 0 25px -6px rgba(215, 184, 140, 0.35);
 }
 
 @utility nautical-grid {

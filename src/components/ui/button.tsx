@@ -10,21 +10,21 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-copper text-[#0B1213] font-bold shadow-copper hover:bg-copper-soft hover:shadow-lg active:scale-[0.98] transition-all",
+          "bg-[#B96F50] text-[#FAF5EC] font-semibold shadow-sm hover:bg-[#C67C5E] hover:shadow-md active:scale-[0.98] transition-all",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-border/80 bg-card/40 text-foreground hover:bg-sea-glass/20 hover:border-brass/70 hover:text-warm-ivory transition-all",
+          "border border-border/70 bg-card/50 text-[#F2E6D5] hover:bg-[#382720]/60 hover:border-[#D7B88C]/60 hover:text-[#FAF5EC] transition-all",
         secondary:
-          "bg-sea-glass/25 border border-sea-glass/50 text-warm-ivory shadow-sm hover:bg-sea-glass/40 hover:border-sea-glass active:scale-[0.98] transition-all",
-        teal: "bg-deep-teal border border-sea-glass/60 text-warm-ivory shadow-teal hover:bg-sea-glass active:scale-[0.98] transition-all",
+          "bg-[#382720]/60 border border-[#D7B88C]/30 text-[#F2E6D5] shadow-sm hover:bg-[#382720]/90 hover:border-[#D7B88C]/60 active:scale-[0.98] transition-all",
         brass:
-          "bg-brass text-[#0B1213] font-bold shadow-sm hover:bg-brass-soft active:scale-[0.98] transition-all",
-        ghost: "hover:bg-sea-glass/20 hover:text-warm-ivory transition-colors",
-        link: "text-copper-soft underline-offset-4 hover:underline hover:text-copper",
-        hero: "bg-copper-gradient text-[#0B1213] font-bold shadow-copper hover:brightness-110 active:scale-[0.98] transition-all",
+          "bg-[#D7B88C] text-[#25201D] font-bold shadow-sm hover:bg-[#E6CEAE] active:scale-[0.98] transition-all",
+        ghost: "hover:bg-[#382720]/50 hover:text-[#FAF5EC] transition-colors",
+        link: "text-[#B96F50] underline-offset-4 hover:underline hover:text-[#C67C5E]",
+        hero: "bg-gradient-to-r from-[#B96F50] to-[#D7B88C] text-[#FAF5EC] font-semibold shadow-md hover:brightness-105 active:scale-[0.98] transition-all",
         glass:
-          "surface-glass text-warm-ivory border-sea-glass/30 hover:bg-sea-glass/25 hover:border-brass/50 transition-all",
-        paper: "bg-paper-foreground text-paper hover:bg-paper-foreground/90 font-medium",
+          "surface-glass text-[#F2E6D5] border-[#D7B88C]/20 hover:bg-[#382720]/40 hover:border-[#D7B88C]/50 transition-all",
+        paper:
+          "bg-[#382720] text-[#FAF5EC] hover:bg-[#48332A] font-medium shadow-sm transition-all",
       },
       size: {
         default: "h-9 px-4 py-2",

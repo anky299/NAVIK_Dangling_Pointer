@@ -93,7 +93,7 @@ export function PageHeader({
           {tag}
         </div>
         <h1 className="text-display mt-4 text-[2.4rem] text-foreground sm:text-5xl lg:text-[3.5rem]">
-          {title} {accent && <span className="serif-accent text-copper-soft">{accent}</span>}
+          {title} {accent && <span className="serif-accent text-[#C88C78]">{accent}</span>}
         </h1>
         {description && (
           <p className="mt-4 max-w-2xl text-[0.95rem] leading-relaxed text-muted-foreground">
@@ -178,9 +178,9 @@ export function Metric({
 }
 
 const DECISION_STYLE: Record<Decision, string> = {
-  CHARTER_NOW: "bg-copper text-[#0B1213] font-bold shadow-copper",
-  WAIT: "bg-sea-glass text-warm-ivory font-bold shadow-teal",
-  SPLIT: "bg-brass text-[#0B1213] font-bold shadow-sm",
+  CHARTER_NOW: "bg-[#B96F50] text-[#FAF5EC] font-bold shadow-[0_2px_8px_rgba(185,111,80,0.35)]",
+  WAIT: "bg-[#382720] border border-[#D7B88C]/35 text-[#F2E6D5] font-semibold",
+  SPLIT: "bg-[#D7B88C] text-[#382720] font-bold shadow-sm",
 };
 
 export function DecisionBadge({ decision, className }: { decision: Decision; className?: string }) {
@@ -198,9 +198,9 @@ export function DecisionBadge({ decision, className }: { decision: Decision; cla
 }
 
 const RISK_STYLE: Record<RiskLevel, string> = {
-  LOW: "text-emerald-300 border-emerald-500/50 bg-emerald-950/40 font-semibold",
-  MODERATE: "text-brass border-brass/50 bg-brass/15 font-semibold",
-  ELEVATED: "text-copper-soft border-copper/50 bg-copper/15 font-semibold",
+  LOW: "text-[#D7B88C] border-[#D7B88C]/40 bg-[#79513D]/25 font-semibold",
+  MODERATE: "text-[#D7B88C] border-[#D7B88C]/50 bg-[#D7B88C]/15 font-semibold",
+  ELEVATED: "text-[#C88C78] border-[#B96F50]/50 bg-[#B96F50]/15 font-semibold",
   HIGH: "text-crimson border-crimson/50 bg-crimson/15 font-bold",
 };
 
@@ -220,8 +220,8 @@ export function RiskBadge({ level, className }: { level: RiskLevel; className?: 
 }
 
 const FEAS_STYLE: Record<FeasibilityStatus, string> = {
-  FEASIBLE: "text-emerald-300 border-emerald-500/50 bg-emerald-950/40 font-semibold",
-  CONDITIONAL: "text-brass border-brass/50 bg-brass/15 font-semibold",
+  FEASIBLE: "text-[#FAF5EC] border-[#D7B88C]/40 bg-[#79513D]/25 font-semibold",
+  CONDITIONAL: "text-[#D7B88C] border-[#D7B88C]/50 bg-[#D7B88C]/15 font-semibold",
   REJECTED: "text-crimson border-crimson/50 bg-crimson/15 font-bold",
 };
 

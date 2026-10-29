@@ -128,7 +128,7 @@ function Landing() {
           <div className="flex shrink-0 items-center">
             <Link
               to="/dashboard"
-              className="inline-flex items-center gap-2 rounded-md border border-foreground/20 bg-background/50 px-3.5 py-2 text-xs font-semibold text-foreground backdrop-blur-sm transition-colors hover:border-copper hover:text-copper-soft hover:bg-background/80"
+              className="inline-flex items-center gap-2 rounded-md border border-[#D7B88C]/30 bg-[#2C2522]/80 px-3.5 py-2 text-xs font-semibold text-[#F2E6D5] backdrop-blur-sm transition-colors hover:border-[#B96F50] hover:text-[#FAF5EC] hover:bg-[#382720]"
             >
               Command Center <ArrowUpRight className="size-3.5" />
             </Link>
@@ -174,23 +174,23 @@ function Landing() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 1 }}
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-brass/40 bg-card/80 px-3.5 py-1 font-mono text-[0.65rem] tracking-widest text-brass backdrop-blur-md shadow-sm">
-              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#D7B88C]/40 bg-[#2C2522]/85 px-3.5 py-1 font-mono text-[0.65rem] tracking-widest text-[#D7B88C] backdrop-blur-md shadow-sm">
+              <span className="size-1.5 rounded-full bg-[#D7B88C] animate-pulse shadow-[0_0_8px_rgba(215,184,140,0.8)]" />
               MARITIME DECISION INTELLIGENCE
             </span>
           </motion.div>
 
           <h1 className="text-display-hero mt-8 max-w-5xl">
             <motion.span
-              className="block text-[2.8rem] sm:text-[4.5rem] lg:text-[6.4rem] tracking-tight text-warm-ivory font-extrabold"
+              className="block text-[2.8rem] sm:text-[4.5rem] lg:text-[6.4rem] tracking-tight text-[#F2E6D5] font-extrabold"
               initial={{ opacity: 0, y: "0.4em" }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              Predict. <span className="text-sea-glass-soft font-semibold">Optimize.</span>
+              Predict. <span className="text-[#D7B88C] font-semibold">Optimize.</span>
             </motion.span>
             <motion.span
-              className="serif-accent text-gradient-copper block text-[3.4rem] font-normal sm:text-[5.2rem] lg:text-[7.4rem] leading-[0.95]"
+              className="serif-accent text-gradient-coral block text-[3.4rem] font-normal sm:text-[5.2rem] lg:text-[7.4rem] leading-[0.95]"
               initial={{ opacity: 0, y: "0.4em" }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -205,23 +205,23 @@ function Landing() {
             transition={{ delay: 1, duration: 0.8 }}
             className="mt-10 max-w-xl lg:mt-14"
           >
-            <p className="text-body-lead text-warm-ivory/85 font-medium">
+            <p className="text-body-lead text-[#F2E6D5]/90 font-medium">
               Turning global maritime complexity into smarter, faster charter decisions for
               Australia–East Coast India supply lines.
             </p>
             <div className="mt-8 flex flex-wrap gap-3.5">
               <Link
                 to="/dashboard"
-                className="group inline-flex items-center gap-2 rounded-md bg-copper px-6 py-3.5 text-sm font-bold text-[#0B1213] shadow-copper transition-all hover:bg-copper-soft hover:shadow-lg active:scale-[0.98]"
+                className="group inline-flex items-center gap-2 rounded-md bg-[#B96F50] px-6 py-3.5 text-sm font-bold text-[#FAF5EC] shadow-[0_4px_20px_rgba(185,111,80,0.4)] transition-all hover:bg-[#C67C5E] hover:shadow-[0_6px_24px_rgba(185,111,80,0.55)] active:scale-[0.98]"
               >
                 Enter Command Center
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <a
                 href="#corridor-console"
-                className="inline-flex items-center gap-2 rounded-md border border-sea-glass/50 bg-deep-teal/40 px-6 py-3.5 text-sm font-semibold text-warm-ivory backdrop-blur-md transition-all hover:border-copper/70 hover:text-copper-soft hover:bg-deep-teal/70 active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-md border border-[#D7B88C]/40 bg-[#382720]/75 px-6 py-3.5 text-sm font-semibold text-[#F2E6D5] backdrop-blur-md transition-all hover:border-[#B96F50]/70 hover:text-[#FAF5EC] hover:bg-[#382720]/95 active:scale-[0.98]"
               >
-                <Compass className="size-4 text-copper-soft" />
+                <Compass className="size-4 text-[#D7B88C]" />
                 Explore Maritime Corridor
               </a>
             </div>
@@ -230,15 +230,15 @@ function Landing() {
       </section>
 
       {/* ---------- Market ticker ---------- */}
-      <section className="border-b border-sea-glass/30 bg-gradient-to-r from-abyss via-card/70 to-abyss">
+      <section className="border-b border-[#D7B88C]/15 bg-gradient-to-r from-[#25201D] via-[#2C2522] to-[#25201D]">
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
           <div className="grid grid-cols-2 gap-x-8 gap-y-5 py-8 sm:grid-cols-4 sm:py-6">
             {HERO_STATS.map((s, i) => {
               const colors = [
-                { label: "text-brass", val: "text-warm-ivory", unit: "text-copper-soft" },
-                { label: "text-copper-soft", val: "text-warm-ivory", unit: "text-brass" },
-                { label: "text-sea-glass-soft", val: "text-warm-ivory", unit: "text-emerald-400" },
-                { label: "text-sage-soft", val: "text-warm-ivory", unit: "text-sea-glass-soft" },
+                { label: "text-[#D7B88C]", val: "text-[#FAF5EC]", unit: "text-[#C88C78]" },
+                { label: "text-[#B96F50]", val: "text-[#FAF5EC]", unit: "text-[#D7B88C]" },
+                { label: "text-[#C88C78]", val: "text-[#FAF5EC]", unit: "text-[#D7B88C]" },
+                { label: "text-[#FAF5EC]/80", val: "text-[#FAF5EC]", unit: "text-[#C88C78]" },
               ][i % 4];
 
               return (
@@ -246,7 +246,7 @@ function Landing() {
                   key={s.label}
                   delay={i * 0.06}
                   y={10}
-                  className="min-w-0 sm:border-l sm:border-sea-glass/25 sm:pl-6 first:border-l-0 first:pl-0"
+                  className="min-w-0 sm:border-l sm:border-[#D7B88C]/15 sm:pl-6 first:border-l-0 first:pl-0"
                 >
                   <p
                     className={cn(
@@ -273,7 +273,7 @@ function Landing() {
               );
             })}
           </div>
-          <p className="flex items-center gap-2 border-t border-sea-glass/25 pb-5 pt-4 text-[0.68rem] text-muted-foreground">
+          <p className="flex items-center gap-2 border-t border-[#D7B88C]/15 pb-5 pt-4 text-[0.68rem] text-muted-foreground">
             <DemoTag /> Illustrative fixture values — calibrated for East Coast India.
           </p>
         </div>
@@ -290,15 +290,15 @@ function Landing() {
               <Eyebrow index="CONSOLE">Interactive Maritime Corridor Simulator</Eyebrow>
               <h2 className="text-display mt-4 text-[2.2rem] sm:text-4xl lg:text-[2.8rem]">
                 Australia & Indonesia →{" "}
-                <span className="serif-accent font-normal text-copper-soft">East Coast India</span>
+                <span className="serif-accent font-normal text-[#C88C78]">East Coast India</span>
               </h2>
               <p className="text-body-lead mt-3 max-w-2xl text-muted-foreground text-sm sm:text-base">
                 Click any discharge terminal to test permissible nautical draft depth, distance, and
                 transit margins against Capesize and Panamax bulk carrier specifications.
               </p>
             </div>
-            <div className="flex items-center gap-2 font-mono text-xs text-brass">
-              <span className="flex size-2 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="flex items-center gap-2 font-mono text-xs text-[#D7B88C]">
+              <span className="flex size-2 rounded-full bg-[#D7B88C] animate-pulse shadow-[0_0_8px_rgba(215,184,140,0.8)]" />
               <span>DESK SIMULATION ENGINE ONLINE</span>
             </div>
           </Reveal>
@@ -316,7 +316,7 @@ function Landing() {
             <Eyebrow index="00">The problem</Eyebrow>
             <p className="mt-10 text-[1.8rem] font-medium leading-[1.2] tracking-tight sm:text-[2.4rem] lg:text-[3rem]">
               Every fixture is a bet on the market, the weather and the queue at the berth.{" "}
-              <span className="serif-accent text-copper-soft">NAVIK makes the bet visible.</span>
+              <span className="serif-accent text-[#C88C78]">NAVIK makes the bet visible.</span>
             </p>
           </Reveal>
           <Reveal delay={0.15} className="flex flex-col justify-end lg:col-span-4 lg:col-start-9">
@@ -361,9 +361,7 @@ function Landing() {
             <Eyebrow>Command Center</Eyebrow>
             <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.8rem]">
               Fix the right ship,{" "}
-              <span className="serif-accent text-copper-soft font-normal">
-                at the right moment.
-              </span>
+              <span className="serif-accent text-[#C88C78] font-normal">at the right moment.</span>
             </h2>
             <p className="text-body-lead mt-8 max-w-xl text-muted-foreground">
               Run a full charter analysis on demo data — cargo intake to recommendation in under a
@@ -372,14 +370,14 @@ function Landing() {
             <div className="mt-12 flex flex-wrap gap-3">
               <Link
                 to="/charter"
-                className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-copper transition-colors hover:bg-copper-soft"
+                className="group inline-flex items-center gap-2 rounded-md bg-[#B96F50] px-5 py-3 text-sm font-semibold text-[#FAF5EC] shadow-[0_4px_16px_rgba(185,111,80,0.4)] transition-colors hover:bg-[#C67C5E]"
               >
                 Start a charter analysis{" "}
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
                 to="/dashboard"
-                className="inline-flex items-center gap-2 rounded-md border border-foreground/20 px-5 py-3 text-sm font-semibold transition-colors hover:border-foreground/40"
+                className="inline-flex items-center gap-2 rounded-md border border-[#D7B88C]/40 bg-[#382720]/60 px-5 py-3 text-sm font-semibold text-[#F2E6D5] transition-colors hover:border-[#D7B88C]"
               >
                 Enter Command Center
               </Link>
@@ -416,7 +414,7 @@ function Workflow() {
               <Eyebrow index="01">The decision pipeline</Eyebrow>
               <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.4rem]">
                 Five stages.{" "}
-                <span className="serif-accent font-normal text-copper-soft">One call.</span>
+                <span className="serif-accent font-normal text-[#C88C78]">One call.</span>
               </h2>
               <p className="text-body-lead mt-8 max-w-sm text-muted-foreground">
                 Each stage hands a structured result to the next, and every number in the final
@@ -429,40 +427,40 @@ function Workflow() {
           <div className="absolute bottom-4 left-[1.15rem] top-4 w-px bg-border/80" />
           <motion.div
             style={{ scaleY }}
-            className="absolute bottom-4 left-[1.15rem] top-4 w-[2px] origin-top bg-gradient-to-b from-sea-glass via-copper to-brass"
+            className="absolute bottom-4 left-[1.15rem] top-4 w-[2px] origin-top bg-gradient-to-b from-[#B96F50] via-[#D7B88C] to-[#79513D]"
           />
           <ol className="space-y-16">
             {WORKFLOW.map((s, i) => {
               const stepColors = [
                 {
-                  border: "border-sea-glass/70",
-                  text: "text-sea-glass-soft",
-                  bg: "bg-sea-glass/15",
-                  out: "text-sea-glass-soft",
+                  border: "border-[#D7B88C]/70",
+                  text: "text-[#D7B88C]",
+                  bg: "bg-[#D7B88C]/15",
+                  out: "text-[#D7B88C]",
                 },
                 {
-                  border: "border-copper/70",
-                  text: "text-copper-soft",
-                  bg: "bg-copper/15",
-                  out: "text-copper-soft",
+                  border: "border-[#B96F50]/70",
+                  text: "text-[#C88C78]",
+                  bg: "bg-[#B96F50]/15",
+                  out: "text-[#C88C78]",
                 },
                 {
-                  border: "border-brass/70",
-                  text: "text-brass",
-                  bg: "bg-brass/15",
-                  out: "text-brass",
+                  border: "border-[#C88C78]/70",
+                  text: "text-[#C88C78]",
+                  bg: "bg-[#C88C78]/15",
+                  out: "text-[#C88C78]",
                 },
                 {
-                  border: "border-sage/70",
-                  text: "text-sage-soft",
-                  bg: "bg-sage/15",
-                  out: "text-sage-soft",
+                  border: "border-[#79513D]/70",
+                  text: "text-[#FAF5EC]",
+                  bg: "bg-[#79513D]/25",
+                  out: "text-[#FAF5EC]",
                 },
                 {
-                  border: "border-copper",
-                  text: "text-[#0B1213]",
-                  bg: "bg-copper shadow-copper",
-                  out: "text-copper-soft font-bold",
+                  border: "border-[#B96F50]",
+                  text: "text-[#FAF5EC]",
+                  bg: "bg-[#B96F50] shadow-[0_0_14px_rgba(185,111,80,0.4)]",
+                  out: "text-[#FAF5EC] font-bold",
                 },
               ][i];
 
@@ -480,7 +478,7 @@ function Workflow() {
                       {s.n}
                     </span>
                     <div className="pt-1">
-                      <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl text-warm-ivory group-hover:text-copper-soft transition-colors">
+                      <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl text-warm-ivory group-hover:text-[#C88C78] transition-colors">
                         {s.title}
                       </h3>
                       <p className="mt-3 max-w-xl leading-relaxed text-muted-foreground">
@@ -545,12 +543,12 @@ function Capabilities() {
             <Eyebrow index="02">Capabilities</Eyebrow>
             <h2 className="text-display mt-8 max-w-3xl text-[2.4rem] sm:text-5xl lg:text-[3.4rem]">
               A chartering desk,{" "}
-              <span className="serif-accent font-normal text-copper-soft">instrumented.</span>
+              <span className="serif-accent font-normal text-[#C88C78]">instrumented.</span>
             </h2>
           </div>
           <Link
             to="/dashboard"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-copper-soft hover:text-copper"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#C88C78] hover:text-[#B96F50]"
           >
             Open the Command Center <ArrowRight className="size-4" />
           </Link>
@@ -566,7 +564,7 @@ function Capabilities() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-abyss via-abyss/40 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-8 sm:p-10">
-              <p className="text-eyebrow text-brass">Vessel / port feasibility</p>
+              <p className="text-eyebrow text-[#D7B88C]">Vessel / port feasibility</p>
               <p className="mt-4 max-w-md text-2xl font-semibold tracking-tight sm:text-3xl">
                 Know which ship fits the berth before you fix it.
               </p>
@@ -588,7 +586,7 @@ function Capabilities() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-abyss/90 to-transparent" />
             <div className="relative p-8 sm:p-10">
-              <p className="text-eyebrow text-brass">Landed cost</p>
+              <p className="text-eyebrow text-[#D7B88C]">Landed cost</p>
               <p className="mt-4 max-w-[16rem] text-2xl font-semibold tracking-tight">
                 Every dollar per tonne, itemised.
               </p>
@@ -596,9 +594,9 @@ function Capabilities() {
           </Reveal>
           <Reveal
             delay={0.15}
-            className="surface-ink rounded-md p-8 sm:p-10 lg:col-span-5 border-sea-glass/40"
+            className="surface-ink rounded-md p-8 sm:p-10 lg:col-span-5 border-[#D7B88C]/25"
           >
-            <p className="text-eyebrow text-brass">Decision output</p>
+            <p className="text-eyebrow text-[#D7B88C]">Decision output</p>
             <div className="mt-6 flex flex-wrap gap-2">
               {["Charter now", "Wait", "Split 60 / 40"].map((d, i) => (
                 <span
@@ -606,10 +604,10 @@ function Capabilities() {
                   className={cn(
                     "text-eyebrow rounded-sm px-2.5 py-1 text-[0.65rem] font-bold tracking-wider",
                     i === 0
-                      ? "bg-copper text-[#0B1213] shadow-copper"
+                      ? "bg-[#B96F50] text-[#FAF5EC] shadow-[0_2px_8px_rgba(185,111,80,0.35)]"
                       : i === 1
-                        ? "bg-sea-glass text-warm-ivory shadow-teal"
-                        : "bg-brass text-[#0B1213] shadow-sm",
+                        ? "bg-[#382720] border border-[#D7B88C]/30 text-[#FAF5EC]"
+                        : "bg-[#D7B88C] text-[#382720] shadow-sm",
                   )}
                 >
                   {d}
@@ -623,38 +621,38 @@ function Capabilities() {
           </Reveal>
         </div>
 
-        <div className="mt-20 grid gap-4 border-t border-sea-glass/25 pt-14 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-20 grid gap-4 border-t border-[#D7B88C]/15 pt-14 sm:grid-cols-2 lg:grid-cols-3">
           {CAPS.map((c, i) => {
             const cardAccent = [
               {
-                border: "hover:border-copper/70",
-                badge: "border-copper/40 bg-copper/15 text-copper-soft",
-                hoverText: "group-hover:text-copper-soft",
+                border: "hover:border-[#B96F50]/70",
+                badge: "border-[#B96F50]/40 bg-[#B96F50]/15 text-[#C88C78]",
+                hoverText: "group-hover:text-[#C88C78]",
               },
               {
-                border: "hover:border-sea-glass/70",
-                badge: "border-sea-glass/40 bg-sea-glass/15 text-sea-glass-soft",
-                hoverText: "group-hover:text-sea-glass-soft",
+                border: "hover:border-[#D7B88C]/70",
+                badge: "border-[#D7B88C]/40 bg-[#D7B88C]/15 text-[#D7B88C]",
+                hoverText: "group-hover:text-[#D7B88C]",
               },
               {
-                border: "hover:border-brass/70",
-                badge: "border-brass/40 bg-brass/15 text-brass",
-                hoverText: "group-hover:text-brass",
+                border: "hover:border-[#C88C78]/70",
+                badge: "border-[#C88C78]/40 bg-[#C88C78]/15 text-[#C88C78]",
+                hoverText: "group-hover:text-[#C88C78]",
               },
               {
-                border: "hover:border-sage/70",
-                badge: "border-sage/40 bg-sage/15 text-sage-soft",
-                hoverText: "group-hover:text-sage-soft",
+                border: "hover:border-[#79513D]/70",
+                badge: "border-[#79513D]/40 bg-[#79513D]/25 text-[#FAF5EC]",
+                hoverText: "group-hover:text-[#FAF5EC]",
               },
               {
-                border: "hover:border-copper/70",
-                badge: "border-copper/40 bg-copper/15 text-copper-soft",
-                hoverText: "group-hover:text-copper-soft",
+                border: "hover:border-[#B96F50]/70",
+                badge: "border-[#B96F50]/40 bg-[#B96F50]/15 text-[#C88C78]",
+                hoverText: "group-hover:text-[#C88C78]",
               },
               {
-                border: "hover:border-sea-glass/70",
-                badge: "border-sea-glass/40 bg-sea-glass/15 text-sea-glass-soft",
-                hoverText: "group-hover:text-sea-glass-soft",
+                border: "hover:border-[#D7B88C]/70",
+                badge: "border-[#D7B88C]/40 bg-[#D7B88C]/15 text-[#D7B88C]",
+                hoverText: "group-hover:text-[#D7B88C]",
               },
             ][i % 6];
 
@@ -663,7 +661,7 @@ function Capabilities() {
                 <Link
                   to={c.to}
                   className={cn(
-                    "group flex flex-col justify-between h-full rounded-lg border border-border/80 bg-gradient-to-br from-card/90 to-deep-teal/20 p-6 transition-all duration-300 hover:shadow-deep hover:bg-card",
+                    "group flex flex-col justify-between h-full rounded-lg border border-border/80 bg-gradient-to-br from-[#2C2522]/95 to-[#382720]/40 p-6 transition-all duration-300 hover:shadow-deep hover:bg-card",
                     cardAccent.border,
                   )}
                 >
@@ -677,7 +675,7 @@ function Capabilities() {
                       >
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <ArrowUpRight className="size-4 text-muted-foreground/60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-copper-soft" />
+                      <ArrowUpRight className="size-4 text-muted-foreground/60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#C88C78]" />
                     </div>
                     <h3
                       className={cn(
@@ -689,7 +687,7 @@ function Capabilities() {
                     </h3>
                     <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
                   </div>
-                  <div className="mt-6 flex items-center gap-1.5 font-mono text-[0.68rem] text-copper-soft font-semibold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="mt-6 flex items-center gap-1.5 font-mono text-[0.68rem] text-[#C88C78] font-semibold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <span>Open workspace</span>
                     <ArrowRight className="size-3" />
                   </div>
@@ -712,7 +710,7 @@ function Ports() {
             <Eyebrow index="03">East Coast India</Eyebrow>
             <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.4rem]">
               Five ports,{" "}
-              <span className="serif-accent font-normal text-copper-soft">five constraints.</span>
+              <span className="serif-accent font-normal text-[#C88C78]">five constraints.</span>
             </h2>
             <p className="text-body-lead mt-8 max-w-md text-muted-foreground">
               From Gangavaram's 21 m deep-water berths to Haldia's riverine dock on the Hooghly, the
@@ -724,7 +722,7 @@ function Ports() {
             </div>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
-            <div className="surface-ink overflow-hidden rounded-md p-2 sm:p-4">
+            <div className="surface-ink overflow-hidden rounded-md p-2 sm:p-4 border-[#D7B88C]/20">
               <RouteMap
                 title="Discharge ports on the East Coast of India"
                 viewBox="230 50 220 160"
@@ -760,10 +758,10 @@ function Ports() {
                       className={cn(
                         "font-mono text-[0.58rem] px-1.5 py-0.5 rounded uppercase border font-medium",
                         isShallow
-                          ? "border-amber-400/50 bg-amber-950/40 text-amber-300"
+                          ? "border-amber-400/50 bg-[#382720]/80 text-amber-300"
                           : isDeep
-                            ? "border-emerald-400/50 bg-emerald-950/40 text-emerald-300"
-                            : "border-border/60 bg-surface text-muted-foreground",
+                            ? "border-[#D7B88C]/50 bg-[#79513D]/25 text-[#FAF5EC]"
+                            : "border-border/60 bg-[#2C2522] text-[#F2E6D5]/80",
                       )}
                     >
                       {isShallow ? "Lightering" : isDeep ? "Cape Direct" : "Tidal / Shortload"}
@@ -785,7 +783,7 @@ function Ports() {
                       <div
                         className={cn(
                           "h-full rounded-full transition-all",
-                          isShallow ? "bg-amber-400" : isDeep ? "bg-sea" : "bg-copper",
+                          isShallow ? "bg-amber-400" : isDeep ? "bg-[#D7B88C]" : "bg-[#B96F50]",
                         )}
                         style={{ width: `${barPct}%` }}
                       />
@@ -811,7 +809,7 @@ function Ports() {
                 <div className="pt-6">
                   <Link
                     to="/feasibility"
-                    className="inline-flex items-center gap-1 font-mono text-[0.65rem] text-copper-soft hover:text-copper transition"
+                    className="inline-flex items-center gap-1 font-mono text-[0.65rem] text-[#C88C78] hover:text-[#B96F50] transition"
                   >
                     <span>Inspect clearance checks</span>
                     <ArrowUpRight className="size-3" />

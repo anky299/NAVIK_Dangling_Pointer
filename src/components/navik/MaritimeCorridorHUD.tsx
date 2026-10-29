@@ -57,13 +57,13 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
     >
       {/* Background nautical subtle coordinate crosshair */}
       <div className="nautical-grid pointer-events-none absolute inset-0 opacity-40" />
-      <div className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-copper/10 blur-3xl" />
-      <div className="pointer-events-none absolute -left-20 -bottom-20 size-80 rounded-full bg-sea/10 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-[#B96F50]/15 blur-3xl" />
+      <div className="pointer-events-none absolute -left-20 -bottom-20 size-80 rounded-full bg-[#D7B88C]/10 blur-3xl" />
 
       {/* Top Console Bar */}
       <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-4">
         <div className="flex items-center gap-2.5">
-          <span className="flex size-2 rounded-full bg-copper animate-pulse" />
+          <span className="flex size-2 rounded-full bg-[#B96F50] animate-pulse shadow-[0_0_8px_rgba(185,111,80,0.8)]" />
           <span className="text-eyebrow text-[0.68rem] text-brass tracking-wider">
             Maritime Corridor Telemetry Console
           </span>
@@ -73,7 +73,7 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
         </div>
 
         <div className="flex items-center gap-1.5 font-mono text-[0.65rem] text-muted-foreground bg-abyss/80 px-2.5 py-1 rounded border border-border/60">
-          <Compass className="size-3 text-copper-soft" />
+          <Compass className="size-3 text-[#D7B88C]" />
           <span>PORT: {PORT_COORDINATES[selectedPort]}</span>
         </div>
       </div>
@@ -84,7 +84,7 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
         <div className="lg:col-span-7 flex flex-col justify-between">
           <div className="relative rounded-lg border border-border/70 bg-abyss/70 p-3 overflow-hidden shadow-inner">
             <div className="absolute top-2.5 left-3 flex items-center gap-2 font-mono text-[0.62rem] text-muted-foreground/80 z-20">
-              <span className="size-1.5 rounded-full bg-sea" />
+              <span className="size-1.5 rounded-full bg-[#D7B88C]" />
               <span>ACTIVE DISCHARGE BEACON: {port.name.toUpperCase()}</span>
             </div>
 
@@ -116,15 +116,15 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
                   className={cn(
                     "rounded px-3 py-1 font-mono text-xs transition-all flex items-center gap-1.5 border",
                     active
-                      ? "bg-copper text-[#0B1213] border-copper shadow-copper font-bold"
-                      : "bg-card/70 border-border/80 text-warm-ivory hover:bg-sea-glass/20 hover:border-sea-glass/60",
+                      ? "bg-[#B96F50] text-[#FAF5EC] border-[#B96F50] shadow-[0_2px_10px_rgba(185,111,80,0.4)] font-bold"
+                      : "bg-[#2C2522]/80 border-border/80 text-[#FAF5EC] hover:bg-[#79513D]/25 hover:border-[#D7B88C]/50",
                   )}
                 >
                   <span>{p.name}</span>
                   <span
                     className={cn(
                       "text-[0.62rem]",
-                      active ? "text-[#0B1213]/80 font-bold" : "text-brass",
+                      active ? "text-[#FAF5EC]/85 font-bold" : "text-[#D7B88C]",
                     )}
                   >
                     {p.maxDraftM.toFixed(1)}m
@@ -162,14 +162,14 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
                         className={cn(
                           "rounded border px-2.5 py-1.5 text-left transition-all",
                           active
-                            ? "border-brass/80 bg-brass/20 text-warm-ivory shadow-sm font-semibold"
-                            : "border-border/60 bg-card/40 text-muted-foreground hover:bg-card hover:text-warm-ivory",
+                            ? "border-[#D7B88C]/80 bg-[#79513D]/30 text-[#FAF5EC] shadow-sm font-semibold"
+                            : "border-border/60 bg-[#2C2522]/60 text-muted-foreground hover:bg-[#382720] hover:text-[#FAF5EC]",
                         )}
                       >
                         <p className="font-mono text-[0.68rem] font-medium leading-none">
                           {o.loadPort}
                         </p>
-                        <p className="text-[0.6rem] text-brass/80 mt-0.5">{o.shortName}</p>
+                        <p className="text-[0.6rem] text-[#D7B88C] mt-0.5">{o.shortName}</p>
                       </button>
                     );
                   })}
@@ -178,7 +178,7 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
 
               {/* Voyage Metrics Cards */}
               <div className="grid grid-cols-2 gap-2.5 pt-1">
-                <div className="rounded border border-sea-glass/40 bg-gradient-to-br from-card/90 to-deep-teal/25 p-3 shadow-deep">
+                <div className="rounded border border-[#D7B88C]/25 bg-gradient-to-br from-[#2C2522]/95 to-[#382720]/50 p-3 shadow-deep">
                   <p className="text-eyebrow text-[0.58rem] text-brass font-semibold">
                     Sea Distance
                   </p>
@@ -186,19 +186,19 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
                     {distance.toLocaleString()}{" "}
                     <span className="text-xs font-sans font-normal text-muted-foreground">nm</span>
                   </p>
-                  <p className="mt-0.5 font-mono text-[0.62rem] text-copper-soft">
+                  <p className="mt-0.5 font-mono text-[0.62rem] text-[#C88C78]">
                     ~{transitDays} sailing days @ 12.5k
                   </p>
                 </div>
 
-                <div className="rounded border border-sea-glass/40 bg-gradient-to-br from-card/90 to-deep-teal/25 p-3 shadow-deep">
+                <div className="rounded border border-[#D7B88C]/25 bg-gradient-to-br from-[#2C2522]/95 to-[#382720]/50 p-3 shadow-deep">
                   <p className="text-eyebrow text-[0.58rem] text-brass font-semibold">
                     Max Draft Limit
                   </p>
                   <p
                     className={cn(
                       "mt-1 font-mono text-xl font-bold",
-                      port.maxDraftM < 10 ? "text-amber-400" : "text-sea-glass-soft",
+                      port.maxDraftM < 10 ? "text-amber-400" : "text-[#D7B88C]",
                     )}
                   >
                     {port.maxDraftM.toFixed(1)}{" "}
@@ -215,14 +215,14 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
                 className={cn(
                   "rounded-md border p-3.5 space-y-2 shadow-sm",
                   isConditional
-                    ? "border-brass/50 bg-brass/15"
-                    : "border-emerald-500/50 bg-emerald-500/15",
+                    ? "border-[#D7B88C]/50 bg-[#79513D]/25"
+                    : "border-[#D7B88C]/40 bg-[#382720]/80",
                 )}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <Ship
-                      className={cn("size-4", isConditional ? "text-brass" : "text-emerald-400")}
+                      className={cn("size-4", isConditional ? "text-[#D7B88C]" : "text-[#D7B88C]")}
                     />
                     <span className="font-semibold text-xs text-warm-ivory">
                       Capesize Clearance (18.1m Laden)
@@ -232,8 +232,8 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
                     className={cn(
                       "font-mono text-[0.62rem] font-bold px-1.5 py-0.5 rounded uppercase border",
                       isConditional
-                        ? "border-brass/60 text-brass bg-brass/20"
-                        : "border-emerald-400/60 text-emerald-300 bg-emerald-950/60",
+                        ? "border-[#D7B88C]/60 text-[#D7B88C] bg-[#D7B88C]/20"
+                        : "border-[#D7B88C]/60 text-[#FAF5EC] bg-[#79513D]/40",
                     )}
                   >
                     {capeCheck?.status ?? "FEASIBLE"}
@@ -252,7 +252,7 @@ export function MaritimeCorridorHUD({ className }: { className?: string }) {
               {/* Direct Link to Charter Workspace with preselected port */}
               <Link
                 to="/charter"
-                className="group flex w-full items-center justify-center gap-2 rounded-md bg-copper py-3 px-4 text-xs font-bold text-[#0B1213] shadow-copper transition-all hover:bg-copper-soft hover:shadow-lg active:scale-[0.98]"
+                className="group flex w-full items-center justify-center gap-2 rounded-md bg-[#B96F50] py-3 px-4 text-xs font-bold text-[#FAF5EC] shadow-[0_4px_16px_rgba(185,111,80,0.4)] transition-all hover:bg-[#C67C5E] hover:shadow-lg active:scale-[0.98]"
               >
                 <span>Simulate Charter for {port.name}</span>
                 <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />

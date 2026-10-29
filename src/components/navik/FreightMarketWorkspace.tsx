@@ -113,13 +113,13 @@ const DEFAULT_DEST: PortCode = "PRDP";
 const DEFAULT_TF: Timeframe = "6M";
 
 const CHART_COLORS = {
-  historical: "#B9A36A", // muted brass
-  forecast: "#C66F48", // copper orange
-  p10p90: "rgba(198, 111, 72, 0.18)",
-  vlsfo: "#C66F48", // copper orange
-  hsfo: "#2D6A62", // sea-glass green
-  congestionBar: "#B9A36A", // muted brass
-  grid: "rgba(45, 106, 98, 0.2)",
+  historical: "#D7B88C", // muted brass
+  forecast: "#B96F50", // burnt coral
+  p10p90: "rgba(185, 111, 80, 0.18)",
+  vlsfo: "#B96F50", // burnt coral
+  hsfo: "#79513D", // walnut
+  congestionBar: "#D7B88C", // muted brass
+  grid: "rgba(215, 184, 140, 0.12)",
 };
 
 const fade = {
@@ -1162,7 +1162,7 @@ function InsightsPanel({
         <button
           type="button"
           onClick={() => onAnalyse()}
-          className="inline-flex items-center gap-2 rounded-md bg-copper/90 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-copper"
+          className="inline-flex items-center gap-2 rounded-md bg-[#B96F50] px-4 py-2 text-xs font-semibold text-[#FAF5EC] shadow-[0_2px_8px_rgba(185,111,80,0.3)] transition-colors hover:bg-[#C67C5E]"
         >
           <Anchor className="size-3.5" />
           Analyse in Charter Workspace

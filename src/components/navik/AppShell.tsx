@@ -26,12 +26,12 @@ function SideLink({
       to={item.to}
       onClick={onNavigate}
       className={cn(
-        "group relative flex items-center gap-3 rounded-md px-3 py-2 text-[0.85rem] font-medium text-muted-foreground transition-all duration-200 hover:bg-sea-glass/15 hover:text-warm-ivory",
+        "group relative flex items-center gap-3 rounded-md px-3 py-2 text-[0.85rem] font-medium text-muted-foreground transition-all duration-200 hover:bg-[#79513D]/15 hover:text-[#FAF5EC]",
         collapsed && "justify-center px-0",
       )}
       activeProps={{
         className:
-          "bg-gradient-to-r from-sea-glass/30 via-deep-teal/20 to-transparent !text-warm-ivory font-semibold shadow-inner",
+          "bg-gradient-to-r from-[#79513D]/25 via-[#382720]/30 to-transparent !text-[#FAF5EC] font-semibold shadow-inner",
         "aria-current": "page",
       }}
     >
@@ -40,14 +40,14 @@ function SideLink({
           {isActive && (
             <motion.span
               layoutId="nav-active"
-              className="absolute inset-y-1 left-0 w-[3.5px] rounded-r-full bg-copper shadow-[0_0_12px_rgba(198,111,72,0.85)]"
+              className="absolute inset-y-1 left-0 w-[3.5px] rounded-r-full bg-[#B96F50] shadow-[0_0_10px_rgba(185,111,80,0.7)]"
               transition={{ type: "spring", stiffness: 420, damping: 36 }}
             />
           )}
           <Icon
             className={cn(
               "size-[1.05rem] shrink-0 transition-colors duration-200",
-              isActive ? "text-copper-soft" : "text-muted-foreground group-hover:text-brass",
+              isActive ? "text-[#B96F50]" : "text-muted-foreground group-hover:text-brass",
             )}
           />
           {!collapsed && <span className="truncate">{item.label}</span>}
@@ -61,7 +61,7 @@ function SideLink({
       <TooltipTrigger asChild>{link}</TooltipTrigger>
       <TooltipContent
         side="right"
-        className="bg-popover border-sea-glass/40 text-warm-ivory font-mono text-xs"
+        className="bg-popover border-[#D7B88C]/30 text-[#FAF5EC] font-mono text-xs"
       >
         {item.label}
       </TooltipContent>
@@ -99,13 +99,13 @@ function NavList({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
 
 function ApiCard() {
   return (
-    <div className="rounded-lg border border-sea-glass/40 bg-gradient-to-b from-card/90 to-deep-teal/30 p-3 shadow-deep">
+    <div className="rounded-lg border border-[#D7B88C]/25 bg-gradient-to-b from-[#2C2522]/95 to-[#382720]/60 p-3 shadow-deep">
       <div className="flex items-center justify-between">
         <p className="text-eyebrow text-[0.58rem] text-brass flex items-center gap-1.5 font-semibold">
-          <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_rgba(52,211,153,0.7)]" />
+          <span className="size-1.5 rounded-full bg-[#D7B88C] animate-pulse shadow-[0_0_6px_rgba(215,184,140,0.7)]" />
           <span>Demo Desk Mode</span>
         </p>
-        <span className="font-mono text-[0.55rem] text-copper-soft font-semibold bg-copper/15 px-1.5 py-0.5 rounded border border-copper/30">
+        <span className="font-mono text-[0.55rem] text-[#FAF5EC] font-semibold bg-[#B96F50]/20 px-1.5 py-0.5 rounded border border-[#B96F50]/40">
           v1.0-rc
         </span>
       </div>
@@ -180,12 +180,12 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Top bar */}
-          <header className="sticky top-0 z-30 flex h-16 sm:h-20 items-center gap-3 border-b border-sea-glass/25 bg-background/85 px-4 backdrop-blur-md sm:px-6 lg:px-10">
+          <header className="sticky top-0 z-30 flex h-16 sm:h-20 items-center gap-3 border-b border-[#D7B88C]/15 bg-background/85 px-4 backdrop-blur-md sm:px-6 lg:px-10">
             <button
               type="button"
               onClick={() => setDrawer(true)}
               aria-label="Open navigation"
-              className="-ml-1 rounded-md p-2 text-muted-foreground hover:bg-sea-glass/20 hover:text-warm-ivory transition-colors lg:hidden"
+              className="-ml-1 rounded-md p-2 text-muted-foreground hover:bg-[#79513D]/20 hover:text-[#FAF5EC] transition-colors lg:hidden"
             >
               <Menu className="size-5" />
             </button>
@@ -194,7 +194,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
             <div className="min-w-0 flex-1">
               <div className="hidden sm:flex items-center gap-2">
-                <span className="size-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+                <span className="size-2 rounded-full bg-[#D7B88C] animate-pulse shadow-[0_0_8px_rgba(215,184,140,0.7)]" />
                 <p className="text-eyebrow text-[0.62rem] text-brass/90 font-mono tracking-wider">
                   NAVIK · East Coast India Desk · Active
                 </p>
@@ -207,7 +207,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             {pathname !== "/charter" && (
               <Link
                 to="/charter"
-                className="hidden items-center gap-1.5 rounded-md bg-copper px-3.5 py-2 text-xs font-bold text-[#0B1213] shadow-copper transition-all hover:bg-copper-soft hover:shadow-lg md:inline-flex"
+                className="hidden items-center gap-1.5 rounded-md bg-[#B96F50] px-3.5 py-2 text-xs font-bold text-[#FAF5EC] shadow-[0_2px_12px_rgba(185,111,80,0.35)] transition-all hover:bg-[#C67C5E] hover:shadow-lg md:inline-flex"
               >
                 <Plus className="size-3.5 stroke-[2.5]" /> New analysis
               </Link>
@@ -244,7 +244,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={to}
                 to={to}
                 className="flex flex-col items-center gap-1 py-2.5 text-[0.62rem] font-medium text-muted-foreground"
-                activeProps={{ className: "!text-copper" }}
+                activeProps={{ className: "!text-[#B96F50]" }}
               >
                 <Icon className="size-[1.15rem]" />
                 {item.short}
