@@ -178,16 +178,16 @@ export function Metric({
 }
 
 const DECISION_STYLE: Record<Decision, string> = {
-  CHARTER_NOW: "bg-copper text-primary-foreground",
-  WAIT: "bg-sea text-foreground",
-  SPLIT: "bg-brass text-primary-foreground",
+  CHARTER_NOW: "bg-copper text-[#0B1213] font-bold shadow-copper",
+  WAIT: "bg-sea-glass text-warm-ivory font-bold shadow-teal",
+  SPLIT: "bg-brass text-[#0B1213] font-bold shadow-sm",
 };
 
 export function DecisionBadge({ decision, className }: { decision: Decision; className?: string }) {
   return (
     <span
       className={cn(
-        "text-eyebrow inline-flex items-center rounded-sm px-2 py-1 text-[0.62rem] font-medium",
+        "text-eyebrow inline-flex items-center rounded-sm px-2.5 py-1 text-[0.62rem] font-bold tracking-wider",
         DECISION_STYLE[decision],
         className,
       )}
@@ -198,31 +198,31 @@ export function DecisionBadge({ decision, className }: { decision: Decision; cla
 }
 
 const RISK_STYLE: Record<RiskLevel, string> = {
-  LOW: "text-success border-success/35",
-  MODERATE: "text-brass border-brass/40",
-  ELEVATED: "text-copper border-copper/45",
-  HIGH: "text-danger border-danger/50",
+  LOW: "text-emerald-300 border-emerald-500/50 bg-emerald-950/40 font-semibold",
+  MODERATE: "text-brass border-brass/50 bg-brass/15 font-semibold",
+  ELEVATED: "text-copper-soft border-copper/50 bg-copper/15 font-semibold",
+  HIGH: "text-crimson border-crimson/50 bg-crimson/15 font-bold",
 };
 
 export function RiskBadge({ level, className }: { level: RiskLevel; className?: string }) {
   return (
     <span
       className={cn(
-        "text-eyebrow inline-flex items-center gap-1.5 rounded-sm border px-1.5 py-0.5 text-[0.6rem]",
+        "text-eyebrow inline-flex items-center gap-1.5 rounded-sm border px-2 py-0.5 text-[0.62rem] font-mono",
         RISK_STYLE[level],
         className,
       )}
     >
-      <span className="size-1.5 rounded-full bg-current" />
+      <span className="size-1.5 rounded-full bg-current shadow-[0_0_6px_currentColor]" />
       {RISK_LABELS[level]}
     </span>
   );
 }
 
 const FEAS_STYLE: Record<FeasibilityStatus, string> = {
-  FEASIBLE: "text-success border-success/40 bg-success/10",
-  CONDITIONAL: "text-brass border-brass/45 bg-brass/10",
-  REJECTED: "text-danger border-danger/45 bg-danger/10",
+  FEASIBLE: "text-emerald-300 border-emerald-500/50 bg-emerald-950/40 font-semibold",
+  CONDITIONAL: "text-brass border-brass/50 bg-brass/15 font-semibold",
+  REJECTED: "text-crimson border-crimson/50 bg-crimson/15 font-bold",
 };
 
 export function FeasibilityBadge({

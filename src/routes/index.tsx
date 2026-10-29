@@ -174,20 +174,23 @@ function Landing() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 1 }}
           >
-            <Eyebrow>Maritime decision intelligence</Eyebrow>
+            <span className="inline-flex items-center gap-2 rounded-full border border-brass/40 bg-card/80 px-3.5 py-1 font-mono text-[0.65rem] tracking-widest text-brass backdrop-blur-md shadow-sm">
+              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+              MARITIME DECISION INTELLIGENCE
+            </span>
           </motion.div>
 
-          <h1 className="text-display-hero mt-8 max-w-5xl text-foreground">
+          <h1 className="text-display-hero mt-8 max-w-5xl">
             <motion.span
-              className="block text-[2.8rem] sm:text-[4.5rem] lg:text-[6.4rem]"
+              className="block text-[2.8rem] sm:text-[4.5rem] lg:text-[6.4rem] tracking-tight text-warm-ivory font-extrabold"
               initial={{ opacity: 0, y: "0.4em" }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              Predict. Optimize.
+              Predict. <span className="text-sea-glass-soft font-semibold">Optimize.</span>
             </motion.span>
             <motion.span
-              className="serif-accent text-gradient-copper block text-[3.2rem] font-normal sm:text-[5rem] lg:text-[7.2rem]"
+              className="serif-accent text-gradient-copper block text-[3.4rem] font-normal sm:text-[5.2rem] lg:text-[7.4rem] leading-[0.95]"
               initial={{ opacity: 0, y: "0.4em" }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -202,23 +205,23 @@ function Landing() {
             transition={{ delay: 1, duration: 0.8 }}
             className="mt-10 max-w-xl lg:mt-14"
           >
-            <p className="text-body-lead text-foreground/80">
+            <p className="text-body-lead text-warm-ivory/85 font-medium">
               Turning global maritime complexity into smarter, faster charter decisions for
               Australia–East Coast India supply lines.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3.5">
               <Link
                 to="/dashboard"
-                className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-copper transition-colors hover:bg-copper-soft"
+                className="group inline-flex items-center gap-2 rounded-md bg-copper px-6 py-3.5 text-sm font-bold text-[#0B1213] shadow-copper transition-all hover:bg-copper-soft hover:shadow-lg active:scale-[0.98]"
               >
                 Enter Command Center
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <a
                 href="#corridor-console"
-                className="inline-flex items-center gap-2 rounded-md border border-foreground/20 px-5 py-3 text-sm font-semibold transition-colors hover:border-foreground/40 hover:text-copper-soft"
+                className="inline-flex items-center gap-2 rounded-md border border-sea-glass/50 bg-deep-teal/40 px-6 py-3.5 text-sm font-semibold text-warm-ivory backdrop-blur-md transition-all hover:border-copper/70 hover:text-copper-soft hover:bg-deep-teal/70 active:scale-[0.98]"
               >
-                <Compass className="size-4 text-copper" />
+                <Compass className="size-4 text-copper-soft" />
                 Explore Maritime Corridor
               </a>
             </div>
@@ -227,30 +230,51 @@ function Landing() {
       </section>
 
       {/* ---------- Market ticker ---------- */}
-      <section className="border-b border-border bg-abyss/60">
+      <section className="border-b border-sea-glass/30 bg-gradient-to-r from-abyss via-card/70 to-abyss">
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
           <div className="grid grid-cols-2 gap-x-8 gap-y-5 py-8 sm:grid-cols-4 sm:py-6">
-            {HERO_STATS.map((s, i) => (
-              <Reveal
-                key={s.label}
-                delay={i * 0.06}
-                y={10}
-                className="min-w-0 sm:border-l sm:border-foreground/10 sm:pl-6 first:border-l-0 first:pl-0"
-              >
-                <p className="text-eyebrow truncate text-[0.56rem] text-muted-foreground">
-                  {s.label}
-                </p>
-                <p className="font-tabular mt-1.5 font-mono text-lg text-foreground sm:text-xl">
-                  {s.value}
-                  <span className="ml-1 font-sans text-[0.62rem] text-muted-foreground">
-                    {s.unit}
-                  </span>
-                </p>
-              </Reveal>
-            ))}
+            {HERO_STATS.map((s, i) => {
+              const colors = [
+                { label: "text-brass", val: "text-warm-ivory", unit: "text-copper-soft" },
+                { label: "text-copper-soft", val: "text-warm-ivory", unit: "text-brass" },
+                { label: "text-sea-glass-soft", val: "text-warm-ivory", unit: "text-emerald-400" },
+                { label: "text-sage-soft", val: "text-warm-ivory", unit: "text-sea-glass-soft" },
+              ][i % 4];
+
+              return (
+                <Reveal
+                  key={s.label}
+                  delay={i * 0.06}
+                  y={10}
+                  className="min-w-0 sm:border-l sm:border-sea-glass/25 sm:pl-6 first:border-l-0 first:pl-0"
+                >
+                  <p
+                    className={cn(
+                      "text-eyebrow truncate text-[0.58rem] font-semibold",
+                      colors.label,
+                    )}
+                  >
+                    {s.label}
+                  </p>
+                  <p
+                    className={cn(
+                      "font-tabular mt-1.5 font-mono text-xl sm:text-2xl font-bold tracking-tight",
+                      colors.val,
+                    )}
+                  >
+                    {s.value}
+                    <span
+                      className={cn("ml-1.5 font-sans text-[0.65rem] font-medium", colors.unit)}
+                    >
+                      {s.unit}
+                    </span>
+                  </p>
+                </Reveal>
+              );
+            })}
           </div>
-          <p className="flex items-center gap-2 border-t border-border pb-5 pt-4 text-[0.68rem] text-muted-foreground">
-            <DemoTag /> Illustrative fixture values — not live market data.
+          <p className="flex items-center gap-2 border-t border-sea-glass/25 pb-5 pt-4 text-[0.68rem] text-muted-foreground">
+            <DemoTag /> Illustrative fixture values — calibrated for East Coast India.
           </p>
         </div>
       </section>
@@ -402,26 +426,76 @@ function Workflow() {
           </div>
         </div>
         <div ref={ref} className="relative lg:col-span-7 lg:col-start-6">
-          <div className="absolute bottom-4 left-[1.15rem] top-4 w-px bg-border" />
+          <div className="absolute bottom-4 left-[1.15rem] top-4 w-px bg-border/80" />
           <motion.div
             style={{ scaleY }}
-            className="absolute bottom-4 left-[1.15rem] top-4 w-px origin-top bg-copper"
+            className="absolute bottom-4 left-[1.15rem] top-4 w-[2px] origin-top bg-gradient-to-b from-sea-glass via-copper to-brass"
           />
           <ol className="space-y-16">
-            {WORKFLOW.map((s, i) => (
-              <Reveal key={s.n} delay={i * 0.04}>
-                <li className="relative grid grid-cols-[2.3rem_1fr] gap-6">
-                  <span className="relative z-10 flex size-[2.3rem] items-center justify-center rounded-full border border-copper/50 bg-background font-mono text-[0.7rem] text-copper">
-                    {s.n}
-                  </span>
-                  <div className="pt-1">
-                    <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">{s.title}</h3>
-                    <p className="mt-3 max-w-xl leading-relaxed text-muted-foreground">{s.body}</p>
-                    <p className="text-eyebrow mt-5 text-[0.62rem] text-brass">→ {s.out}</p>
-                  </div>
-                </li>
-              </Reveal>
-            ))}
+            {WORKFLOW.map((s, i) => {
+              const stepColors = [
+                {
+                  border: "border-sea-glass/70",
+                  text: "text-sea-glass-soft",
+                  bg: "bg-sea-glass/15",
+                  out: "text-sea-glass-soft",
+                },
+                {
+                  border: "border-copper/70",
+                  text: "text-copper-soft",
+                  bg: "bg-copper/15",
+                  out: "text-copper-soft",
+                },
+                {
+                  border: "border-brass/70",
+                  text: "text-brass",
+                  bg: "bg-brass/15",
+                  out: "text-brass",
+                },
+                {
+                  border: "border-sage/70",
+                  text: "text-sage-soft",
+                  bg: "bg-sage/15",
+                  out: "text-sage-soft",
+                },
+                {
+                  border: "border-copper",
+                  text: "text-[#0B1213]",
+                  bg: "bg-copper shadow-copper",
+                  out: "text-copper-soft font-bold",
+                },
+              ][i];
+
+              return (
+                <Reveal key={s.n} delay={i * 0.04}>
+                  <li className="relative grid grid-cols-[2.3rem_1fr] gap-6 group">
+                    <span
+                      className={cn(
+                        "relative z-10 flex size-[2.3rem] items-center justify-center rounded-full border font-mono text-[0.72rem] font-bold shadow-md transition-all duration-300 group-hover:scale-110",
+                        stepColors.border,
+                        stepColors.text,
+                        stepColors.bg,
+                      )}
+                    >
+                      {s.n}
+                    </span>
+                    <div className="pt-1">
+                      <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl text-warm-ivory group-hover:text-copper-soft transition-colors">
+                        {s.title}
+                      </h3>
+                      <p className="mt-3 max-w-xl leading-relaxed text-muted-foreground">
+                        {s.body}
+                      </p>
+                      <p
+                        className={cn("text-eyebrow mt-5 text-[0.62rem] font-mono", stepColors.out)}
+                      >
+                        → {s.out}
+                      </p>
+                    </div>
+                  </li>
+                </Reveal>
+              );
+            })}
           </ol>
         </div>
       </div>
@@ -520,19 +594,22 @@ function Capabilities() {
               </p>
             </div>
           </Reveal>
-          <Reveal delay={0.15} className="surface-ink rounded-md p-8 sm:p-10 lg:col-span-5">
-            <p className="text-eyebrow text-muted-foreground">Decision output</p>
+          <Reveal
+            delay={0.15}
+            className="surface-ink rounded-md p-8 sm:p-10 lg:col-span-5 border-sea-glass/40"
+          >
+            <p className="text-eyebrow text-brass">Decision output</p>
             <div className="mt-6 flex flex-wrap gap-2">
               {["Charter now", "Wait", "Split 60 / 40"].map((d, i) => (
                 <span
                   key={d}
                   className={cn(
-                    "text-eyebrow rounded-sm px-2 py-1 text-[0.62rem]",
+                    "text-eyebrow rounded-sm px-2.5 py-1 text-[0.65rem] font-bold tracking-wider",
                     i === 0
-                      ? "bg-copper text-primary-foreground"
+                      ? "bg-copper text-[#0B1213] shadow-copper"
                       : i === 1
-                        ? "bg-sea text-foreground"
-                        : "bg-brass text-primary-foreground",
+                        ? "bg-sea-glass text-warm-ivory shadow-teal"
+                        : "bg-brass text-[#0B1213] shadow-sm",
                   )}
                 >
                   {d}
@@ -546,32 +623,80 @@ function Capabilities() {
           </Reveal>
         </div>
 
-        <div className="mt-20 grid gap-4 border-t border-border pt-14 sm:grid-cols-2 lg:grid-cols-3">
-          {CAPS.map((c, i) => (
-            <Reveal key={c.t} delay={(i % 3) * 0.08}>
-              <Link
-                to={c.to}
-                className="group flex flex-col justify-between h-full rounded-lg border border-border/70 bg-card/40 p-6 transition-all duration-300 hover:border-copper/60 hover:bg-card/75 hover:shadow-deep"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[0.7rem] text-copper font-medium">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <ArrowUpRight className="size-4 text-muted-foreground/60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-copper" />
+        <div className="mt-20 grid gap-4 border-t border-sea-glass/25 pt-14 sm:grid-cols-2 lg:grid-cols-3">
+          {CAPS.map((c, i) => {
+            const cardAccent = [
+              {
+                border: "hover:border-copper/70",
+                badge: "border-copper/40 bg-copper/15 text-copper-soft",
+                hoverText: "group-hover:text-copper-soft",
+              },
+              {
+                border: "hover:border-sea-glass/70",
+                badge: "border-sea-glass/40 bg-sea-glass/15 text-sea-glass-soft",
+                hoverText: "group-hover:text-sea-glass-soft",
+              },
+              {
+                border: "hover:border-brass/70",
+                badge: "border-brass/40 bg-brass/15 text-brass",
+                hoverText: "group-hover:text-brass",
+              },
+              {
+                border: "hover:border-sage/70",
+                badge: "border-sage/40 bg-sage/15 text-sage-soft",
+                hoverText: "group-hover:text-sage-soft",
+              },
+              {
+                border: "hover:border-copper/70",
+                badge: "border-copper/40 bg-copper/15 text-copper-soft",
+                hoverText: "group-hover:text-copper-soft",
+              },
+              {
+                border: "hover:border-sea-glass/70",
+                badge: "border-sea-glass/40 bg-sea-glass/15 text-sea-glass-soft",
+                hoverText: "group-hover:text-sea-glass-soft",
+              },
+            ][i % 6];
+
+            return (
+              <Reveal key={c.t} delay={(i % 3) * 0.08}>
+                <Link
+                  to={c.to}
+                  className={cn(
+                    "group flex flex-col justify-between h-full rounded-lg border border-border/80 bg-gradient-to-br from-card/90 to-deep-teal/20 p-6 transition-all duration-300 hover:shadow-deep hover:bg-card",
+                    cardAccent.border,
+                  )}
+                >
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={cn(
+                          "font-mono text-[0.7rem] font-bold px-2 py-0.5 rounded border",
+                          cardAccent.badge,
+                        )}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <ArrowUpRight className="size-4 text-muted-foreground/60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-copper-soft" />
+                    </div>
+                    <h3
+                      className={cn(
+                        "mt-4 text-lg font-semibold tracking-tight text-warm-ivory transition-colors",
+                        cardAccent.hoverText,
+                      )}
+                    >
+                      {c.t}
+                    </h3>
+                    <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
                   </div>
-                  <h3 className="mt-4 text-lg font-semibold tracking-tight text-foreground group-hover:text-copper-soft transition-colors">
-                    {c.t}
-                  </h3>
-                  <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
-                </div>
-                <div className="mt-6 flex items-center gap-1.5 font-mono text-[0.65rem] text-copper opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span>Open workspace</span>
-                  <ArrowRight className="size-3" />
-                </div>
-              </Link>
-            </Reveal>
-          ))}
+                  <div className="mt-6 flex items-center gap-1.5 font-mono text-[0.68rem] text-copper-soft font-semibold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <span>Open workspace</span>
+                    <ArrowRight className="size-3" />
+                  </div>
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

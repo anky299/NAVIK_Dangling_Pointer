@@ -80,6 +80,19 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --color-deep-teal: var(--deep-teal);
+  --color-sea-glass: var(--sea-glass);
+  --color-sea-glass-soft: var(--sea-glass-soft);
+  --color-forest-charcoal: var(--forest-charcoal);
+  --color-copper: var(--copper);
+  --color-copper-soft: var(--copper-soft);
+  --color-brass: var(--brass);
+  --color-brass-soft: var(--brass-soft);
+  --color-ivory: var(--warm-ivory);
+  --color-sage: var(--soft-sage);
+  --color-sage-soft: var(--soft-sage-soft);
+  --color-crimson: var(--crimson);
+
   --animate-drift: drift 18s ease-in-out infinite alternate;
   --animate-sweep: sweep 6s linear infinite;
 }
@@ -87,81 +100,95 @@
 :root {
   --radius: 0.375rem;
 
-  /* Palette */
-  --midnight: oklch(0.205 0.016 205);
-  --abyss: oklch(0.165 0.013 200);
-  --ink: oklch(0.24 0.012 170);
-  --copper: oklch(0.63 0.115 45);
-  --copper-soft: oklch(0.72 0.085 50);
-  --brass: oklch(0.74 0.08 80);
-  --sea: oklch(0.56 0.045 155);
-  --sea-soft: oklch(0.72 0.05 160);
-  --fog: oklch(0.917 0.015 85);
-  --slate: oklch(0.7 0.016 200);
-  --success: oklch(0.7 0.075 155);
-  --warning: oklch(0.77 0.1 78);
-  --danger: oklch(0.64 0.14 32);
-  --hairline: oklch(0.94 0.012 85 / 0.1);
+  /* Maritime Intelligence Palette */
+  --deep-teal: #163d3b;
+  --sea-glass: #2d6a62;
+  --sea-glass-soft: #3d8c82;
+  --forest-charcoal: #24332c;
+  --copper: #c66f48;
+  --copper-soft: #d9855f;
+  --brass: #b9a36a;
+  --brass-soft: #cdbc87;
+  --warm-ivory: #f0e8d8;
+  --soft-sage: #a9b8a5;
+  --soft-sage-soft: #859b81;
+  --crimson: #c84b31;
+
+  /* Ambient Canvas & Panels */
+  --midnight: #0e1718;
+  --abyss: #0b1213;
+  --ink: #142220;
+  --sea: var(--sea-glass);
+  --sea-soft: var(--sea-glass-soft);
+  --fog: var(--warm-ivory);
+  --slate: #7b8f8b;
+  --success: #70a37f;
+  --warning: #cda052;
+  --danger: var(--crimson);
+  --hairline: rgba(240, 232, 216, 0.1);
 
   /* Semantic (dark maritime canvas) */
   --background: var(--midnight);
-  --foreground: oklch(0.95 0.011 85);
-  --card: oklch(0.235 0.014 190);
-  --card-foreground: var(--foreground);
-  --popover: oklch(0.225 0.014 195);
-  --popover-foreground: var(--foreground);
+  --foreground: var(--warm-ivory);
+  --card: #132221;
+  --card-foreground: var(--warm-ivory);
+  --popover: #152624;
+  --popover-foreground: var(--warm-ivory);
   --primary: var(--copper);
-  --primary-foreground: oklch(0.17 0.012 60);
-  --secondary: oklch(0.285 0.015 185);
-  --secondary-foreground: var(--foreground);
-  --muted: oklch(0.27 0.013 190);
-  --muted-foreground: oklch(0.72 0.016 195);
-  --accent: oklch(0.31 0.02 170);
-  --accent-foreground: var(--foreground);
+  --primary-foreground: #0e1718;
+  --secondary: #1e3330;
+  --secondary-foreground: var(--warm-ivory);
+  --muted: #1a2d2a;
+  --muted-foreground: #9bb0a8;
+  --accent: #233d39;
+  --accent-foreground: var(--warm-ivory);
   --destructive: var(--danger);
-  --destructive-foreground: oklch(0.98 0.005 85);
-  --border: oklch(0.94 0.012 85 / 0.11);
-  --input: oklch(0.94 0.012 85 / 0.16);
+  --destructive-foreground: #fff7f0;
+  --border: rgba(185, 163, 106, 0.16);
+  --input: rgba(185, 163, 106, 0.22);
   --ring: var(--brass);
 
   /* Paper surfaces (forms, tables, reports) */
-  --paper: oklch(0.967 0.01 85);
-  --paper-foreground: oklch(0.22 0.014 190);
-  --paper-muted: oklch(0.47 0.016 190);
-  --paper-border: oklch(0.22 0.014 190 / 0.13);
-  --paper-sunk: oklch(0.93 0.014 85);
+  --paper: #f6f3eb;
+  --paper-foreground: #142422;
+  --paper-muted: #5b6e6a;
+  --paper-border: rgba(20, 36, 34, 0.14);
+  --paper-sunk: #ece7dc;
 
-  --chart-1: var(--copper);
-  --chart-2: var(--sea-soft);
-  --chart-3: var(--brass);
-  --chart-4: var(--fog);
-  --chart-5: var(--slate);
+  /* Multi-series chart distinct colors */
+  --chart-1: #c66f48;
+  --chart-2: #2d6a62;
+  --chart-3: #b9a36a;
+  --chart-4: #a9b8a5;
+  --chart-5: #4f829e;
 
-  --sidebar: var(--abyss);
-  --sidebar-foreground: var(--foreground);
+  /* Sidebar Tokens */
+  --sidebar: #0c1515;
+  --sidebar-foreground: var(--warm-ivory);
   --sidebar-primary: var(--copper);
-  --sidebar-primary-foreground: var(--primary-foreground);
-  --sidebar-accent: oklch(0.25 0.014 190);
-  --sidebar-accent-foreground: var(--foreground);
-  --sidebar-border: var(--border);
+  --sidebar-primary-foreground: #0e1718;
+  --sidebar-accent: #172b28;
+  --sidebar-accent-foreground: var(--warm-ivory);
+  --sidebar-border: rgba(45, 106, 98, 0.24);
   --sidebar-ring: var(--brass);
 
   /* Gradients & shadows */
   --gradient-ocean:
-    radial-gradient(120% 80% at 70% 0%, oklch(0.3 0.03 190 / 0.9) 0%, transparent 60%),
-    radial-gradient(90% 60% at 0% 100%, oklch(0.28 0.04 45 / 0.35) 0%, transparent 60%),
-    linear-gradient(180deg, var(--midnight), var(--abyss));
+    radial-gradient(120% 80% at 75% 0%, rgba(45, 106, 98, 0.24) 0%, transparent 60%),
+    radial-gradient(90% 60% at 5% 100%, rgba(198, 111, 72, 0.15) 0%, transparent 60%),
+    radial-gradient(80% 50% at 50% 50%, rgba(22, 61, 59, 0.2) 0%, transparent 70%),
+    linear-gradient(180deg, #0e1718, #0b1213);
   --gradient-horizon: linear-gradient(
     180deg,
-    oklch(0.165 0.013 200 / 0) 0%,
-    oklch(0.165 0.013 200 / 0.65) 55%,
-    var(--abyss) 100%
+    rgba(11, 18, 19, 0) 0%,
+    rgba(11, 18, 19, 0.72) 55%,
+    #0b1213 100%
   );
-  --gradient-copper: linear-gradient(120deg, var(--copper), var(--brass));
-  --gradient-panel: linear-gradient(160deg, oklch(0.26 0.016 185), oklch(0.215 0.014 195));
-  --shadow-deep: 0 30px 80px -30px oklch(0.1 0.01 200 / 0.8);
-  --shadow-paper: 0 1px 0 oklch(1 0 0 / 0.6) inset, 0 24px 60px -32px oklch(0.1 0.01 200 / 0.7);
-  --shadow-copper: 0 12px 30px -12px oklch(0.63 0.115 45 / 0.55);
+  --gradient-copper: linear-gradient(125deg, #c66f48 0%, #d9855f 45%, #b9a36a 100%);
+  --gradient-panel: linear-gradient(160deg, #172b29, #122220);
+  --shadow-deep: 0 30px 80px -30px rgba(8, 14, 14, 0.85);
+  --shadow-paper: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 24px 60px -32px rgba(8, 14, 14, 0.65);
+  --shadow-copper: 0 12px 30px -10px rgba(198, 111, 72, 0.45);
 }
 
 @layer base {
@@ -265,6 +292,20 @@
 
 @utility text-gradient-copper {
   background: var(--gradient-copper);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-teal {
+  background: linear-gradient(135deg, #3d8c82 0%, #a9b8a5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-brass {
+  background: linear-gradient(135deg, #cdbc87 0%, #f0e8d8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -432,37 +473,37 @@
 
 /* ---------- Maritime Tactical & Bridge Surfaces ---------- */
 @utility surface-bridge {
-  background: linear-gradient(165deg, oklch(0.24 0.016 195 / 0.88), oklch(0.18 0.013 200 / 0.94));
-  border: 1px solid oklch(0.94 0.012 85 / 0.13);
+  background: linear-gradient(165deg, rgba(22, 61, 59, 0.55), rgba(11, 18, 19, 0.92));
+  border: 1px solid rgba(45, 106, 98, 0.38);
   box-shadow:
-    inset 0 1px 0 0 oklch(1 0 0 / 0.07),
-    0 24px 60px -20px oklch(0.1 0.01 200 / 0.7);
+    inset 0 1px 0 0 rgba(185, 163, 106, 0.18),
+    0 24px 60px -20px rgba(8, 14, 14, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
 @utility surface-tactical {
-  background: linear-gradient(170deg, oklch(0.22 0.015 190 / 0.9), oklch(0.17 0.012 205 / 0.95));
-  border: 1px solid oklch(0.63 0.115 45 / 0.22);
+  background: linear-gradient(170deg, rgba(36, 51, 44, 0.75), rgba(14, 23, 24, 0.94));
+  border: 1px solid rgba(198, 111, 72, 0.35);
   box-shadow:
-    inset 0 1px 0 0 oklch(0.63 0.115 45 / 0.15),
-    0 20px 50px -15px oklch(0.1 0.01 200 / 0.8);
+    inset 0 1px 0 0 rgba(198, 111, 72, 0.22),
+    0 20px 50px -15px rgba(8, 14, 14, 0.85);
 }
 
 @utility glow-copper {
-  box-shadow: 0 0 30px -5px oklch(0.63 0.115 45 / 0.35);
+  box-shadow: 0 0 30px -5px rgba(198, 111, 72, 0.45);
 }
 
 @utility glow-copper-subtle {
-  box-shadow: 0 0 20px -8px oklch(0.63 0.115 45 / 0.25);
+  box-shadow: 0 0 20px -8px rgba(198, 111, 72, 0.3);
 }
 
 @utility glow-brass {
-  box-shadow: 0 0 25px -6px oklch(0.74 0.08 80 / 0.3);
+  box-shadow: 0 0 25px -6px rgba(185, 163, 106, 0.4);
 }
 
 @utility glow-sea {
-  box-shadow: 0 0 25px -6px oklch(0.56 0.045 155 / 0.35);
+  box-shadow: 0 0 25px -6px rgba(45, 106, 98, 0.45);
 }
 
 @utility nautical-grid {

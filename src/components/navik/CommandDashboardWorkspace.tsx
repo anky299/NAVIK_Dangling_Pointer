@@ -236,88 +236,95 @@ export function CommandDashboardWorkspace() {
         </div>
       </div>
 
-      {/* 2. Operational KPI Ribbon with Enhanced Numerical Hierarchy */}
+      {/* 2. Operational KPI Ribbon with Enhanced Numerical Hierarchy & Distinct Thematic Tints */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        <Card className="p-4 border-border/80 bg-gradient-to-br from-card/80 to-card/40 hover:border-copper/40 transition">
+        {/* KPI 1: Baltic Dry Index (Sage / Emerald Theme) */}
+        <Card className="p-4 border-sage/40 bg-gradient-to-br from-card/95 via-card/70 to-sage/15 hover:border-sage transition-all duration-300 shadow-deep">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-brass font-medium">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-sage font-semibold">
               Baltic Dry Index
             </span>
             <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
           </div>
-          <div className="text-2xl font-bold font-mono text-foreground tracking-tight">
+          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
             {snapshot ? fmtInt(snapshot.freightIndex) : "1,842"}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">pts</span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-emerald-400 font-mono">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-emerald-400 font-mono bg-emerald-950/40 border border-emerald-500/30 px-1.5 py-0.5 rounded w-fit">
             <ArrowUpRight className="h-3 w-3" />
             <span>+{snapshot?.freightIndexChangePct ?? 2.6}% 7D benchmark</span>
           </div>
         </Card>
 
-        <Card className="p-4 border-border/80 bg-gradient-to-br from-card/80 to-card/40 hover:border-copper/40 transition">
+        {/* KPI 2: VLSFO Singapore (Copper Orange Theme) */}
+        <Card className="p-4 border-copper/40 bg-gradient-to-br from-card/95 via-card/70 to-copper/15 hover:border-copper transition-all duration-300 shadow-deep">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-copper font-medium">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-copper font-semibold">
               VLSFO Singapore
             </span>
             <Flame className="h-3.5 w-3.5 text-copper-soft" />
           </div>
-          <div className="text-2xl font-bold font-mono text-foreground tracking-tight">
+          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
             {snapshot ? fmtRate(snapshot.vlsfoUsdPerT) : "$618.50"}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">/t</span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-amber-400 font-mono">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-copper-soft font-mono bg-copper/15 border border-copper/30 px-1.5 py-0.5 rounded w-fit">
             <ArrowUpRight className="h-3 w-3" />
             <span>+{snapshot?.vlsfoChangePct ?? 4.1}% 7D fuel escalation</span>
           </div>
         </Card>
 
-        <Card className="p-4 border-border/80 bg-gradient-to-br from-card/80 to-card/40 hover:border-copper/40 transition">
+        {/* KPI 3: Anchorage Queue (Muted Brass Theme) */}
+        <Card className="p-4 border-brass/40 bg-gradient-to-br from-card/95 via-card/70 to-brass/15 hover:border-brass transition-all duration-300 shadow-deep">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-brass font-medium">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-brass font-semibold">
               Anchorage Queue
             </span>
             <Clock className="h-3.5 w-3.5 text-brass" />
           </div>
-          <div className="text-2xl font-bold font-mono text-foreground tracking-tight">
+          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
             {congestionSummary.averageWaitDays}
-            <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">days</span>
+            <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">
+              days avg
+            </span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-brass font-mono">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-brass font-mono bg-brass/15 border border-brass/30 px-1.5 py-0.5 rounded w-fit">
             <span>{congestionSummary.totalWaitingVessels} vessels waiting berth</span>
           </div>
         </Card>
 
-        <Card className="p-4 border-border/80 bg-gradient-to-br from-card/80 to-card/40 hover:border-copper/40 transition">
+        {/* KPI 4: Basin Fleet Avail (Sea-Glass Green Theme) */}
+        <Card className="p-4 border-sea-glass/40 bg-gradient-to-br from-card/95 via-card/70 to-deep-teal/25 hover:border-sea-glass transition-all duration-300 shadow-deep">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-sea font-medium">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-sea-glass-soft font-semibold">
               Basin Fleet Avail
             </span>
-            <Gauge className="h-3.5 w-3.5 text-sea-soft" />
+            <Gauge className="h-3.5 w-3.5 text-sea-glass-soft" />
           </div>
-          <div className="text-2xl font-bold font-mono text-foreground tracking-tight">
+          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
             {snapshot?.fleetAvailabilityPct ?? 79}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">%</span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-emerald-400 font-mono">
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-emerald-300 font-mono bg-sea-glass/20 border border-sea-glass/40 px-1.5 py-0.5 rounded w-fit">
             <CheckCircle2 className="h-3 w-3" />
             <span>Adequate spot tonnage</span>
           </div>
         </Card>
 
-        <Card className="p-4 border-border/80 bg-gradient-to-br from-card/80 to-card/40 hover:border-copper/40 transition col-span-2 sm:col-span-1">
+        {/* KPI 5: Committed Inflow (Steel / Ivory Theme) */}
+        <Card className="p-4 border-forest-charcoal/90 bg-gradient-to-br from-card/95 via-card/70 to-deep-teal/20 hover:border-copper/50 transition-all duration-300 shadow-deep col-span-2 sm:col-span-1">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-copper-soft font-medium">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-warm-ivory/80 font-semibold">
               Committed Inflow
             </span>
-            <Ship className="h-3.5 w-3.5 text-copper" />
+            <Ship className="h-3.5 w-3.5 text-copper-soft" />
           </div>
-          <div className="text-2xl font-bold font-mono text-foreground tracking-tight">
+          <div className="text-2xl font-bold font-mono text-warm-ivory tracking-tight">
             {fmtInt(inflowSummary.totalTonnage)}
             <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">t</span>
           </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-copper-soft font-mono">
-            <span>{inflowSummary.activeFixturesCount} active contracted voyages</span>
+          <div className="mt-2 flex items-center gap-1 text-[11px] text-copper-soft font-mono bg-card/80 border border-border/80 px-1.5 py-0.5 rounded w-fit">
+            <span>{inflowSummary.activeFixturesCount} active fixtures</span>
           </div>
         </Card>
       </div>

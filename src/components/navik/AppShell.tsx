@@ -26,24 +26,28 @@ function SideLink({
       to={item.to}
       onClick={onNavigate}
       className={cn(
-        "group relative flex items-center gap-3 rounded-md px-3 py-2 text-[0.85rem] font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground",
+        "group relative flex items-center gap-3 rounded-md px-3 py-2 text-[0.85rem] font-medium text-muted-foreground transition-all duration-200 hover:bg-sea-glass/15 hover:text-warm-ivory",
         collapsed && "justify-center px-0",
       )}
-      activeProps={{ className: "bg-sidebar-accent !text-foreground", "aria-current": "page" }}
+      activeProps={{
+        className:
+          "bg-gradient-to-r from-sea-glass/30 via-deep-teal/20 to-transparent !text-warm-ivory font-semibold shadow-inner",
+        "aria-current": "page",
+      }}
     >
       {({ isActive }) => (
         <>
           {isActive && (
             <motion.span
               layoutId="nav-active"
-              className="absolute inset-y-1 left-0 w-[3px] rounded-r-full bg-copper shadow-[0_0_10px_rgba(235,115,55,0.7)]"
+              className="absolute inset-y-1 left-0 w-[3.5px] rounded-r-full bg-copper shadow-[0_0_12px_rgba(198,111,72,0.85)]"
               transition={{ type: "spring", stiffness: 420, damping: 36 }}
             />
           )}
           <Icon
             className={cn(
-              "size-[1.05rem] shrink-0",
-              isActive ? "text-copper" : "text-muted-foreground group-hover:text-foreground",
+              "size-[1.05rem] shrink-0 transition-colors duration-200",
+              isActive ? "text-copper-soft" : "text-muted-foreground group-hover:text-brass",
             )}
           />
           {!collapsed && <span className="truncate">{item.label}</span>}
@@ -55,7 +59,12 @@ function SideLink({
   return (
     <Tooltip>
       <TooltipTrigger asChild>{link}</TooltipTrigger>
-      <TooltipContent side="right">{item.label}</TooltipContent>
+      <TooltipContent
+        side="right"
+        className="bg-popover border-sea-glass/40 text-warm-ivory font-mono text-xs"
+      >
+        {item.label}
+      </TooltipContent>
     </Tooltip>
   );
 }
@@ -66,11 +75,11 @@ function NavList({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
       {NAV_GROUPS.map((g) => (
         <div key={g.label}>
           {!collapsed ? (
-            <p className="text-eyebrow mb-2 px-3 text-[0.58rem] text-muted-foreground/70">
+            <p className="text-eyebrow mb-2 px-3 text-[0.58rem] text-brass/80 font-mono tracking-wider">
               {g.label}
             </p>
           ) : (
-            <div className="mx-auto mb-2 h-px w-6 bg-border" />
+            <div className="mx-auto mb-2 h-px w-6 bg-border/80" />
           )}
           <div className="flex flex-col gap-0.5">
             {g.items.map((item) => (
@@ -90,15 +99,17 @@ function NavList({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
 
 function ApiCard() {
   return (
-    <div className="rounded-lg border border-border/70 bg-card/60 p-3 shadow-inner">
+    <div className="rounded-lg border border-sea-glass/40 bg-gradient-to-b from-card/90 to-deep-teal/30 p-3 shadow-deep">
       <div className="flex items-center justify-between">
-        <p className="text-eyebrow text-[0.58rem] text-brass flex items-center gap-1.5 font-medium">
-          <span className="size-1.5 rounded-full bg-brass animate-pulse" />
+        <p className="text-eyebrow text-[0.58rem] text-brass flex items-center gap-1.5 font-semibold">
+          <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_rgba(52,211,153,0.7)]" />
           <span>Demo Desk Mode</span>
         </p>
-        <span className="font-mono text-[0.55rem] text-muted-foreground/80">v1.0-rc</span>
+        <span className="font-mono text-[0.55rem] text-copper-soft font-semibold bg-copper/15 px-1.5 py-0.5 rounded border border-copper/30">
+          v1.0-rc
+        </span>
       </div>
-      <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground/80">
+      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
         Deterministic models calibrated for East Coast India. Connect Python backend for live broker
         feeds.
       </p>
@@ -169,12 +180,12 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Top bar */}
-          <header className="sticky top-0 z-30 flex h-16 sm:h-20 items-center gap-3 border-b border-border bg-background/80 px-4 backdrop-blur-md sm:px-6 lg:px-10">
+          <header className="sticky top-0 z-30 flex h-16 sm:h-20 items-center gap-3 border-b border-sea-glass/25 bg-background/85 px-4 backdrop-blur-md sm:px-6 lg:px-10">
             <button
               type="button"
               onClick={() => setDrawer(true)}
               aria-label="Open navigation"
-              className="-ml-1 rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-foreground lg:hidden"
+              className="-ml-1 rounded-md p-2 text-muted-foreground hover:bg-sea-glass/20 hover:text-warm-ivory transition-colors lg:hidden"
             >
               <Menu className="size-5" />
             </button>
@@ -183,12 +194,12 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
             <div className="min-w-0 flex-1">
               <div className="hidden sm:flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-emerald-400" />
-                <p className="text-eyebrow text-[0.6rem] text-muted-foreground">
+                <span className="size-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+                <p className="text-eyebrow text-[0.62rem] text-brass/90 font-mono tracking-wider">
                   NAVIK · East Coast India Desk · Active
                 </p>
               </div>
-              <p className="truncate text-sm font-semibold tracking-tight text-foreground">
+              <p className="truncate text-base font-semibold tracking-tight text-warm-ivory">
                 {current?.label ?? "Command Center"}
               </p>
             </div>
@@ -196,9 +207,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             {pathname !== "/charter" && (
               <Link
                 to="/charter"
-                className="hidden items-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground shadow-copper transition-colors hover:bg-copper-soft md:inline-flex"
+                className="hidden items-center gap-1.5 rounded-md bg-copper px-3.5 py-2 text-xs font-bold text-[#0B1213] shadow-copper transition-all hover:bg-copper-soft hover:shadow-lg md:inline-flex"
               >
-                <Plus className="size-3.5" /> New analysis
+                <Plus className="size-3.5 stroke-[2.5]" /> New analysis
               </Link>
             )}
             <OperatorBadge />

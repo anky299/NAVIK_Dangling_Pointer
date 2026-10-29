@@ -113,13 +113,13 @@ const DEFAULT_DEST: PortCode = "PRDP";
 const DEFAULT_TF: Timeframe = "6M";
 
 const CHART_COLORS = {
-  historical: "#C3A36B", // brass
-  forecast: "#BC704F", // copper
-  p10p90: "rgba(188,112,79,0.12)",
-  vlsfo: "#C3A36B",
-  hsfo: "#637C6B",
-  congestionBar: "#BC704F",
-  grid: "rgba(99,124,107,0.15)",
+  historical: "#B9A36A", // muted brass
+  forecast: "#C66F48", // copper orange
+  p10p90: "rgba(198, 111, 72, 0.18)",
+  vlsfo: "#C66F48", // copper orange
+  hsfo: "#2D6A62", // sea-glass green
+  congestionBar: "#B9A36A", // muted brass
+  grid: "rgba(45, 106, 98, 0.2)",
 };
 
 const fade = {

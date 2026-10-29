@@ -9,16 +9,22 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-copper hover:bg-copper-soft",
+        default:
+          "bg-copper text-[#0B1213] font-bold shadow-copper hover:bg-copper-soft hover:shadow-lg active:scale-[0.98] transition-all",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-transparent hover:bg-accent hover:text-accent-foreground hover:border-brass/50",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-copper-gradient text-primary-foreground shadow-copper hover:brightness-110",
-        glass: "surface-glass text-foreground hover:bg-foreground/10 hover:border-foreground/25",
-        paper: "bg-paper-foreground text-paper hover:bg-paper-foreground/90",
+          "border border-border/80 bg-card/40 text-foreground hover:bg-sea-glass/20 hover:border-brass/70 hover:text-warm-ivory transition-all",
+        secondary:
+          "bg-sea-glass/25 border border-sea-glass/50 text-warm-ivory shadow-sm hover:bg-sea-glass/40 hover:border-sea-glass active:scale-[0.98] transition-all",
+        teal: "bg-deep-teal border border-sea-glass/60 text-warm-ivory shadow-teal hover:bg-sea-glass active:scale-[0.98] transition-all",
+        brass:
+          "bg-brass text-[#0B1213] font-bold shadow-sm hover:bg-brass-soft active:scale-[0.98] transition-all",
+        ghost: "hover:bg-sea-glass/20 hover:text-warm-ivory transition-colors",
+        link: "text-copper-soft underline-offset-4 hover:underline hover:text-copper",
+        hero: "bg-copper-gradient text-[#0B1213] font-bold shadow-copper hover:brightness-110 active:scale-[0.98] transition-all",
+        glass:
+          "surface-glass text-warm-ivory border-sea-glass/30 hover:bg-sea-glass/25 hover:border-brass/50 transition-all",
+        paper: "bg-paper-foreground text-paper hover:bg-paper-foreground/90 font-medium",
       },
       size: {
         default: "h-9 px-4 py-2",
