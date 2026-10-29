@@ -1,6 +1,7 @@
 {
   "name": "navik-freight-compass",
   "description": "NAVIK — Freight Forecasting & Maritime Charter Decision Support Platform",
+  "license": "MIT",
   "private": true,
   "sideEffects": false,
   "type": "module",

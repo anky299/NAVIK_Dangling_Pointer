@@ -85,3 +85,7 @@ Builds the client bundle and TanStack Start Nitro server output for production d
 npm run lint
 npm run format
 ```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

@@ -162,11 +162,16 @@
   --paper-sunk: #f2ece0;
 
   /* Multi-series chart distinct warm colors */
-  --chart-1: #b96f50; /* Burnt coral */
-  --chart-2: #d7b88c; /* Muted brass */
-  --chart-3: #79513d; /* Walnut */
-  --chart-4: #c88c78; /* Dusty rose */
-  --chart-5: #382720; /* Espresso */
+  --chart-1: #b96f50;
+  /* Burnt coral */
+  --chart-2: #d7b88c;
+  /* Muted brass */
+  --chart-3: #79513d;
+  /* Walnut */
+  --chart-4: #c88c78;
+  /* Dusty rose */
+  --chart-5: #382720;
+  /* Espresso */
 
   /* Sidebar Tokens */
   --sidebar: #1e1917;
@@ -383,6 +388,7 @@
 @utility grain {
   position: relative;
   isolation: isolate;
+
   &::after {
     content: "";
     position: absolute;
@@ -420,6 +426,7 @@
   from {
     transform: translate3d(0, 0, 0) scale(1.06);
   }
+
   to {
     transform: translate3d(-1.5%, -1%, 0) scale(1.1);
   }
@@ -429,6 +436,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -446,6 +454,7 @@
     transform: scale(0.6);
     opacity: 0.7;
   }
+
   100% {
     transform: scale(2.6);
     opacity: 0;
@@ -471,6 +480,7 @@
 
 @utility no-scrollbar {
   scrollbar-width: none;
+
   &::-webkit-scrollbar {
     display: none;
   }
