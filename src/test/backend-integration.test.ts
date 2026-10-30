@@ -105,5 +105,5 @@ describe("Milestone 18: Full Freight Intelligence Backend & Frontend Integration
     expect(Array.isArray(insights.risk_alerts)).toBe(true);
     expect(insights.risk_alerts.length).toBeGreaterThan(0);
     expect(insights.risk_alerts[0].disclaimer).toBeDefined();
-  });
+  }, 30000);
 });

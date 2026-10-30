@@ -13,7 +13,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .logging_config import setup_logging
-from .routers import health, history, forecast, optimize, scenarios, insights
+from .routers import health, history, forecast, optimize, scenarios, insights, auth
+from ..db.init_db import init_database
 
 setup_logging()
 logger = logging.getLogger(__name__)
@@ -22,6 +23,10 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     logger.info("SAIL Freight Intelligence API started (v0.1.0)")
+    try:
+        init_database()
+    except Exception as exc:
+        logger.warning("Database auto-init during lifespan encountered: %s", exc)
     yield
     logger.info("SAIL Freight Intelligence API shutting down")
 
@@ -93,6 +98,7 @@ def create_app() -> FastAPI:
     app.include_router(optimize.router, tags=["Optimizer"])
     app.include_router(scenarios.router, tags=["Scenarios"])
     app.include_router(insights.router, tags=["Insights"])
+    app.include_router(auth.router, tags=["Authentication"])
 
     return app
 

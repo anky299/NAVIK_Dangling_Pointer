@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Compass, ShieldAlert, Sparkles, Waves } from "lucide-react";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, ArrowUpRight, Compass, RotateCcw, ShieldAlert, Sparkles, Waves } from "lucide-react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 
 import heroCarrier from "@/assets/hero-carrier.jpg";
 import portTerminal from "@/assets/port-terminal.jpg";
@@ -16,6 +16,7 @@ import { Reveal } from "@/components/navik/Reveal";
 import { PORTS } from "@/lib/api/reference";
 import { fmtInt } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import HeroExperience from "@/hero/HeroExperience";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,8 +36,118 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Landing,
+  component: IndexEntry,
 });
+
+/**
+ * Root Index Orchestrator
+ * Stage 1: Rotating 3D Globe Screen with Integrated Google Authentication (HeroExperience)
+ * Stage 2: NAVIK Editorial Landing Page (Landing)
+ * Stage 3: Full Application Workspaces (/dashboard, /charter, etc.)
+ */
+function IndexEntry() {
+  const [view, setView] = useState<"globe" | "landing">(() => {
+    if (typeof window === "undefined") return "globe";
+    const hash = window.location.hash;
+    const search = new URLSearchParams(window.location.search);
+    if (hash === "#landing" || search.get("skipIntro") === "true") {
+      return "landing";
+    }
+    return "globe";
+  });
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+
+    const handleHashOrPopState = () => {
+      const hash = window.location.hash;
+      if (hash === "#landing") {
+        setView("landing");
+      } else {
+        setView("globe");
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashOrPopState);
+    window.addEventListener("popstate", handleHashOrPopState);
+    return () => {
+      window.removeEventListener("hashchange", handleHashOrPopState);
+      window.removeEventListener("popstate", handleHashOrPopState);
+    };
+  }, []);
+
+  const handleContinueToLanding = useCallback(() => {
+    if (typeof window !== "undefined") {
+      try {
+        window.history.pushState(null, "", "#landing");
+      } catch {
+        window.location.hash = "landing";
+      }
+      try {
+        sessionStorage.setItem("navik_intro_seen", "true");
+      } catch {}
+    }
+    setView("landing");
+  }, []);
+
+  const handleReplayIntro = useCallback(() => {
+    if (typeof window !== "undefined") {
+      try {
+        window.history.pushState(null, "", window.location.pathname);
+      } catch {
+        window.location.hash = "";
+      }
+    }
+    setView("globe");
+  }, []);
+
+  if (!hasMounted) {
+    if (view === "landing") {
+      return <Landing onReplayIntro={handleReplayIntro} />;
+    }
+    return (
+      <div className="relative h-screen w-screen overflow-hidden bg-[#010409]">
+        <HeroExperience
+          onEnterNavik={handleContinueToLanding}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <AnimatePresence mode="wait">
+      {view === "globe" && (
+        <motion.div
+          key="stage-globe"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="relative h-screen w-screen overflow-hidden bg-[#010409]"
+        >
+          <HeroExperience
+            onEnterNavik={handleContinueToLanding}
+          />
+        </motion.div>
+      )}
+
+      {view === "landing" && (
+        <motion.div
+          key="stage-landing"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className="min-h-screen w-full bg-[#071522]"
+        >
+          <Landing onReplayIntro={handleReplayIntro} />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
 
 const WORKFLOW = [
   {
@@ -78,7 +189,7 @@ const HERO_STATS = [
   { label: "Capesize availability", value: "74", unit: "%" },
 ];
 
-function Landing() {
+function Landing({ onReplayIntro }: { onReplayIntro?: () => void }) {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
@@ -125,8 +236,20 @@ function Landing() {
             </a>
           </nav>
 
-          {/* Action button */}
-          <div className="flex shrink-0 items-center">
+          {/* Action buttons */}
+          <div className="flex shrink-0 items-center gap-2.5">
+            {onReplayIntro && (
+              <button
+                type="button"
+                onClick={onReplayIntro}
+                aria-label="Replay 3D Planetary Globe Experience"
+                className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-[#263D50] bg-[#0A1D2E]/70 px-3 py-2 text-xs font-mono text-[#A8BAC8] backdrop-blur-sm transition-all hover:border-[#35BFC3] hover:text-[#35BFC3] hover:bg-[#102A40]"
+                title="Return to the 3D Planetary Globe intro"
+              >
+                <RotateCcw className="size-3 text-[#35BFC3]" />
+                <span>3D Globe</span>
+              </button>
+            )}
             <Link
               to="/dashboard"
               className="inline-flex items-center gap-2 rounded-md border border-[#263D50] bg-[#102A40]/80 px-3.5 py-2 text-xs font-semibold text-[#EAF1F6] backdrop-blur-sm transition-colors hover:border-[#35C9D0] hover:text-[#F7FAFC] hover:bg-[#18384F]"
@@ -175,11 +298,23 @@ function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 1 }}
+            className="flex flex-wrap items-center gap-3"
           >
             <span className="inline-flex items-center gap-2 rounded-full border border-[#35BFC3]/40 bg-[#0D2233]/85 px-3.5 py-1 font-mono text-[0.65rem] tracking-widest text-[#35BFC3] backdrop-blur-md shadow-sm font-semibold">
               <span className="size-1.5 rounded-full bg-[#35BFC3] animate-pulse shadow-[0_0_8px_rgba(53,191,195,0.8)]" />
               MARITIME DECISION INTELLIGENCE
             </span>
+            {onReplayIntro && (
+              <button
+                type="button"
+                onClick={onReplayIntro}
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#24485C] bg-[#081827]/80 px-3 py-1 font-mono text-[0.65rem] text-[#78958F] backdrop-blur-md transition-colors hover:border-[#35BFC3] hover:text-[#35BFC3]"
+                title="View 3D rotating globe"
+              >
+                <RotateCcw className="size-2.5 text-[#35BFC3]" />
+                <span>3D GLOBE INTRO</span>
+              </button>
+            )}
           </motion.div>
 
           <h1 className="text-display-hero mt-8 max-w-5xl">
@@ -241,7 +376,7 @@ function Landing() {
                 { glow: "amber", labelColor: "text-[#F2B653]" },
                 { glow: "violet", labelColor: "text-[#A78BFA]" },
                 { glow: "orange", labelColor: "text-[#E87945]" },
-              ][i % 4];
+              ][i % 4] ?? { glow: "teal", labelColor: "text-[#35BFC3]" };
               return (
                 <Reveal key={s.label} delay={i * 0.06} y={10}>
                   <BentoCard glowColor={config.glow as any} className="p-4 sm:p-5 bg-[#15364A] border-[#24485C]">
@@ -447,7 +582,12 @@ function Workflow() {
                   bg: "bg-[#F2B653] shadow-[0_0_14px_rgba(242,182,83,0.4)]",
                   out: "text-[#F2B653] font-bold",
                 },
-              ][i];
+              ][i] ?? {
+                border: "border-[#24485C]",
+                text: "text-[#D8E2E8]",
+                bg: "bg-[#15364A]",
+                out: "text-[#D8E2E8]",
+              };
 
               return (
                 <Reveal key={s.n} delay={i * 0.04}>

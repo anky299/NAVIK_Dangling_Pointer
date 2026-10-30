@@ -2,6 +2,8 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx",
     "vite.config.ts",
     "vitest.config.ts",
     "eslint.config.js"
@@ -17,6 +19,7 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": false,
     "noEmit": true,
+    "allowJs": true,
 
     "skipLibCheck": true,
     "strict": true,
