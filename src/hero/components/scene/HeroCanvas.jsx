@@ -30,10 +30,12 @@ const ShaderPrewarmer = () => {
  * Wrapped in React.memo to guarantee zero re-renders from parent state changes.
  */
 export const HeroCanvas = React.memo(() => {
+  const [isMounted, setIsMounted] = useState(false);
   const [isTabVisible, setIsTabVisible] = useState(true);
 
   // Pause rendering when browser tab is hidden to save GPU/CPU
   useEffect(() => {
+    setIsMounted(true);
     const handleVisibilityChange = () => {
       setIsTabVisible(!document.hidden);
     };
@@ -43,8 +45,9 @@ export const HeroCanvas = React.memo(() => {
     };
   }, []);
 
-  // SSR Guard: WebGL Canvas must only mount in browser DOM
-  if (typeof window === 'undefined') {
+  // SSR & Hydration Guard: Render empty container during SSR and initial hydration.
+  // Canvas mounts cleanly immediately upon client-side effect, eliminating React error #418.
+  if (!isMounted) {
     return <div className="navik-hero-canvas-container" />;
   }
 

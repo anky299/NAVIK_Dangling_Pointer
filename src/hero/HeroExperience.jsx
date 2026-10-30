@@ -74,7 +74,7 @@ export const HeroExperience = ({
         {overlayState === 'intro' && (
           <motion.div
             key="hero-brand-overlay"
-            initial={{ opacity: 0 }}
+            initial={false}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}

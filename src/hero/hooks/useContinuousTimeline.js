@@ -34,13 +34,13 @@ export const useContinuousTimeline = ({
   autoPlay = true,
   checkSeenFlag = false
 } = {}) => {
-  const prefersReducedMotion = typeof window !== 'undefined' &&
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const [isFinished, setIsFinished] = useState(prefersReducedMotion);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
+    const prefersReducedMotion = typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     timelineState.reducedMotion = prefersReducedMotion;
     if (prefersReducedMotion) {
       timelineState.progress = 1.0;

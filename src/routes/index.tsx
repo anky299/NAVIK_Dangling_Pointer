@@ -46,24 +46,20 @@ export const Route = createFileRoute("/")({
  * Stage 3: Full Application Workspaces (/dashboard, /charter, etc.)
  */
 function IndexEntry() {
-  const [view, setView] = useState<"globe" | "landing">(() => {
-    if (typeof window === "undefined") return "globe";
+  // Deterministic initial state for consistent SSR and initial client hydration
+  const [view, setView] = useState<"globe" | "landing">("globe");
+
+  useEffect(() => {
+    // Check initial hash or query params safely on client mount
     const hash = window.location.hash;
     const search = new URLSearchParams(window.location.search);
     if (hash === "#landing" || search.get("skipIntro") === "true") {
-      return "landing";
+      setView("landing");
     }
-    return "globe";
-  });
-
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
 
     const handleHashOrPopState = () => {
-      const hash = window.location.hash;
-      if (hash === "#landing") {
+      const currentHash = window.location.hash;
+      if (currentHash === "#landing") {
         setView("landing");
       } else {
         setView("globe");
@@ -103,25 +99,12 @@ function IndexEntry() {
     setView("globe");
   }, []);
 
-  if (!hasMounted) {
-    if (view === "landing") {
-      return <Landing onReplayIntro={handleReplayIntro} />;
-    }
-    return (
-      <div className="relative h-screen w-screen overflow-hidden bg-[#010409]">
-        <HeroExperience
-          onEnterNavik={handleContinueToLanding}
-        />
-      </div>
-    );
-  }
-
   return (
     <AnimatePresence mode="wait">
       {view === "globe" && (
         <motion.div
           key="stage-globe"
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
@@ -136,7 +119,7 @@ function IndexEntry() {
       {view === "landing" && (
         <motion.div
           key="stage-landing"
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}

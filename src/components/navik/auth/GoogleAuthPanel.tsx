@@ -292,7 +292,7 @@ export function GoogleAuthPanel({
 
         {/* 5. Terms of Service and Privacy Policy Links */}
         <div className="mt-6 border-t border-[#15364A]/70 pt-4 text-center">
-          <p className="text-[0.68rem] text-[#78958F]">
+          <div className="text-[0.68rem] text-[#78958F]">
             By continuing, you agree to our{" "}
             <button
               type="button"
@@ -310,7 +310,7 @@ export function GoogleAuthPanel({
               Privacy Policy
             </button>
             .
-          </p>
+          </div>
         </div>
       </motion.div>
 
