@@ -57,7 +57,8 @@ function createFallbackTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
-  const ctx = canvas.getContext("2d")!;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return new THREE.CanvasTexture(canvas);
 
   // Deep oceanic canvas
   const grad = ctx.createLinearGradient(0, 0, 0, height);
@@ -92,7 +93,10 @@ function createTextSprite(text: string, color: string, fontSize = 28): THREE.Spr
   const canvas = document.createElement("canvas");
   canvas.width = 256;
   canvas.height = 64;
-  const ctx = canvas.getContext("2d")!;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    return new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true, opacity: 0 }));
+  }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.font = `600 ${fontSize}px "Inter", "Segoe UI", -apple-system, sans-serif`;
   ctx.fillStyle = color;

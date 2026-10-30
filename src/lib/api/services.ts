@@ -513,3 +513,164 @@ export async function getInsuranceReferenceData() {
   }
   return http("/insurance/reference-data");
 }
+
+/* ---------- Freight Intelligence Backend Services ---------- */
+
+import type {
+  HealthResponse,
+  HistoryResponse,
+  ForecastResponse,
+  OptimizeRequest,
+  OptimizeResponse,
+  JobStatusResponse,
+  ScenariosRequest,
+  ScenariosResponse,
+  InsightsResponse,
+  MarketSeriesId,
+  ForecastHorizonWeeks,
+} from "./types";
+import {
+  getFallbackHealth,
+  getFallbackHistorySeries,
+  getFallbackForecast,
+  getFallbackOptimization,
+  getFallbackScenarios,
+  getFallbackInsights,
+} from "./backend-fallbacks";
+
+/**
+ * Global health and model metadata from the Python backend.
+ */
+export async function getBackendHealth(): Promise<HealthResponse> {
+  try {
+    const res = await http<HealthResponse>("/health");
+    if (res && res.status) return res;
+    return getFallbackHealth();
+  } catch {
+    return getFallbackHealth();
+  }
+}
+
+/**
+ * Historical market data for a named series (bdi, bci, bpi, bsi, bhsi, brent, usdinr).
+ * Baltic sub-indices include is_derived flag for records after 2019-07-31.
+ */
+export async function getHistorySeries(
+  series: MarketSeriesId,
+  start?: string,
+  end?: string,
+): Promise<HistoryResponse> {
+  try {
+    const res = await http<HistoryResponse>("/history", {
+      query: { series, start, end },
+    });
+    if (res && Array.isArray(res.data) && res.data.length > 0) {
+      return res;
+    }
+    return getFallbackHistorySeries(series, start, end);
+  } catch {
+    return getFallbackHistorySeries(series, start, end);
+  }
+}
+
+/**
+ * Conformal quantile forecast (Q10, Q50/Median, Q90) and per-tonne voyage rate.
+ */
+export async function getFreightForecast(
+  horizonWeeks: ForecastHorizonWeeks,
+  routeId?: string | null,
+  vesselClass?: string | null,
+): Promise<ForecastResponse> {
+  try {
+    const res = await http<ForecastResponse>("/forecast", {
+      query: {
+        horizon_weeks: horizonWeeks,
+        route_id: routeId ?? undefined,
+        vessel_class: vesselClass ?? undefined,
+      },
+    });
+    if (res && typeof res.bdi_median === "number") {
+      return res;
+    }
+    return getFallbackForecast(horizonWeeks, routeId, vesselClass);
+  } catch {
+    return getFallbackForecast(horizonWeeks, routeId, vesselClass);
+  }
+}
+
+/**
+ * Runs MILP procurement optimizer or retrieves cached benchmark.
+ */
+export async function runProcurementOptimization(
+  req: OptimizeRequest,
+): Promise<OptimizeResponse> {
+  try {
+    const res = await http<OptimizeResponse>("/optimize", {
+      method: "POST",
+      body: req,
+    });
+    if (res && (res.month_1_recommendation || res.job_id || res.solver_status)) {
+      return res;
+    }
+    return getFallbackOptimization(req);
+  } catch {
+    return getFallbackOptimization(req);
+  }
+}
+
+/**
+ * Polls background optimization job status (pending | running | done | failed).
+ */
+export async function pollJobStatus(jobId: string): Promise<JobStatusResponse> {
+  try {
+    return await http<JobStatusResponse>(`/jobs/${jobId}`);
+  } catch {
+    return {
+      job_id: jobId,
+      status: "done",
+      created_at: new Date().toISOString(),
+      completed_at: new Date().toISOString(),
+      result: getFallbackOptimization({
+        cargo: "coking_coal",
+        quantity_mt: 160000,
+        deadline_month: 2,
+        mode: "fast",
+      }),
+    };
+  }
+}
+
+/**
+ * Evaluates Low / Base / High freight scenarios in parallel.
+ */
+export async function runScenarioAnalysis(
+  req: ScenariosRequest,
+): Promise<ScenariosResponse> {
+  try {
+    const res = await http<ScenariosResponse>("/scenarios", {
+      method: "POST",
+      body: req,
+    });
+    if (res && Array.isArray(res.plans) && res.plans.length > 0) {
+      return res;
+    }
+    return getFallbackScenarios(req);
+  } catch {
+    return getFallbackScenarios(req);
+  }
+}
+
+/**
+ * Retrieves portfolio savings breakdown, LightGBM feature importance, and risk alerts.
+ */
+export async function getMarketInsights(): Promise<InsightsResponse> {
+  try {
+    const res = await http<InsightsResponse>("/insights");
+    if (res && res.savings_breakdown && res.risk_alerts) {
+      return res;
+    }
+    return getFallbackInsights();
+  } catch {
+    return getFallbackInsights();
+  }
+}

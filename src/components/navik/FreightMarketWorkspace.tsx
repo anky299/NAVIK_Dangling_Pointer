@@ -96,6 +96,7 @@ import {
   BentoGauge,
   BentoSparkline,
 } from "./Bento";
+import { BackendMarketAnalytics } from "./BackendMarketAnalytics";
 import {
   buildRouteComparisons,
   computeBunkerImpact,
@@ -255,6 +256,9 @@ export function FreightMarketWorkspace() {
 
       {/* ============ KEY INDICATORS ============ */}
       {snapshot && <KeyIndicators snapshot={snapshot} />}
+
+      {/* ============ LIVE BACKEND ML FORECAST & BALTIC EXCHANGE ============ */}
+      <BackendMarketAnalytics />
 
       {/* ============ FREIGHT CHART ============ */}
       <FreightChart

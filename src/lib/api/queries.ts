@@ -65,3 +65,41 @@ export const insuranceAnalyticsQuery = (filters?: {
     queryFn: () => api.getInsuranceAnalytics(filters),
     staleTime: 60_000,
   });
+
+/* Freight Intelligence Backend Queries */
+export const backendHealthQuery = () =>
+  queryOptions({
+    queryKey: ["backend", "health"],
+    queryFn: api.getBackendHealth,
+    staleTime: 15_000,
+    refetchInterval: 30_000,
+  });
+
+export const historySeriesQuery = (
+  series: import("./types").MarketSeriesId,
+  start?: string,
+  end?: string,
+) =>
+  queryOptions({
+    queryKey: ["backend", "history", series, start, end],
+    queryFn: () => api.getHistorySeries(series, start, end),
+    staleTime: 60_000,
+  });
+
+export const freightForecastQuery = (
+  horizonWeeks: import("./types").ForecastHorizonWeeks,
+  routeId?: string | null,
+  vesselClass?: string | null,
+) =>
+  queryOptions({
+    queryKey: ["backend", "forecast", horizonWeeks, routeId, vesselClass],
+    queryFn: () => api.getFreightForecast(horizonWeeks, routeId, vesselClass),
+    staleTime: 60_000,
+  });
+
+export const insightsQuery = () =>
+  queryOptions({
+    queryKey: ["backend", "insights"],
+    queryFn: api.getMarketInsights,
+    staleTime: 60_000,
+  });

@@ -1,0 +1,469 @@
+# Maritime Routes, Vessels, Ports, Bunker, and Charter Index Configuration
+# SIH26006: Intelligent Freight Forecasting Model for Optimized Vessel Chartering (SAIL / Ministry of Steel)
+
+# ==============================================================================
+# 1. VESSEL CLASSES
+# ==============================================================================
+vessel_classes:
+  Handysize:
+    dwt: 35000                   # verify: standard Handysize DWT range is 10,000 - 40,000 MT
+    parcel_size_mt: 30000        # verify: typical parcel load after draft/stowage allowance
+    speed_knots_laden: 12.0      # verify: economical cruising speed laden
+    speed_knots_ballast: 12.5    # verify: economical cruising speed ballast
+    fuel_consumption_tpd: 18.0   # verify: metric tons VLSFO per day at sea
+    fuel_consumption_port_tpd: 2.5 # verify: metric tons VLSFO per day in port
+    hire_index: "bhsi"           # Baltic Handysize Index
+    max_draft_m: 10.0            # verify: typical fully laden draft
+
+  Supramax:
+    dwt: 58000                   # verify: standard Supramax DWT range is 50,000 - 65,000 MT
+    parcel_size_mt: 52000        # verify: typical cargo parcel load
+    speed_knots_laden: 12.5      # verify: economical cruising speed laden
+    speed_knots_ballast: 13.0    # verify: economical cruising speed ballast
+    fuel_consumption_tpd: 25.0   # verify: metric tons VLSFO per day at sea
+    fuel_consumption_port_tpd: 3.5 # verify: metric tons VLSFO per day in port
+    hire_index: "bsi"            # Baltic Supramax Index
+    max_draft_m: 12.8            # verify: typical fully laden draft
+
+  Panamax:
+    dwt: 75000                   # verify: standard Panamax / Kamsarmax DWT range is 65,000 - 85,000 MT
+    parcel_size_mt: 70000        # verify: typical cargo parcel load
+    speed_knots_laden: 13.0      # verify: economical cruising speed laden
+    speed_knots_ballast: 13.5    # verify: economical cruising speed ballast
+    fuel_consumption_tpd: 30.0   # verify: metric tons VLSFO per day at sea
+    fuel_consumption_port_tpd: 4.0 # verify: metric tons VLSFO per day in port
+    hire_index: "bpi"            # Baltic Panamax Index
+    max_draft_m: 14.2            # verify: typical fully laden draft
+
+  Capesize:
+    dwt: 170000                  # verify: standard Capesize DWT range is 150,000 - 180,000+ MT
+    parcel_size_mt: 155000       # verify: typical bulk coal parcel load
+    speed_knots_laden: 13.0      # verify: economical cruising speed laden
+    speed_knots_ballast: 13.5    # verify: economical cruising speed ballast
+    fuel_consumption_tpd: 48.0   # verify: metric tons VLSFO per day at sea
+    fuel_consumption_port_tpd: 5.5 # verify: metric tons VLSFO per day in port
+    hire_index: "bci"            # Baltic Capesize Index
+    max_draft_m: 18.2            # verify: typical fully laden draft
+
+# ==============================================================================
+# 2. PORTS (Origins & Indian East Coast Destinations)
+# ==============================================================================
+ports:
+  # Origin Loading Ports
+  Hay Point:
+    country: "Australia"
+    port_type: "origin"
+    load_days: 3.5               # verify: placeholder mechanized coal loading rate ~40,000 MT/day
+    port_cost_usd: 85000         # verify: placeholder port dues / pilotage / towage
+    max_vessel_class: "Capesize" # Deep-water offshore coal terminal
+
+  Newcastle:
+    country: "Australia"
+    port_type: "origin"
+    load_days: 3.0               # verify: placeholder coal terminal loading rate
+    port_cost_usd: 75000         # verify: placeholder port dues
+    max_vessel_class: "Capesize" # verify: Newcastle PWCS/NCIG accommodates Capesize
+
+  Hampton Roads:
+    country: "USA"
+    port_type: "origin"
+    load_days: 3.5               # verify: placeholder loading rate at Norfolk / Newport News
+    port_cost_usd: 110000        # verify: placeholder US East Coast port fees
+    max_vessel_class: "Capesize" # verify: 50ft channel accommodates up to Baby-Cape / Capesize
+
+  Nacala:
+    country: "Mozambique"
+    port_type: "origin"
+    load_days: 4.0               # verify: placeholder mechanized coal berth rate
+    port_cost_usd: 65000         # verify: placeholder port fees
+    max_vessel_class: "Capesize" # verify: Nacala-a-Velha deep-water port accommodates Capesize
+
+  Beira:
+    country: "Mozambique"
+    port_type: "origin"
+    load_days: 5.0               # verify: draft-restricted river port loading rate
+    port_cost_usd: 55000         # verify: placeholder port fees
+    max_vessel_class: "Supramax" # verify: Beira has shallow access channel (~8.0m draft restriction)
+
+  Vanino:
+    country: "Russia"
+    port_type: "origin"
+    load_days: 4.0               # verify: Far East coal terminal loading rate
+    port_cost_usd: 70000         # verify: placeholder Russian port dues
+    max_vessel_class: "Capesize" # verify: Muchke Bay terminal handles Capesize
+
+  Samarinda / Taboneo:
+    country: "Indonesia"
+    port_type: "origin"
+    load_days: 4.5               # verify: barge floating crane transshipment loading rate
+    port_cost_usd: 45000         # verify: placeholder Indonesian anchorage dues
+    max_vessel_class: "Capesize" # verify: open anchorage lightering accommodates Capesize; river is Handy/Supramax
+
+  # Destination Ports (Indian East Coast)
+  Visakhapatnam:
+    country: "India"
+    port_type: "destination"
+    discharge_days: 3.5          # verify: placeholder mechanized discharge rate
+    port_cost_usd: 80000         # verify: placeholder Indian port dues
+    max_vessel_class: "Capesize" # Outer harbour ~18.1m draft allows Capesize; inner is Panamax
+    max_draft_m: 18.1            # verify: Outer Harbour permissible draft
+
+  Paradip:
+    country: "India"
+    port_type: "destination"
+    discharge_days: 3.5          # verify: placeholder coal berth discharge rate
+    port_cost_usd: 85000         # verify: placeholder Indian port dues
+    max_vessel_class: "Capesize" # Mechanized coal berths accommodate geared/partially laden Capesize (~16.0m draft)
+    max_draft_m: 16.0            # verify: max permissible draft
+
+  Gangavaram:
+    country: "India"
+    port_type: "destination"
+    discharge_days: 3.0          # verify: deep-water mechanized discharge rate
+    port_cost_usd: 90000         # verify: placeholder private port tariffs
+    max_vessel_class: "Capesize" # Deep-water berths up to ~19.5m draft accommodate full Capesize
+    max_draft_m: 19.5            # verify: max permissible draft
+
+  Haldia:
+    country: "India"
+    port_type: "destination"
+    discharge_days: 4.5          # verify: river lock & tidal restricted discharge rate
+    port_cost_usd: 60000         # verify: placeholder Kolkata Port Authority dues
+    max_vessel_class: "Supramax" # verify: strict river navigation draft ~7.5-8.5m excludes Panamax/Capesize without lightering
+    max_draft_m: 8.5             # verify: maximum tidal draft
+
+  Dhamra:
+    country: "India"
+    port_type: "destination"
+    discharge_days: 3.0          # verify: mechanized deep-water coal berth discharge rate
+    port_cost_usd: 85000         # verify: placeholder Adani Dhamra port tariffs
+    max_vessel_class: "Capesize" # Deep-water ~17.5-18.0m draft accommodates full Capesize
+    max_draft_m: 18.0            # verify: max permissible draft
+
+  Krishnapatnam:
+    country: "India"
+    port_type: "destination"
+    discharge_days: 3.0          # verify: mechanized deep-water coal discharge rate
+    port_cost_usd: 80000         # verify: placeholder Adani Krishnapatnam port tariffs
+    max_vessel_class: "Capesize" # verify: deep-water berths ~18.5m draft accommodate Capesize
+    max_draft_m: 18.5            # verify: max permissible draft
+
+# ==============================================================================
+# 3. ROUTES
+# Origin ports (7): Hay Point, Newcastle, Hampton Roads, Nacala, Beira, Vanino, Samarinda / Taboneo
+# Destination ports (6): Visakhapatnam, Paradip, Gangavaram, Haldia, Dhamra, Krishnapatnam
+# Total: 42 routes
+# ==============================================================================
+routes:
+  # --- Origin 1: Hay Point, Australia ---
+  - route_id: "HAY_VTZ"
+    origin_port: "Hay Point"
+    destination_port: "Visakhapatnam"
+    distance_nm: 4680            # verify: nautical distance via Torres Strait / Malacca
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "HAY_PRT"
+    origin_port: "Hay Point"
+    destination_port: "Paradip"
+    distance_nm: 4800            # verify: nautical distance via Torres Strait / Malacca
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "HAY_GVR"
+    origin_port: "Hay Point"
+    destination_port: "Gangavaram"
+    distance_nm: 4690            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "HAY_HLD"
+    origin_port: "Hay Point"
+    destination_port: "Haldia"
+    distance_nm: 4950            # verify: nautical distance up Hooghly river
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Haldia draft restricted to max Supramax
+
+  - route_id: "HAY_DHM"
+    origin_port: "Hay Point"
+    destination_port: "Dhamra"
+    distance_nm: 4850            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "HAY_KRI"
+    origin_port: "Hay Point"
+    destination_port: "Krishnapatnam"
+    distance_nm: 4450            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  # --- Origin 2: Newcastle, Australia ---
+  - route_id: "NEW_VTZ"
+    origin_port: "Newcastle"
+    destination_port: "Visakhapatnam"
+    distance_nm: 5080            # verify: nautical distance via south / Bass Strait or northern route
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  - route_id: "NEW_PRT"
+    origin_port: "Newcastle"
+    destination_port: "Paradip"
+    distance_nm: 5200            # verify: reference route baseline distance
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  - route_id: "NEW_GVR"
+    origin_port: "Newcastle"
+    destination_port: "Gangavaram"
+    distance_nm: 5090            # verify: nautical distance
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  - route_id: "NEW_HLD"
+    origin_port: "Newcastle"
+    destination_port: "Haldia"
+    distance_nm: 5350            # verify: nautical distance
+    eligible_vessel_classes: ["Supramax"] # verify: distance > 5000 nm excludes Handysize; Haldia draft excludes Panamax/Capesize
+
+  - route_id: "NEW_DHM"
+    origin_port: "Newcastle"
+    destination_port: "Dhamra"
+    distance_nm: 5250            # verify: nautical distance
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  - route_id: "NEW_KRI"
+    origin_port: "Newcastle"
+    destination_port: "Krishnapatnam"
+    distance_nm: 4850            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  # --- Origin 3: Hampton Roads, USA ---
+  - route_id: "HMP_VTZ"
+    origin_port: "Hampton Roads"
+    destination_port: "Visakhapatnam"
+    distance_nm: 10100           # verify: nautical distance via Cape of Good Hope
+    eligible_vessel_classes: ["Panamax", "Capesize"] # verify: distance > 7000 nm excludes Handysize and Supramax
+
+  - route_id: "HMP_PRT"
+    origin_port: "Hampton Roads"
+    destination_port: "Paradip"
+    distance_nm: 10200           # verify: nautical distance via Cape of Good Hope
+    eligible_vessel_classes: ["Panamax", "Capesize"] # verify: distance > 7000 nm excludes Handysize and Supramax
+
+  - route_id: "HMP_GVR"
+    origin_port: "Hampton Roads"
+    destination_port: "Gangavaram"
+    distance_nm: 10110           # verify: nautical distance
+    eligible_vessel_classes: ["Panamax", "Capesize"] # verify: distance > 7000 nm excludes Handysize and Supramax
+
+  - route_id: "HMP_HLD"
+    origin_port: "Hampton Roads"
+    destination_port: "Haldia"
+    distance_nm: 10350           # verify: nautical distance
+    eligible_vessel_classes: [] # verify: distance > 7000 nm excludes Handy/Supra; Haldia river draft excludes Panamax/Capesize (requires lightering)
+
+  - route_id: "HMP_DHM"
+    origin_port: "Hampton Roads"
+    destination_port: "Dhamra"
+    distance_nm: 10250           # verify: nautical distance
+    eligible_vessel_classes: ["Panamax", "Capesize"] # verify: distance > 7000 nm excludes Handysize and Supramax
+
+  - route_id: "HMP_KRI"
+    origin_port: "Hampton Roads"
+    destination_port: "Krishnapatnam"
+    distance_nm: 9850            # verify: nautical distance via Cape of Good Hope
+    eligible_vessel_classes: ["Panamax", "Capesize"] # verify: distance > 7000 nm excludes Handysize and Supramax
+
+  # --- Origin 4: Nacala, Mozambique ---
+  - route_id: "NAC_VTZ"
+    origin_port: "Nacala"
+    destination_port: "Visakhapatnam"
+    distance_nm: 3300            # verify: nautical distance across Indian Ocean
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "NAC_PRT"
+    origin_port: "Nacala"
+    destination_port: "Paradip"
+    distance_nm: 3400            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "NAC_GVR"
+    origin_port: "Nacala"
+    destination_port: "Gangavaram"
+    distance_nm: 3310            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "NAC_HLD"
+    origin_port: "Nacala"
+    destination_port: "Haldia"
+    distance_nm: 3550            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Haldia draft restricted to max Supramax
+
+  - route_id: "NAC_DHM"
+    origin_port: "Nacala"
+    destination_port: "Dhamra"
+    distance_nm: 3450            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "NAC_KRI"
+    origin_port: "Nacala"
+    destination_port: "Krishnapatnam"
+    distance_nm: 3050            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  # --- Origin 5: Beira, Mozambique ---
+  - route_id: "BEI_VTZ"
+    origin_port: "Beira"
+    destination_port: "Visakhapatnam"
+    distance_nm: 3200            # verify: nautical distance from Beira across Indian Ocean
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Beira shallow berth limits origin to Supramax
+
+  - route_id: "BEI_PRT"
+    origin_port: "Beira"
+    destination_port: "Paradip"
+    distance_nm: 3300            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Beira shallow berth limits origin to Supramax
+
+  - route_id: "BEI_GVR"
+    origin_port: "Beira"
+    destination_port: "Gangavaram"
+    distance_nm: 3210            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Beira shallow berth limits origin to Supramax
+
+  - route_id: "BEI_HLD"
+    origin_port: "Beira"
+    destination_port: "Haldia"
+    distance_nm: 3450            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Both Beira and Haldia draft restricted
+
+  - route_id: "BEI_DHM"
+    origin_port: "Beira"
+    destination_port: "Dhamra"
+    distance_nm: 3350            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Beira shallow berth limits origin to Supramax
+
+  - route_id: "BEI_KRI"
+    origin_port: "Beira"
+    destination_port: "Krishnapatnam"
+    distance_nm: 2950            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Beira shallow berth limits origin to Supramax
+
+  # --- Origin 6: Vanino, Russia ---
+  - route_id: "VAN_VTZ"
+    origin_port: "Vanino"
+    destination_port: "Visakhapatnam"
+    distance_nm: 5580            # verify: nautical distance from Russian Far East via Sea of Japan / Malacca
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  - route_id: "VAN_PRT"
+    origin_port: "Vanino"
+    destination_port: "Paradip"
+    distance_nm: 5700            # verify: nautical distance
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  - route_id: "VAN_GVR"
+    origin_port: "Vanino"
+    destination_port: "Gangavaram"
+    distance_nm: 5590            # verify: nautical distance
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  - route_id: "VAN_HLD"
+    origin_port: "Vanino"
+    destination_port: "Haldia"
+    distance_nm: 5850            # verify: nautical distance
+    eligible_vessel_classes: ["Supramax"] # verify: distance > 5000 nm excludes Handysize; Haldia draft excludes Panamax/Capesize
+
+  - route_id: "VAN_DHM"
+    origin_port: "Vanino"
+    destination_port: "Dhamra"
+    distance_nm: 5750            # verify: nautical distance
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  - route_id: "VAN_KRI"
+    origin_port: "Vanino"
+    destination_port: "Krishnapatnam"
+    distance_nm: 5350            # verify: nautical distance
+    eligible_vessel_classes: ["Supramax", "Panamax", "Capesize"] # verify: distance > 5000 nm excludes Handysize
+
+  # --- Origin 7: Samarinda / Taboneo, Indonesia ---
+  - route_id: "IDN_VTZ"
+    origin_port: "Samarinda / Taboneo"
+    destination_port: "Visakhapatnam"
+    distance_nm: 2480            # verify: nautical distance via Java Sea / Malacca / Andaman
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "IDN_PRT"
+    origin_port: "Samarinda / Taboneo"
+    destination_port: "Paradip"
+    distance_nm: 2600            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "IDN_GVR"
+    origin_port: "Samarinda / Taboneo"
+    destination_port: "Gangavaram"
+    distance_nm: 2490            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "IDN_HLD"
+    origin_port: "Samarinda / Taboneo"
+    destination_port: "Haldia"
+    distance_nm: 2750            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax"] # verify: Haldia draft restricted to max Supramax
+
+  - route_id: "IDN_DHM"
+    origin_port: "Samarinda / Taboneo"
+    destination_port: "Dhamra"
+    distance_nm: 2650            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+  - route_id: "IDN_KRI"
+    origin_port: "Samarinda / Taboneo"
+    destination_port: "Krishnapatnam"
+    distance_nm: 2250            # verify: nautical distance
+    eligible_vessel_classes: ["Handysize", "Supramax", "Panamax", "Capesize"]
+
+# ==============================================================================
+# 4. BUNKER PROXY CONFIGURATION
+# ==============================================================================
+bunker:
+  # ASSUMPTION: Brent crude is quoted in USD per barrel (bbl).
+  # Marine Very Low Sulphur Fuel Oil (VLSFO) is traded in USD per metric ton (MT).
+  # 1 metric ton of crude oil ≈ 7.33 barrels.
+  # Historical refining crack spread for VLSFO over crude typically ranges from 1.05 to 1.25.
+  # Effective factor = 7.33 * 1.15 ≈ 8.43 USD/MT per USD/bbl of Brent.
+  # verify: calibrated against Singapore VLSFO spot benchmark vs ICE Brent.
+  brent_to_vlsfo_factor: 8.5     # verify: multiplier (USD/MT VLSFO = Brent_USD_per_bbl * factor)
+
+# Voyage charter calculation options
+charter_options:
+  round_trip: true               # verify: true = ballast return leg included; false = one-way laden voyage
+
+# ==============================================================================
+# 5. BALTIC INDEX TO DAILY TIME CHARTER EQUIVALENT (TCE) HIRE MAPPING
+#
+# IMPORTANT: Baltic sub-indices (BHSI, BSI, BPI, BCI) are quoted in index points, NOT USD/day.
+#
+# Formula:
+#   USD per day = index points * factor
+#
+# Source & Methodology Notes:
+#   - BCI (Capesize): 9.07 USD/day per point (BCI 5TC / BCI index points historical relationship)
+#   - BPI (Panamax): 9.00 USD/day per point (BPI 4TC / BPI 82 historical multiplier)
+#   - BSI (Supramax): 12.64 USD/day per point (BSI 10TC / BSI historical relationship)
+#   - BHSI (Handysize): 18.00 USD/day per point (BHSI 7TC / BHSI 38 historical relationship)
+#
+# NOTE: These linear conversion factors are an ASSUMPTION for historical data derived
+# from typical Baltic Exchange Time Charter average relationships. Because daily spot
+# assessments vary with route dynamics and fleet supply, actual historical hire values
+# derived with this method are approximate and must be verified against actual SAIL
+# charter contract fixtures when internal records become available.
+# ==============================================================================
+index_to_hire:
+  bci:
+    vessel_class: "Capesize"
+    index_name: "Baltic Capesize Index"
+    factor: 9.07                 # ASSUMPTION / verify: USD per day = bci * 9.07
+  bpi:
+    vessel_class: "Panamax"
+    index_name: "Baltic Panamax Index"
+    factor: 9.00                 # ASSUMPTION / verify: USD per day = bpi * 9.00
+  bsi:
+    vessel_class: "Supramax"
+    index_name: "Baltic Supramax Index"
+    factor: 12.64                # ASSUMPTION / verify: USD per day = bsi * 12.64
+  bhsi:
+    vessel_class: "Handysize"
+    index_name: "Baltic Handysize Index"
+    factor: 18.00                # ASSUMPTION / verify: USD per day = bhsi * 18.00

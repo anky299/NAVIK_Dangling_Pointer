@@ -1,0 +1,48 @@
+# config/alerts.yaml — Thresholds for rule-based risk alerts computed from the calibrated forecast.
+# Each rule has a name, severity (info | warning | high), and numeric threshold.
+
+alerts:
+  # Alert when the q90 (upper band) at 4-week horizon is >= threshold % above the current index
+  upper_band_above_current:
+    severity: warning
+    threshold_pct: 15.0
+    horizon_weeks: 4
+    description: >
+      Upper forecast band (q90) at 4 weeks is more than {threshold}% above current BDI.
+
+  # Alert when q90–q10 band width at 4 weeks exceeds threshold % of the q50 median
+  band_width_wide:
+    severity: info
+    threshold_pct: 40.0
+    horizon_weeks: 4
+    description: >
+      Forecast band width (q90 minus q10) at 4 weeks exceeds {threshold}% of the median forecast.
+
+  # Alert when 12-week BDI rolling volatility (std) is above the historical 80th percentile
+  volatility_high:
+    severity: high
+    threshold_percentile: 80
+    rolling_window_weeks: 12
+    description: >
+      BDI 12-week rolling volatility is above its historical {percentile}th percentile.
+
+  # Alert when q90 at 12-week horizon exceeds 30% above current BDI (long-horizon tail)
+  long_horizon_tail_risk:
+    severity: warning
+    threshold_pct: 30.0
+    horizon_weeks: 12
+    description: >
+      Upper forecast band (q90) at 12 weeks is more than {threshold}% above current BDI —
+      tail-risk exposure is elevated at a longer horizon.
+
+  # Alert when 4-week band is wider than it was 4 weeks ago (widening uncertainty)
+  band_widening:
+    severity: info
+    widening_threshold_pct: 10.0
+    description: >
+      Forecast band width has widened by more than {threshold}% compared to four weeks ago.
+
+# Disclaimer appended to every alert
+disclaimer: >
+  Based on a forecast with limited accuracy beyond 4 weeks; treat as a prompt to review,
+  not a prediction.

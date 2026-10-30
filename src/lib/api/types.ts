@@ -599,3 +599,166 @@ export interface AuditEvent {
   provenance?: Provenance;
   relatedPath?: string;
 }
+
+/* ---------- Freight Intelligence Backend Integration Types ---------- */
+
+export interface HealthResponse {
+  status: "ok" | string;
+  data_last_updated: string | null;
+  model_version: string;
+  cache_age_seconds: number | null;
+}
+
+export type MarketSeriesId = "bdi" | "bci" | "bpi" | "bsi" | "bhsi" | "brent" | "usdinr";
+
+export interface HistoryPoint {
+  date: string;
+  value: number;
+  is_derived: boolean;
+}
+
+export interface HistoryResponse {
+  series: MarketSeriesId | string;
+  count: number;
+  data: HistoryPoint[];
+}
+
+export type ForecastHorizonWeeks = 1 | 4 | 8 | 12;
+
+export interface ForecastResponse {
+  horizon_weeks: ForecastHorizonWeeks | number;
+  bdi_q10: number;
+  bdi_median: number;
+  bdi_q90: number;
+  route_id?: string | null;
+  vessel_class?: string | null;
+  per_tonne_rate_usd?: number | null;
+  calibration_note?: string;
+  served_from_cache?: boolean;
+  is_cached_fallback?: boolean;
+  data_flag?: string;
+  warning?: string;
+  data_note?: string;
+}
+
+export interface OptimizeOverrides {
+  fuel_price_pct?: number;
+  demand_pct?: number;
+}
+
+export interface OptimizeRequest {
+  cargo: "coking_coal" | "thermal_coal" | string;
+  quantity_mt: number;
+  deadline_month: number;
+  objective?: "mean" | "minimax";
+  scenario_weights?: { low: number; base: number; high: number };
+  overrides?: OptimizeOverrides;
+  mode?: "cached" | "fast" | "full";
+}
+
+export interface Month1Recommendation {
+  cargo: string;
+  origin: string;
+  port: string;
+  vessel_class: string;
+  charter_mode: string;
+  voyages: number;
+  tonnes: number;
+}
+
+export interface CostBreakdown {
+  cargo: number;
+  freight: number;
+  freight_by_scenario: Record<string, number>;
+  period_hire: number;
+  demurrage: number;
+  inventory: number;
+  unmet: number;
+  total_mean: number;
+  total_by_scenario: Record<string, number>;
+}
+
+export interface OptimizeResponse {
+  job_id?: string | null;
+  served_from_cache: boolean;
+  cache_timestamp?: string | null;
+  solver_status: string;
+  solver_gap_pct: number;
+  solve_time_seconds: number;
+  month_1_recommendation?: Month1Recommendation[] | null;
+  cost_breakdown?: CostBreakdown | null;
+  savings_vs_naive_baseline?: number | null;
+  savings_vs_landed_cost_baseline?: number | null;
+  data_note: string;
+  message?: string | null;
+}
+
+export interface JobStatusResponse {
+  job_id: string;
+  status: "pending" | "running" | "done" | "failed";
+  created_at: string;
+  completed_at?: string | null;
+  result?: OptimizeResponse | null;
+  error?: string | null;
+}
+
+export interface ScenariosRequest {
+  cargo: "coking_coal" | "thermal_coal" | string;
+  quantity_mt: number;
+  deadline_month: number;
+  scenario_weights?: { low: number; base: number; high: number };
+  overrides?: OptimizeOverrides;
+  mode?: "cached" | "fast" | "full";
+}
+
+export interface ScenarioPlan {
+  scenario: string;
+  objective_value: number;
+  cost_breakdown: CostBreakdown;
+  month_1_recommendation?: Month1Recommendation[] | null;
+  solver_status: string;
+  solver_gap_pct: number;
+  solve_time_seconds: number;
+}
+
+export interface ScenariosResponse {
+  plans: ScenarioPlan[];
+  cost_differences: Record<string, number>;
+  data_note: string;
+}
+
+export interface SavingsBreakdown {
+  vs_landed_cost_total: number;
+  vs_naive_baseline_total: number;
+  cargo: number;
+  freight: number;
+  period_hire: number;
+  demurrage: number;
+  inventory: number;
+  unmet: number;
+}
+
+export interface FeatureImportanceItem {
+  feature: string;
+  label: string;
+  importance: number;
+  rank: number;
+}
+
+export interface RiskAlert {
+  rule: string;
+  severity: "info" | "warning" | "high";
+  headline: string;
+  detail: string;
+  disclaimer: string;
+}
+
+export interface InsightsResponse {
+  savings_breakdown: SavingsBreakdown;
+  feature_importance: Record<string, FeatureImportanceItem[]>;
+  risk_alerts: RiskAlert[];
+  forecast_coverage?: string | null;
+  unmet_demand_mt: number;
+  cache_timestamp?: string | null;
+  data_note: string;
+}

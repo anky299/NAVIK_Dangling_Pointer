@@ -1,0 +1,1 @@
+{"horizon_weeks": 8, "bdi_q10": 913.8, "bdi_median": 1702.4, "bdi_q90": 3097.2, "route_id": "NAC_DHM", "vessel_class": "Supramax", "per_tonne_rate_usd": 19.59, "calibration_note": "Calibrated via split-conformal quantile regression on 20 test folds. Intended interval coverage: 80%.", "_cached_at": "2026-10-30T11:03:29.568774+00:00"}

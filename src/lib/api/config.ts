@@ -13,9 +13,9 @@ import type { ApiMode } from "./types";
 const env = import.meta.env as Record<string, string | undefined>;
 
 export const API_CONFIG = {
-  baseUrl: env["VITE_NAVIK_API_BASE_URL"] ?? "http://localhost:8000/api/v1",
+  baseUrl: (env["VITE_NAVIK_API_BASE_URL"] ?? "http://localhost:8000").replace(/\/$/, ""),
   mode: (env["VITE_NAVIK_API_MODE"] === "live" ? "live" : "demo") as ApiMode,
-  timeoutMs: 20_000,
+  timeoutMs: 60_000,
   /** Artificial latency for demo calls that represent heavy computation (ms). */
   demoLatencyMs: 650,
 } as const;

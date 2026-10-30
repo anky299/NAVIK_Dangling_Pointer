@@ -61,6 +61,7 @@ import {
   BentoHeader,
   BentoSparkline,
 } from "./Bento";
+import { BackendInsightsCard } from "./BackendInsightsCard";
 import heroCarrier from "@/assets/hero-carrier.jpg";
 import portTerminal from "@/assets/port-terminal.jpg";
 
@@ -730,6 +731,9 @@ export function CommandDashboardWorkspace() {
           </div>
         </BentoCard>
       </div>
+
+      {/* Live Machine Learning Feature Importance & Portfolio Value Insights */}
+      <BackendInsightsCard />
 
       {/* 5. Operational Risk Alerts Feed */}
       <BentoCard glowColor="orange" className="p-5">

@@ -1,0 +1,1 @@
+{"horizon_weeks": 12, "bdi_q10": 1221.8, "bdi_median": 1886.2, "bdi_q90": 2855.2, "route_id": "NAC_DHM", "vessel_class": "Capesize", "per_tonne_rate_usd": 7.86, "calibration_note": "Calibrated via split-conformal quantile regression on 20 test folds. Intended interval coverage: 80%.", "_cached_at": "2026-10-30T11:03:28.844031+00:00"}

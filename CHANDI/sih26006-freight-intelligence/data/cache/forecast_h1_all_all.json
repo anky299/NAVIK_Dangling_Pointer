@@ -1,0 +1,1 @@
+{"horizon_weeks": 1, "bdi_q10": 2694.3, "bdi_median": 2950.1, "bdi_q90": 3138.6, "route_id": null, "vessel_class": null, "per_tonne_rate_usd": null, "calibration_note": "Calibrated via split-conformal quantile regression on 21 test folds. Intended interval coverage: 80%.", "_cached_at": "2026-10-30T11:49:55.636550+00:00"}

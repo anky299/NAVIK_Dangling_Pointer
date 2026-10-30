@@ -1,0 +1,1 @@
+{"horizon_weeks": 4, "bdi_q10": 1875.8, "bdi_median": 2071.1, "bdi_q90": 2878.1, "route_id": "HAY_VTZ", "vessel_class": "Panamax", "per_tonne_rate_usd": 18.7, "calibration_note": "Calibrated via split-conformal quantile regression on 20 test folds. Intended interval coverage: 80%.", "_cached_at": "2026-10-30T11:06:06.301532+00:00"}

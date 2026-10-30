@@ -22,6 +22,7 @@ import {
   ChevronDown,
   Clock,
   Compass,
+  Cpu,
   Fuel,
   Info,
   Layers,
@@ -81,6 +82,7 @@ import {
   Metric,
 } from "./primitives";
 import { BentoCard, BentoGrid, BentoGauge, BentoFlowBar } from "./Bento";
+import { BackendOptimizerPanel } from "./BackendOptimizerPanel";
 
 /* ═══════════════════════════════════════════════
    Constants
@@ -137,6 +139,7 @@ function validate(req: CharterRequest): FormErrors {
    ═══════════════════════════════════════════════ */
 
 export function CharterWorkspace() {
+  const [workspaceMode, setWorkspaceMode] = useState<"pipeline" | "optimizer">("pipeline");
   const [stage, setStage] = useState(1);
   const [request, setRequest] = useState<CharterRequest>({ ...DEFAULT_REQUEST });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -233,143 +236,187 @@ export function CharterWorkspace() {
         </div>
       </div>
 
-      {/* Stage stepper */}
-      <nav aria-label="Charter pipeline stages" className="mb-8">
-        <ol className="flex items-center gap-1 overflow-x-auto pb-2 no-scrollbar">
-          {STAGES.map((s, i) => {
-            const done = report && s.id < stage;
-            const active = s.id === stage;
-            const accessible = s.id === 1 || !!report;
-            const Icon = s.icon;
-            return (
-              <li key={s.id} className="flex items-center gap-1">
-                {i > 0 && (
-                  <div
-                    className={cn(
-                      "hidden h-px w-6 sm:block md:w-10",
-                      done ? "bg-[#35BFC3]" : "bg-[#24485C]",
-                    )}
-                  />
-                )}
-                <button
-                  type="button"
-                  onClick={() => goToStage(s.id)}
-                  disabled={!accessible}
-                  aria-current={active ? "step" : undefined}
-                  className={cn(
-                    "group flex items-center gap-2 whitespace-nowrap rounded-lg px-3.5 py-2 text-xs font-medium transition-colors border",
-                    active
-                      ? "border-[#F2B653] bg-[#15364A] text-[#F3EEE5] shadow-sm font-semibold"
-                      : done
-                        ? "border-[#24485C] bg-[#0D2233] text-[#35BFC3] hover:text-[#F3EEE5]"
-                        : accessible
-                          ? "border-[#24485C]/60 bg-[#0D2233]/60 text-[#D8E2E8] hover:text-[#F3EEE5]"
-                          : "border-transparent text-[#D8E2E8]/40 cursor-not-allowed",
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "flex size-6 shrink-0 items-center justify-center rounded-full border text-[0.65rem] font-bold transition-colors",
-                      active
-                        ? "border-[#F2B653] bg-[#F2B653] text-[#081827]"
-                        : done
-                          ? "border-[#35BFC3] bg-[#35BFC3]/20 text-[#35BFC3]"
-                          : "border-[#24485C] text-[#D8E2E8]",
-                    )}
-                  >
-                    {done ? <Check className="size-3" /> : s.id}
-                  </span>
-                  <span className="hidden sm:inline">{s.label}</span>
-                  <Icon className={cn("size-3.5 sm:hidden", active ? "text-[#F2B653]" : "")} />
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
+      {/* Mode Switcher */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#24485C] bg-[#081827] p-2.5">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setWorkspaceMode("pipeline")}
+            className={cn(
+              "flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-mono font-medium transition-colors",
+              workspaceMode === "pipeline"
+                ? "bg-[#35BFC3] text-[#081827] font-bold shadow-sm"
+                : "text-[#78958F] hover:text-[#F3EEE5]",
+            )}
+          >
+            <Navigation className="size-3.5" />
+            <span>Charter Decision Pipeline (5-Stage)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setWorkspaceMode("optimizer")}
+            className={cn(
+              "flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-mono font-medium transition-colors",
+              workspaceMode === "optimizer"
+                ? "bg-[#F2B653] text-[#081827] font-bold shadow-sm"
+                : "text-[#78958F] hover:text-[#F3EEE5]",
+            )}
+          >
+            <Cpu className="size-3.5" />
+            <span>MILP Procurement Optimizer (Live Backend)</span>
+          </button>
+        </div>
 
-      {/* Stage content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={stage}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {stage === 1 && (
-            <CargoIntake
-              request={request}
-              errors={errors}
-              updateReq={updateReq}
-              onNext={handleNext}
-            />
-          )}
-          {stage === 2 && report && (
-            <VesselFeasibility
-              report={report}
-              request={request}
-              feasFilter={feasFilter}
-              setFeasFilter={setFeasFilter}
-              onPrev={handlePrev}
-              onNext={handleNext}
-            />
-          )}
-          {stage === 3 && report && (
-            <RouteVoyage
-              report={report}
-              request={request}
-              onPrev={handlePrev}
-              onNext={handleNext}
-            />
-          )}
-          {stage === 4 && report && (
-            <LandedCost
-              report={report}
-              request={request}
-              sortKey={sortKey}
-              sortDir={sortDir}
-              setSortKey={setSortKey}
-              setSortDir={setSortDir}
-              onPrev={handlePrev}
-              onNext={handleNext}
-            />
-          )}
-          {stage === 5 && report && (
-            <Recommendation
-              report={report}
-              request={request}
-              onPrev={handlePrev}
-              onRerun={handleRerun}
-              onEdit={() => setStage(1)}
-            />
-          )}
-          {stage > 1 && !report && (
-            <div className="flex flex-col items-center gap-4 py-20 text-center">
-              {isAnalysing ? (
-                <>
-                  <RefreshCw className="size-8 animate-spin text-copper" />
-                  <p className="text-sm text-muted-foreground">Running simulation…</p>
-                </>
-              ) : (
-                <>
-                  <AlertTriangle className="size-8 text-brass" />
-                  <p className="text-sm text-muted-foreground">
-                    No analysis results. Submit cargo requirements first.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setStage(1)}
-                    className="mt-2 inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm hover:bg-accent"
-                  >
-                    <ArrowLeft className="size-3.5" /> Back to intake
-                  </button>
-                </>
+        <div className="hidden sm:flex items-center gap-2 font-mono text-[0.7rem] text-[#78958F] pr-2">
+          <span>Mathematical Programming</span>
+          <span className="text-[#24485C]">•</span>
+          <span>HiGHS / PuLP</span>
+        </div>
+      </div>
+
+      {workspaceMode === "optimizer" ? (
+        <BackendOptimizerPanel />
+      ) : (
+        <>
+          {/* Stage stepper */}
+          <nav aria-label="Charter pipeline stages" className="mb-8">
+            <ol className="flex items-center gap-1 overflow-x-auto pb-2 no-scrollbar">
+              {STAGES.map((s, i) => {
+                const done = report && s.id < stage;
+                const active = s.id === stage;
+                const accessible = s.id === 1 || !!report;
+                const Icon = s.icon;
+                return (
+                  <li key={s.id} className="flex items-center gap-1">
+                    {i > 0 && (
+                      <div
+                        className={cn(
+                          "hidden h-px w-6 sm:block md:w-10",
+                          done ? "bg-[#35BFC3]" : "bg-[#24485C]",
+                        )}
+                      />
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => goToStage(s.id)}
+                      disabled={!accessible}
+                      aria-current={active ? "step" : undefined}
+                      className={cn(
+                        "group flex items-center gap-2 whitespace-nowrap rounded-lg px-3.5 py-2 text-xs font-medium transition-colors border",
+                        active
+                          ? "border-[#F2B653] bg-[#15364A] text-[#F3EEE5] shadow-sm font-semibold"
+                          : done
+                            ? "border-[#24485C] bg-[#0D2233] text-[#35BFC3] hover:text-[#F3EEE5]"
+                            : accessible
+                              ? "border-[#24485C]/60 bg-[#0D2233]/60 text-[#D8E2E8] hover:text-[#F3EEE5]"
+                              : "border-transparent text-[#D8E2E8]/40 cursor-not-allowed",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "flex size-6 shrink-0 items-center justify-center rounded-full border text-[0.65rem] font-bold transition-colors",
+                          active
+                            ? "border-[#F2B653] bg-[#F2B653] text-[#081827]"
+                            : done
+                              ? "border-[#35BFC3] bg-[#35BFC3]/20 text-[#35BFC3]"
+                              : "border-[#24485C] text-[#D8E2E8]",
+                        )}
+                      >
+                        {done ? <Check className="size-3" /> : s.id}
+                      </span>
+                      <span className="hidden sm:inline">{s.label}</span>
+                      <Icon className={cn("size-3.5 sm:hidden", active ? "text-[#F2B653]" : "")} />
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </nav>
+
+          {/* Stage content */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={stage}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {stage === 1 && (
+                <CargoIntake
+                  request={request}
+                  errors={errors}
+                  updateReq={updateReq}
+                  onNext={handleNext}
+                />
               )}
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
+              {stage === 2 && report && (
+                <VesselFeasibility
+                  report={report}
+                  request={request}
+                  feasFilter={feasFilter}
+                  setFeasFilter={setFeasFilter}
+                  onPrev={handlePrev}
+                  onNext={handleNext}
+                />
+              )}
+              {stage === 3 && report && (
+                <RouteVoyage
+                  report={report}
+                  request={request}
+                  onPrev={handlePrev}
+                  onNext={handleNext}
+                />
+              )}
+              {stage === 4 && report && (
+                <LandedCost
+                  report={report}
+                  request={request}
+                  sortKey={sortKey}
+                  sortDir={sortDir}
+                  setSortKey={setSortKey}
+                  setSortDir={setSortDir}
+                  onPrev={handlePrev}
+                  onNext={handleNext}
+                />
+              )}
+              {stage === 5 && report && (
+                <Recommendation
+                  report={report}
+                  request={request}
+                  onPrev={handlePrev}
+                  onRerun={handleRerun}
+                  onEdit={() => setStage(1)}
+                />
+              )}
+              {stage > 1 && !report && (
+                <div className="flex flex-col items-center gap-4 py-20 text-center">
+                  {isAnalysing ? (
+                    <>
+                      <RefreshCw className="size-8 animate-spin text-copper" />
+                      <p className="text-sm text-muted-foreground">Running simulation…</p>
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle className="size-8 text-brass" />
+                      <p className="text-sm text-muted-foreground">
+                        No analysis results. Submit cargo requirements first.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setStage(1)}
+                        className="mt-2 inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm hover:bg-accent"
+                      >
+                        <ArrowLeft className="size-3.5" /> Back to intake
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </>
+      )}
     </div>
   );
 }

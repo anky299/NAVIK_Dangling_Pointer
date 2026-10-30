@@ -129,6 +129,7 @@ import {
   RiskBadge,
 } from "./primitives";
 import { BentoCard, BentoGrid } from "./Bento";
+import { BackendInsightsCard } from "./BackendInsightsCard";
 
 /* ═══════════════════════════════════════════════
    Objective Constants & Presets
@@ -2279,6 +2280,9 @@ export function PortfolioWorkspace() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Live Machine Learning Feature Importance & Portfolio Value Insights */}
+      <BackendInsightsCard />
 
       {/* 8. Modal: Stem Cost Breakdown Drill-Down */}
       <AnimatePresence>

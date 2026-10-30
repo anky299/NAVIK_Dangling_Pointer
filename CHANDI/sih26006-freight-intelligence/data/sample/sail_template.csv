@@ -1,0 +1,11 @@
+contract_date,origin,destination,vessel_class,parcel_size_mt,freight_rate_usd_per_mt,duration_days
+# DUMMY ROW 1: Newcastle to Paradip Capesize fixture
+2023-04-12,Newcastle,Paradip,Capesize,160000,14.85,35
+# DUMMY ROW 2: Hay Point to Visakhapatnam Panamax fixture
+2023-05-18,Hay Point,Visakhapatnam,Panamax,72000,16.20,28
+# DUMMY ROW 3: Hampton Roads to Gangavaram Capesize fixture
+2023-06-22,Hampton Roads,Gangavaram,Capesize,155000,29.50,65
+# DUMMY ROW 4: Samarinda / Taboneo to Haldia Supramax fixture
+2023-07-09,Samarinda / Taboneo,Haldia,Supramax,52000,14.10,22
+# DUMMY ROW 5: Nacala to Dhamra Panamax fixture
+2023-08-15,Nacala,Dhamra,Panamax,70000,15.75,26

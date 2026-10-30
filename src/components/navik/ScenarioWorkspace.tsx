@@ -114,6 +114,7 @@ import {
   RiskBadge,
 } from "./primitives";
 import { BentoCard, BentoGrid } from "./Bento";
+import { BackendScenariosPanel } from "./BackendScenariosPanel";
 
 /* ═══════════════════════════════════════════════
    Saved Scenario Session Model
@@ -583,6 +584,9 @@ export function ScenarioWorkspace() {
           )}
         </AnimatePresence>
       </BentoCard>
+
+      {/* Backend Multi-Scenario Robust MILP Evaluation */}
+      <BackendScenariosPanel />
 
       {/* 3. Session Scenarios Manager & View Mode Selector */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border/60 pb-3">

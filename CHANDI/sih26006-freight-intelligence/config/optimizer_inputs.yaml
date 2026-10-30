@@ -1,0 +1,126 @@
+# Configuration for Maritime Raw-Material Shipping Procurement Optimizer
+# SIH26006: Intelligent Freight Forecasting Model for Optimized Vessel Chartering (SAIL)
+#
+# NOTE: All numbers marked "# synthetic" are plausible engineering estimates based on
+# publicly available SAIL annual reports, port authority tariffs, and commodity indices.
+# Numbers marked "# verify" reflect industry norms or routes.yaml constants that require
+# confirmation from SAIL commercial chartering and plant logistics teams before production use.
+
+# ==============================================================================
+# 1. MONTHLY CARGO DEMAND (AGGREGATE SAIL EAST COAST PLANTS)
+# ==============================================================================
+# Aggregate monthly blast furnace raw-material requirements across RSP, BSP, BSL, DSP, ISP.
+demand_per_month:
+  coking_coal: 1000000.0         # synthetic - approx 12 MTPA imported coking coal requirement
+  thermal_coal: 200000.0         # synthetic - approx 2.4 MTPA imported thermal / PCI blend requirement
+
+# Destination port allocation shares alpha[c, p] (sums to 1.0 per cargo across ports)
+port_demand_shares:
+  coking_coal:
+    Visakhapatnam: 0.25          # synthetic - serves Vizag / Rourkela rail corridor
+    Paradip: 0.25                # synthetic - mechanized coal terminal serving Rourkela & Durgapur
+    Gangavaram: 0.20             # synthetic - deep-draft Capesize offtake terminal
+    Dhamra: 0.15                 # synthetic - mechanized coal berth serving Bokaro & IISCO
+    Haldia: 0.10                 # synthetic - riverine port serving Durgapur & DSP
+    Krishnapatnam: 0.05          # synthetic - southern rail connectivity
+  thermal_coal:
+    Visakhapatnam: 0.20          # synthetic - thermal coal blending stock
+    Paradip: 0.30                # synthetic - primary thermal coal discharge hub
+    Gangavaram: 0.15             # synthetic - captive power generation feed
+    Dhamra: 0.20                 # synthetic - plant thermal feed
+    Haldia: 0.10                 # synthetic - regional power feed
+    Krishnapatnam: 0.05          # synthetic - southern rail connectivity
+
+# ==============================================================================
+# 2. FOB CARGO PRICES & QUALITY ADJUSTMENTS (USD / METRIC TON)
+# ==============================================================================
+# Benchmark FOB price proxies based on historical Argus / Platts index averages.
+fob_prices:
+  coking_coal:
+    Hay Point: 220.0             # synthetic - Platts Premium Low Vol (PLV) FOB Australia proxy
+    Newcastle: 210.0             # synthetic - Semi-hard / Tier-2 metallurgical coal proxy
+    Hampton Roads: 230.0         # synthetic - US Low Vol / High Vol A metallurgical coal proxy
+    Nacala: 195.0                # synthetic - Moatize hard coking coal proxy
+    Beira: 190.0                 # synthetic - Moatize semi-soft coking blend proxy
+    Vanino: 185.0                # synthetic - Russian Far East metallurgical coal proxy
+  thermal_coal:
+    Newcastle: 110.0             # synthetic - Newcastle 6000 kcal/kg NAR thermal benchmark proxy
+    "Samarinda / Taboneo": 75.0  # synthetic - Indonesian 4200-5000 kcal/kg GAR thermal proxy
+
+# Quality penalties relative to SAIL standard blast furnace specification (USD / MT)
+quality_penalties:
+  coking_coal:
+    Hay Point: 0.0               # verify - baseline benchmark specification (CSR >= 70, Ash <= 9.5%)
+    Newcastle: 8.0               # synthetic - higher ash content penalty
+    Hampton Roads: -5.0          # synthetic - high fluidity / low ash metallurgical premium
+    Nacala: 12.0                 # synthetic - ash & phosphorus deviation penalty
+    Beira: 15.0                  # synthetic - volatile matter / moisture discount adjustment
+    Vanino: 10.0                 # synthetic - cold weather handling / ash penalty
+  thermal_coal:
+    Newcastle: 0.0               # verify - 6000 kcal benchmark
+    "Samarinda / Taboneo": 14.0  # synthetic - lower calorific value / moisture adjustment
+
+# ==============================================================================
+# 3. SUPPLIER MONTHLY CAPACITY LIMITS (METRIC TONS / MONTH)
+# ==============================================================================
+# Maximum contract/offtake allocation available from each origin country/port.
+supplier_capacity_per_month:
+  coking_coal:
+    Hay Point: 600000.0          # synthetic - BHP / BMA long-term allocation ceiling
+    Newcastle: 400000.0          # synthetic - Glencore / Yancoal export allocation
+    Hampton Roads: 350000.0      # synthetic - US East Coast export terminal allocation
+    Nacala: 300000.0             # synthetic - Nacala rail logistics throughput cap
+    Beira: 150000.0              # synthetic - Sena railway / shallow draft river throughput
+    Vanino: 250000.0             # synthetic - BAM / Trans-Siberian rail corridor limit
+  thermal_coal:
+    Newcastle: 400000.0          # synthetic - Newcastle coal infrastructure group cap
+    "Samarinda / Taboneo": 500000.0 # synthetic - Kalimantan anchorage loading capacity
+
+# ==============================================================================
+# 4. PORT LOGISTICS, BERTH CAPACITY & STORAGE LIMITS
+# ==============================================================================
+# Maximum monthly cargo discharge throughput per destination port (all vessels, MT / month).
+berth_capacity_per_month:
+  Visakhapatnam: 600000.0        # synthetic - mechanized coal berth discharge limit
+  Paradip: 700000.0              # synthetic - Paradip coal terminal throughput
+  Gangavaram: 600000.0           # synthetic - deep-draft berths 1 & 2 throughput
+  Dhamra: 500000.0               # synthetic - Adani Dhamra coal handling berths
+  Haldia: 250000.0               # synthetic - lock-gate tidal river navigation throughput cap
+  Krishnapatnam: 300000.0        # synthetic - mechanized cargo berth throughput
+
+# Stockyard / port inventory storage capacity (MT per cargo at each port)
+inventory_capacity_per_port: 800000.0 # synthetic - dedicated raw material stockyard area
+
+# Initial stock on hand at day 0 (30 days of average demand buffer)
+initial_inventory_days: 30.0     # synthetic - standard minimum strategic reserve
+
+# Terminal inventory floor at planning horizon end (days of final month demand)
+terminal_inventory_days: 30.0    # synthetic - prevents artificial drawdown at horizon end
+
+# Inventory holding cost rate (USD / MT / month)
+# Approx 1.5% of cargo value per month (cost of working capital, insurance, shrinkage)
+inventory_holding_cost_usd_per_mt:
+  coking_coal: 3.00              # synthetic - approx 1.5% of $200/MT cargo value
+  thermal_coal: 1.20             # synthetic - approx 1.5% of $80/MT cargo value
+
+# ==============================================================================
+# 5. CHARTER CONTRACT COMMITMENTS & OPERATIONAL PARAMETERS
+# ==============================================================================
+# Contract of Affreightment (COA) terms
+coa:
+  min_volume_mt: 300000.0        # synthetic - minimum committed volume over planning horizon
+  discount_rate: 0.0             # verify - discount relative to trailing 12-week spot rate (default 0.0)
+
+# Period time-charter commitments
+period_charter:
+  min_duration_months: 3         # synthetic - typical short-term time charter duration (3-6 months)
+  discount_rate: 0.0             # verify - discount relative to trailing 12-week hire (default 0.0)
+
+# Demurrage & port waiting risk
+demurrage:
+  rate_usd_per_day: 18000.0      # verify - standard bulk carrier charterparty demurrage rate
+  expected_delay_days: 1.5       # synthetic - average pre-berthing wait time across East Coast ports
+
+# Fuel / Bunker benchmark
+bunker:
+  brent_price_usd_per_bbl: 80.0  # verify - baseline benchmark crude oil price

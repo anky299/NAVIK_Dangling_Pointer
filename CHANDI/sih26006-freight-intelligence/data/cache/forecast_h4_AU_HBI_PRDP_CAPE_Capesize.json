@@ -1,0 +1,1 @@
+{"horizon_weeks": 4, "bdi_q10": 1875.8, "bdi_median": 2071.1, "bdi_q90": 2878.1, "route_id": "AU_HBI_PRDP_CAPE", "vessel_class": "Capesize", "per_tonne_rate_usd": null, "calibration_note": "Calibrated via split-conformal quantile regression on 20 test folds. Intended interval coverage: 80%.", "_cached_at": "2026-10-30T12:17:37.323512+00:00"}
