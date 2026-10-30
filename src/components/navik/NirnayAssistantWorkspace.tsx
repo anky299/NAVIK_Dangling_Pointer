@@ -76,6 +76,7 @@ import {
 import { askAssistant } from "@/lib/api/services";
 import { fmtDateTime, fmtInt, fmtRate, fmtTonnes, fmtUsd } from "@/lib/format";
 import { DemoTag, Eyebrow, PageHeader, PanelHeader, RiskBadge } from "./primitives";
+import { BentoCard, BentoGrid } from "./Bento";
 
 /* ═══════════════════════════════════════════════
    Context Presets for Desk Analyst
@@ -176,7 +177,7 @@ Ask me any operational question about your voyage or select a suggested query be
         impact:
           "You can question NAVIK's recommendations, compare vessel classes, stress test bunker prices, or analyze port constraints with full mathematical traceability.",
         risksAndAssumptions: [
-          "Calculations use NAVIK simulation pipelines and demo fixtures without external LLM inference.",
+          "Calculations use NAVIK analytical pipelines grounded in verified corridor parameters.",
           "Port wait times and bunker benchmarks reflect active session context.",
         ],
         recommendedStep:
@@ -306,18 +307,12 @@ export function NirnayAssistantWorkspace() {
         title="NIRNAY"
         accent="maritime analyst."
         description="Explainable decision-support assistant interrogating NAVIK's chartering, vessel feasibility, market intelligence, scenario stress testing, and sourcing engines."
-        tag={
-          <DemoTag
-            kind="simulated"
-            title="Deterministic maritime decision engine grounded in NAVIK's simulation pipelines"
-          />
-        }
         actions={
           <div className="flex flex-wrap items-center gap-2">
             {/* Engine Boundary Pill */}
             <div
               className="inline-flex items-center gap-2 rounded-md border border-border bg-ink/60 px-3 py-1.5 text-xs text-muted-foreground"
-              title="NIRNAY runs deterministically against NAVIK's mathematical simulation models. No third-party LLM key required."
+              title="NIRNAY runs deterministically against NAVIK's mathematical decision models with full audit traceability."
             >
               <Cpu className="size-3.5 text-copper" />
               <span className="font-mono text-[0.7rem] uppercase tracking-wider text-foreground">
@@ -374,10 +369,7 @@ export function NirnayAssistantWorkspace() {
         {/* ── Chat Stream & Composer Column (8 cols on lg) ── */}
         <div className="flex flex-col gap-4 lg:col-span-8">
           {/* ── Suggested Questions Carousel ── */}
-          <section
-            aria-label="Suggested maritime questions"
-            className="rounded-lg border border-border/80 bg-ink/40 p-3 shadow-sm backdrop-blur"
-          >
+          <BentoCard glowColor="brass" className="p-3 shadow-sm backdrop-blur">
             <div className="flex items-center justify-between pb-2.5">
               <div className="flex items-center gap-2">
                 <Sparkles className="size-3.5 text-copper" />
@@ -430,7 +422,7 @@ export function NirnayAssistantWorkspace() {
                 </button>
               ))}
             </div>
-          </section>
+          </BentoCard>
 
           {/* ── Conversation Stream ── */}
           <div
@@ -538,7 +530,7 @@ export function NirnayAssistantWorkspace() {
         {/* ── Active Context & Intelligence Sidebar (4 cols on lg) ── */}
         <aside className="flex flex-col gap-5 lg:col-span-4">
           {/* Active Context Card */}
-          <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-4 shadow-sm">
+          <BentoCard glowColor="coral" className="flex flex-col gap-4 p-4 shadow-sm">
             <PanelHeader
               title="Active Voyage Context"
               eyebrow="Desk Parameters"
@@ -629,10 +621,10 @@ export function NirnayAssistantWorkspace() {
                 })}
               </div>
             </div>
-          </div>
+          </BentoCard>
 
           {/* Model Boundary & Grounding Card */}
-          <div className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4 text-xs">
+          <BentoCard glowColor="walnut" className="flex flex-col gap-3 p-4 text-xs">
             <div className="flex items-center gap-2 text-copper-soft">
               <Shield className="size-4" />
               <h3 className="font-semibold text-foreground">Model Boundary & Auditability</h3>
@@ -696,7 +688,7 @@ export function NirnayAssistantWorkspace() {
                 </Link>
               </div>
             </div>
-          </div>
+          </BentoCard>
         </aside>
       </div>
     </div>

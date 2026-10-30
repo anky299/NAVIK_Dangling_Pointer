@@ -36,3 +36,32 @@ export const contractsQuery = () =>
   queryOptions({ queryKey: ["contracts"], queryFn: api.listContracts });
 
 export const auditQuery = () => queryOptions({ queryKey: ["audit"], queryFn: api.listAuditEvents });
+
+/* Insurance Intelligence Queries */
+export const insuranceOverviewQuery = () =>
+  queryOptions({ queryKey: ["insurance", "overview"], queryFn: api.getInsuranceOverview, staleTime: 60_000 });
+
+export const insuranceReferenceQuery = () =>
+  queryOptions({ queryKey: ["insurance", "reference"], queryFn: api.getInsuranceReferenceData, staleTime: Infinity });
+
+export const insuranceEstimatesQuery = () =>
+  queryOptions({ queryKey: ["insurance", "estimates"], queryFn: api.listInsuranceEstimates, staleTime: 30_000 });
+
+export const insuranceRecordsQuery = (filters?: import("./insurance-types").HistoricalRecordsFilter) =>
+  queryOptions({
+    queryKey: ["insurance", "records", filters],
+    queryFn: () => api.getInsuranceHistoricalRecords(filters),
+    staleTime: 60_000,
+  });
+
+export const insuranceAnalyticsQuery = (filters?: {
+  commodity?: import("./insurance-types").InsuranceCommodity | "ALL";
+  origin?: OriginRegion | "ALL";
+  destination?: PortCode | "ALL";
+  clause?: import("./insurance-types").CoverageClause | "ALL";
+}) =>
+  queryOptions({
+    queryKey: ["insurance", "analytics", filters],
+    queryFn: () => api.getInsuranceAnalytics(filters),
+    staleTime: 60_000,
+  });

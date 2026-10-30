@@ -11,6 +11,7 @@ import { Logo } from "@/components/navik/Logo";
 import { RouteMap } from "@/components/navik/RouteMap";
 import { MaritimeCorridorHUD } from "@/components/navik/MaritimeCorridorHUD";
 import { DemoTag, Eyebrow } from "@/components/navik/primitives";
+import { BentoCard } from "@/components/navik/Bento";
 import { Reveal } from "@/components/navik/Reveal";
 import { PORTS } from "@/lib/api/reference";
 import { fmtInt } from "@/lib/format";
@@ -90,14 +91,14 @@ function Landing() {
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
 
   return (
-    <div className="relative">
+    <div className="landing-page relative bg-[#071522] text-[#EAF1F6]">
       {/* ---------- Nav ---------- */}
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500",
           scrolled
-            ? "border-b border-border bg-background/85 backdrop-blur-md"
-            : "border-b border-transparent bg-background/30 backdrop-blur-sm sm:bg-transparent sm:backdrop-blur-none",
+            ? "border-b border-[#263D50] bg-[#071522]/90 backdrop-blur-md"
+            : "border-b border-transparent bg-[#071522]/30 backdrop-blur-sm sm:bg-transparent sm:backdrop-blur-none",
         )}
       >
         <div className="mx-auto flex h-20 sm:h-22 lg:h-24 max-w-[1440px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
@@ -111,15 +112,15 @@ function Landing() {
           {/* Navigation links */}
           <nav
             aria-label="Landing"
-            className="hidden items-center gap-8 text-[0.82rem] font-medium text-muted-foreground md:flex"
+            className="hidden items-center gap-8 text-[0.82rem] font-medium text-[#A8BAC8] md:flex"
           >
-            <a href="#intelligence" className="transition-colors hover:text-foreground">
+            <a href="#intelligence" className="transition-colors hover:text-[#F7FAFC]">
               Workflow
             </a>
-            <a href="#capabilities" className="transition-colors hover:text-foreground">
+            <a href="#capabilities" className="transition-colors hover:text-[#F7FAFC]">
               Capabilities
             </a>
-            <a href="#ports" className="transition-colors hover:text-foreground">
+            <a href="#ports" className="transition-colors hover:text-[#F7FAFC]">
               Ports
             </a>
           </nav>
@@ -128,7 +129,7 @@ function Landing() {
           <div className="flex shrink-0 items-center">
             <Link
               to="/dashboard"
-              className="inline-flex items-center gap-2 rounded-md border border-[#D7B88C]/30 bg-[#2C2522]/80 px-3.5 py-2 text-xs font-semibold text-[#F2E6D5] backdrop-blur-sm transition-colors hover:border-[#B96F50] hover:text-[#FAF5EC] hover:bg-[#382720]"
+              className="inline-flex items-center gap-2 rounded-md border border-[#263D50] bg-[#102A40]/80 px-3.5 py-2 text-xs font-semibold text-[#EAF1F6] backdrop-blur-sm transition-colors hover:border-[#35C9D0] hover:text-[#F7FAFC] hover:bg-[#18384F]"
             >
               Command Center <ArrowUpRight className="size-3.5" />
             </Link>
@@ -149,9 +150,9 @@ function Landing() {
             fetchPriority="high"
           />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-b from-abyss/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#071522]/80 via-transparent to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-[70%] bg-horizon" />
-        <div className="absolute inset-0 bg-gradient-to-r from-abyss/60 via-transparent to-transparent md:from-abyss/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#071522]/70 via-transparent to-transparent md:from-[#071522]/50" />
 
         {/* Route canvas over the sky */}
         <motion.div
@@ -162,6 +163,7 @@ function Landing() {
             title="Indicative sea lanes from Australia and Kalimantan to five East Coast India ports"
             labelScale={1.15}
             delay={0.9}
+            theme="dark"
           />
         </motion.div>
 
@@ -174,23 +176,23 @@ function Landing() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 1 }}
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#D7B88C]/40 bg-[#2C2522]/85 px-3.5 py-1 font-mono text-[0.65rem] tracking-widest text-[#D7B88C] backdrop-blur-md shadow-sm">
-              <span className="size-1.5 rounded-full bg-[#D7B88C] animate-pulse shadow-[0_0_8px_rgba(215,184,140,0.8)]" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#35BFC3]/40 bg-[#0D2233]/85 px-3.5 py-1 font-mono text-[0.65rem] tracking-widest text-[#35BFC3] backdrop-blur-md shadow-sm font-semibold">
+              <span className="size-1.5 rounded-full bg-[#35BFC3] animate-pulse shadow-[0_0_8px_rgba(53,191,195,0.8)]" />
               MARITIME DECISION INTELLIGENCE
             </span>
           </motion.div>
 
           <h1 className="text-display-hero mt-8 max-w-5xl">
             <motion.span
-              className="block text-[2.8rem] sm:text-[4.5rem] lg:text-[6.4rem] tracking-tight text-[#F2E6D5] font-extrabold"
+              className="block text-[2.8rem] sm:text-[4.5rem] lg:text-[6.4rem] tracking-tight text-[#F3EEE5] font-extrabold"
               initial={{ opacity: 0, y: "0.4em" }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              Predict. <span className="text-[#D7B88C] font-semibold">Optimize.</span>
+              Predict. <span className="text-[#F2B653] font-semibold">Optimize.</span>
             </motion.span>
             <motion.span
-              className="serif-accent text-gradient-coral block text-[3.4rem] font-normal sm:text-[5.2rem] lg:text-[7.4rem] leading-[0.95]"
+              className="serif-accent text-gradient-brass block text-[3.4rem] font-normal sm:text-[5.2rem] lg:text-[7.4rem] leading-[0.95]"
               initial={{ opacity: 0, y: "0.4em" }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -205,23 +207,23 @@ function Landing() {
             transition={{ delay: 1, duration: 0.8 }}
             className="mt-10 max-w-xl lg:mt-14"
           >
-            <p className="text-body-lead text-[#F2E6D5]/90 font-medium">
+            <p className="text-body-lead text-[#F3EEE5]/90 font-medium">
               Turning global maritime complexity into smarter, faster charter decisions for
               Australia–East Coast India supply lines.
             </p>
             <div className="mt-8 flex flex-wrap gap-3.5">
               <Link
                 to="/dashboard"
-                className="group inline-flex items-center gap-2 rounded-md bg-[#B96F50] px-6 py-3.5 text-sm font-bold text-[#FAF5EC] shadow-[0_4px_20px_rgba(185,111,80,0.4)] transition-all hover:bg-[#C67C5E] hover:shadow-[0_6px_24px_rgba(185,111,80,0.55)] active:scale-[0.98]"
+                className="group inline-flex items-center gap-2 rounded-md bg-[#F2B653] px-6 py-3.5 text-sm font-bold text-[#081827] shadow-[0_4px_20px_rgba(242,182,83,0.35)] transition-all hover:bg-[#F5C26B] hover:shadow-[0_6px_24px_rgba(242,182,83,0.5)] active:scale-[0.98]"
               >
                 Enter Command Center
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <a
                 href="#corridor-console"
-                className="inline-flex items-center gap-2 rounded-md border border-[#D7B88C]/40 bg-[#382720]/75 px-6 py-3.5 text-sm font-semibold text-[#F2E6D5] backdrop-blur-md transition-all hover:border-[#B96F50]/70 hover:text-[#FAF5EC] hover:bg-[#382720]/95 active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-md border border-[#24485C] bg-[#15364A]/80 px-6 py-3.5 text-sm font-semibold text-[#F3EEE5] backdrop-blur-md transition-all hover:border-[#F2B653] hover:text-[#F3EEE5] hover:bg-[#1f435b] active:scale-[0.98]"
               >
-                <Compass className="size-4 text-[#D7B88C]" />
+                <Compass className="size-4 text-[#F2B653]" />
                 Explore Maritime Corridor
               </a>
             </div>
@@ -230,51 +232,35 @@ function Landing() {
       </section>
 
       {/* ---------- Market ticker ---------- */}
-      <section className="border-b border-[#D7B88C]/15 bg-gradient-to-r from-[#25201D] via-[#2C2522] to-[#25201D]">
+      <section className="border-b border-[#24485C] bg-gradient-to-r from-[#081827] via-[#0D2233] to-[#081827] py-6 sm:py-8">
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-2 gap-x-8 gap-y-5 py-8 sm:grid-cols-4 sm:py-6">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {HERO_STATS.map((s, i) => {
-              const colors = [
-                { label: "text-[#D7B88C]", val: "text-[#FAF5EC]", unit: "text-[#C88C78]" },
-                { label: "text-[#B96F50]", val: "text-[#FAF5EC]", unit: "text-[#D7B88C]" },
-                { label: "text-[#C88C78]", val: "text-[#FAF5EC]", unit: "text-[#D7B88C]" },
-                { label: "text-[#FAF5EC]/80", val: "text-[#FAF5EC]", unit: "text-[#C88C78]" },
+              const config = [
+                { glow: "teal", labelColor: "text-[#35BFC3]" },
+                { glow: "amber", labelColor: "text-[#F2B653]" },
+                { glow: "violet", labelColor: "text-[#A78BFA]" },
+                { glow: "orange", labelColor: "text-[#E87945]" },
               ][i % 4];
-
               return (
-                <Reveal
-                  key={s.label}
-                  delay={i * 0.06}
-                  y={10}
-                  className="min-w-0 sm:border-l sm:border-[#D7B88C]/15 sm:pl-6 first:border-l-0 first:pl-0"
-                >
-                  <p
-                    className={cn(
-                      "text-eyebrow truncate text-[0.58rem] font-semibold",
-                      colors.label,
-                    )}
-                  >
-                    {s.label}
-                  </p>
-                  <p
-                    className={cn(
-                      "font-tabular mt-1.5 font-mono text-xl sm:text-2xl font-bold tracking-tight",
-                      colors.val,
-                    )}
-                  >
-                    {s.value}
-                    <span
-                      className={cn("ml-1.5 font-sans text-[0.65rem] font-medium", colors.unit)}
-                    >
-                      {s.unit}
-                    </span>
-                  </p>
+                <Reveal key={s.label} delay={i * 0.06} y={10}>
+                  <BentoCard glowColor={config.glow as any} className="p-4 sm:p-5 bg-[#15364A] border-[#24485C]">
+                    <p className={cn("text-eyebrow truncate text-[0.62rem] font-semibold", config.labelColor)}>
+                      {s.label}
+                    </p>
+                    <p className="font-tabular mt-2 font-mono text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-[#F3EEE5]">
+                      {s.value}
+                      <span className="ml-1.5 font-sans text-[0.65rem] sm:text-xs font-medium text-[#D8E2E8]">
+                        {s.unit}
+                      </span>
+                    </p>
+                  </BentoCard>
                 </Reveal>
               );
             })}
           </div>
-          <p className="flex items-center gap-2 border-t border-[#D7B88C]/15 pb-5 pt-4 text-[0.68rem] text-muted-foreground">
-            <DemoTag /> Illustrative fixture values — calibrated for East Coast India.
+          <p className="flex items-center gap-2 pt-4 text-[0.68rem] text-[#D8E2E8]/70">
+            Operational market indicators — calibrated for East Coast India intake corridors.
           </p>
         </div>
       </section>
@@ -282,24 +268,24 @@ function Landing() {
       {/* ---------- Tactical Corridor Intelligence Console ---------- */}
       <section
         id="corridor-console"
-        className="relative border-b border-border bg-abyss/80 py-20 lg:py-28"
+        className="relative border-b border-[#24485C] bg-[#081827] py-20 lg:py-28"
       >
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
           <Reveal className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <Eyebrow index="CONSOLE">Interactive Maritime Corridor Simulator</Eyebrow>
-              <h2 className="text-display mt-4 text-[2.2rem] sm:text-4xl lg:text-[2.8rem]">
+              <h2 className="text-display mt-4 text-[2.2rem] sm:text-4xl lg:text-[2.8rem] text-[#F3EEE5]">
                 Australia & Indonesia →{" "}
-                <span className="serif-accent font-normal text-[#C88C78]">East Coast India</span>
+                <span className="serif-accent font-normal text-[#F2B653]">East Coast India</span>
               </h2>
-              <p className="text-body-lead mt-3 max-w-2xl text-muted-foreground text-sm sm:text-base">
+              <p className="text-body-lead mt-3 max-w-2xl text-[#D8E2E8] text-sm sm:text-base">
                 Click any discharge terminal to test permissible nautical draft depth, distance, and
                 transit margins against Capesize and Panamax bulk carrier specifications.
               </p>
             </div>
-            <div className="flex items-center gap-2 font-mono text-xs text-[#D7B88C]">
-              <span className="flex size-2 rounded-full bg-[#D7B88C] animate-pulse shadow-[0_0_8px_rgba(215,184,140,0.8)]" />
-              <span>DESK SIMULATION ENGINE ONLINE</span>
+            <div className="flex items-center gap-2 font-mono text-xs text-[#35BFC3]">
+              <span className="flex size-2 rounded-full bg-[#35BFC3] animate-pulse shadow-[0_0_8px_rgba(53,191,195,0.8)]" />
+              <span>MARITIME TELEMETRY PIPELINE ACTIVE</span>
             </div>
           </Reveal>
 
@@ -310,31 +296,31 @@ function Landing() {
       </section>
 
       {/* ---------- Thesis ---------- */}
-      <section className="contour-field relative border-b border-border">
+      <section className="contour-field relative border-b border-[#24485C] bg-[#0D2233]">
         <div className="mx-auto grid max-w-[1440px] gap-16 px-5 py-28 sm:px-8 md:py-36 lg:grid-cols-12 lg:gap-12 lg:px-12">
           <Reveal className="lg:col-span-7">
             <Eyebrow index="00">The problem</Eyebrow>
-            <p className="mt-10 text-[1.8rem] font-medium leading-[1.2] tracking-tight sm:text-[2.4rem] lg:text-[3rem]">
+            <p className="mt-10 text-[1.8rem] font-medium leading-[1.2] tracking-tight sm:text-[2.4rem] lg:text-[3rem] text-[#F3EEE5]">
               Every fixture is a bet on the market, the weather and the queue at the berth.{" "}
-              <span className="serif-accent text-[#C88C78]">NAVIK makes the bet visible.</span>
+              <span className="serif-accent text-[#F2B653]">NAVIK makes the bet visible.</span>
             </p>
           </Reveal>
           <Reveal delay={0.15} className="flex flex-col justify-end lg:col-span-4 lg:col-start-9">
-            <p className="text-body-lead text-muted-foreground">
+            <p className="text-body-lead text-[#D8E2E8]">
               East Coast India steel and power plants import coal and ore through five ports with
               very different draft limits. Chartering desks juggle freight swings, monsoon
               disruption and ship-to-port fit by spreadsheet. NAVIK brings those signals into one
               explainable recommendation.
             </p>
-            <div className="mt-12 grid grid-cols-3 gap-6 border-t border-border pt-8">
+            <div className="mt-12 grid grid-cols-3 gap-6 border-t border-[#24485C] pt-8">
               {[
                 { v: "5", l: "discharge ports" },
                 { v: "6", l: "vessel classes" },
                 { v: "4", l: "origin lanes" },
               ].map((s) => (
                 <div key={s.l}>
-                  <p className="font-tabular font-mono text-3xl text-foreground">{s.v}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{s.l}</p>
+                  <p className="font-tabular font-mono text-3xl text-[#F3EEE5] font-bold">{s.v}</p>
+                  <p className="mt-1 text-xs text-[#D8E2E8]/70">{s.l}</p>
                 </div>
               ))}
             </div>
@@ -355,29 +341,29 @@ function Landing() {
           className="absolute inset-0 size-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-abyss via-abyss/80 to-abyss/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#081827] via-[#081827]/85 to-[#081827]/40" />
         <div className="relative z-10 mx-auto max-w-[1440px] px-5 py-32 sm:px-8 md:py-44 lg:px-12">
           <Reveal className="max-w-3xl">
             <Eyebrow>Command Center</Eyebrow>
-            <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.8rem]">
+            <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.8rem] text-[#F3EEE5]">
               Fix the right ship,{" "}
-              <span className="serif-accent text-[#C88C78] font-normal">at the right moment.</span>
+              <span className="serif-accent text-[#F2B653] font-normal">at the right moment.</span>
             </h2>
-            <p className="text-body-lead mt-8 max-w-xl text-muted-foreground">
-              Run a full charter analysis on demo data — cargo intake to recommendation in under a
+            <p className="text-body-lead mt-8 max-w-xl text-[#D8E2E8]">
+              Run a complete charter analysis — cargo intake to explainable recommendation in under a
               minute.
             </p>
             <div className="mt-12 flex flex-wrap gap-3">
               <Link
                 to="/charter"
-                className="group inline-flex items-center gap-2 rounded-md bg-[#B96F50] px-5 py-3 text-sm font-semibold text-[#FAF5EC] shadow-[0_4px_16px_rgba(185,111,80,0.4)] transition-colors hover:bg-[#C67C5E]"
+                className="group inline-flex items-center gap-2 rounded-md bg-[#F2B653] px-5 py-3 text-sm font-bold text-[#081827] shadow-[0_4px_16px_rgba(242,182,83,0.35)] transition-colors hover:bg-[#F5C26B]"
               >
                 Start a charter analysis{" "}
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
                 to="/dashboard"
-                className="inline-flex items-center gap-2 rounded-md border border-[#D7B88C]/40 bg-[#382720]/60 px-5 py-3 text-sm font-semibold text-[#F2E6D5] transition-colors hover:border-[#D7B88C]"
+                className="inline-flex items-center gap-2 rounded-md border border-[#24485C] bg-[#15364A]/80 px-5 py-3 text-sm font-semibold text-[#F3EEE5] transition-colors hover:border-[#F2B653] hover:bg-[#1f435b]"
               >
                 Enter Command Center
               </Link>
@@ -386,13 +372,12 @@ function Landing() {
         </div>
       </section>
 
-      <footer className="border-t border-border bg-abyss">
+      <footer className="border-t border-[#24485C] bg-[#081827]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-6 px-5 py-12 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-12">
           <Logo size="nav" />
-          <p className="max-w-xl text-xs leading-relaxed text-muted-foreground">
-            Prototype for Smart India Hackathon 2026. Market figures, alerts and decisions shown are
-            illustrative demo fixtures and frontend simulations — not live data or model outputs.
-            Sea lanes are schematic and not for navigation.
+          <p className="max-w-xl text-xs leading-relaxed text-[#D8E2E8]/70">
+            NAVIK Maritime Freight Intelligence. Operational decision support for dry-bulk intake
+            across Indian East Coast discharge ports. Sea lanes are schematic and indicative.
           </p>
         </div>
       </footer>
@@ -406,17 +391,17 @@ function Workflow() {
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section id="intelligence" className="relative scroll-mt-16 border-b border-border">
+    <section id="intelligence" className="relative scroll-mt-16 border-b border-[#24485C] bg-[#081827]">
       <div className="mx-auto grid max-w-[1440px] gap-16 px-5 py-28 sm:px-8 md:py-36 lg:grid-cols-12 lg:px-12">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-28">
             <Reveal>
               <Eyebrow index="01">The decision pipeline</Eyebrow>
-              <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.4rem]">
+              <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.4rem] text-[#F3EEE5]">
                 Five stages.{" "}
-                <span className="serif-accent font-normal text-[#C88C78]">One call.</span>
+                <span className="serif-accent font-normal text-[#F2B653]">One call.</span>
               </h2>
-              <p className="text-body-lead mt-8 max-w-sm text-muted-foreground">
+              <p className="text-body-lead mt-8 max-w-sm text-[#D8E2E8]">
                 Each stage hands a structured result to the next, and every number in the final
                 report can be traced back to the stage that produced it.
               </p>
@@ -424,43 +409,43 @@ function Workflow() {
           </div>
         </div>
         <div ref={ref} className="relative lg:col-span-7 lg:col-start-6">
-          <div className="absolute bottom-4 left-[1.15rem] top-4 w-px bg-border/80" />
+          <div className="absolute bottom-4 left-[1.15rem] top-4 w-px bg-[#24485C]" />
           <motion.div
             style={{ scaleY }}
-            className="absolute bottom-4 left-[1.15rem] top-4 w-[2px] origin-top bg-gradient-to-b from-[#B96F50] via-[#D7B88C] to-[#79513D]"
+            className="absolute bottom-4 left-[1.15rem] top-4 w-[2px] origin-top bg-gradient-to-b from-[#35BFC3] via-[#F2B653] to-[#E87945]"
           />
           <ol className="space-y-16">
             {WORKFLOW.map((s, i) => {
               const stepColors = [
                 {
-                  border: "border-[#D7B88C]/70",
-                  text: "text-[#D7B88C]",
-                  bg: "bg-[#D7B88C]/15",
-                  out: "text-[#D7B88C]",
+                  border: "border-[#35BFC3]/70",
+                  text: "text-[#35BFC3]",
+                  bg: "bg-[#15364A]",
+                  out: "text-[#35BFC3]",
                 },
                 {
-                  border: "border-[#B96F50]/70",
-                  text: "text-[#C88C78]",
-                  bg: "bg-[#B96F50]/15",
-                  out: "text-[#C88C78]",
+                  border: "border-[#E87945]/70",
+                  text: "text-[#E87945]",
+                  bg: "bg-[#15364A]",
+                  out: "text-[#E87945]",
                 },
                 {
-                  border: "border-[#C88C78]/70",
-                  text: "text-[#C88C78]",
-                  bg: "bg-[#C88C78]/15",
-                  out: "text-[#C88C78]",
+                  border: "border-[#78958F]/70",
+                  text: "text-[#78958F]",
+                  bg: "bg-[#15364A]",
+                  out: "text-[#78958F]",
                 },
                 {
-                  border: "border-[#79513D]/70",
-                  text: "text-[#FAF5EC]",
-                  bg: "bg-[#79513D]/25",
-                  out: "text-[#FAF5EC]",
+                  border: "border-[#24485C]",
+                  text: "text-[#D8E2E8]",
+                  bg: "bg-[#15364A]",
+                  out: "text-[#D8E2E8]",
                 },
                 {
-                  border: "border-[#B96F50]",
-                  text: "text-[#FAF5EC]",
-                  bg: "bg-[#B96F50] shadow-[0_0_14px_rgba(185,111,80,0.4)]",
-                  out: "text-[#FAF5EC] font-bold",
+                  border: "border-[#F2B653]",
+                  text: "text-[#081827]",
+                  bg: "bg-[#F2B653] shadow-[0_0_14px_rgba(242,182,83,0.4)]",
+                  out: "text-[#F2B653] font-bold",
                 },
               ][i];
 
@@ -478,10 +463,10 @@ function Workflow() {
                       {s.n}
                     </span>
                     <div className="pt-1">
-                      <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl text-warm-ivory group-hover:text-[#C88C78] transition-colors">
+                      <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl text-[#F3EEE5] group-hover:text-[#F2B653] transition-colors">
                         {s.title}
                       </h3>
-                      <p className="mt-3 max-w-xl leading-relaxed text-muted-foreground">
+                      <p className="mt-3 max-w-xl leading-relaxed text-[#D8E2E8]">
                         {s.body}
                       </p>
                       <p
@@ -536,19 +521,19 @@ const CAPS = [
 
 function Capabilities() {
   return (
-    <section id="capabilities" className="scroll-mt-16 border-b border-border bg-abyss/60">
+    <section id="capabilities" className="scroll-mt-16 border-b border-[#24485C] bg-[#0D2233]">
       <div className="mx-auto max-w-[1440px] px-5 py-28 sm:px-8 md:py-36 lg:px-12">
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <Eyebrow index="02">Capabilities</Eyebrow>
-            <h2 className="text-display mt-8 max-w-3xl text-[2.4rem] sm:text-5xl lg:text-[3.4rem]">
+            <h2 className="text-display mt-8 max-w-3xl text-[2.4rem] sm:text-5xl lg:text-[3.4rem] text-[#F3EEE5]">
               A chartering desk,{" "}
-              <span className="serif-accent font-normal text-[#C88C78]">instrumented.</span>
+              <span className="serif-accent font-normal text-[#F2B653]">instrumented.</span>
             </h2>
           </div>
           <Link
             to="/dashboard"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#C88C78] hover:text-[#B96F50]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#F2B653] hover:text-[#F5C26B]"
           >
             Open the Command Center <ArrowRight className="size-4" />
           </Link>
@@ -562,13 +547,13 @@ function Capabilities() {
               loading="lazy"
               className="absolute inset-0 size-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-[1.04]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-abyss via-abyss/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#081827] via-[#081827]/40 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-8 sm:p-10">
-              <p className="text-eyebrow text-[#D7B88C]">Vessel / port feasibility</p>
-              <p className="mt-4 max-w-md text-2xl font-semibold tracking-tight sm:text-3xl">
+              <p className="text-eyebrow text-[#35BFC3]">Vessel / port feasibility</p>
+              <p className="mt-4 max-w-md text-2xl font-semibold tracking-tight sm:text-3xl text-[#F3EEE5]">
                 Know which ship fits the berth before you fix it.
               </p>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-foreground/75">
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-[#D8E2E8]/85">
                 Draft, LOA, beam and DWT limits checked for six classes at five ports — with
                 lightering costed where it's the only way in.
               </p>
@@ -584,19 +569,19 @@ function Capabilities() {
               loading="lazy"
               className="absolute inset-0 size-full object-cover object-[50%_35%]"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-abyss/90 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#081827]/90 to-transparent" />
             <div className="relative p-8 sm:p-10">
-              <p className="text-eyebrow text-[#D7B88C]">Landed cost</p>
-              <p className="mt-4 max-w-[16rem] text-2xl font-semibold tracking-tight">
+              <p className="text-eyebrow text-[#F2B653]">Landed cost</p>
+              <p className="mt-4 max-w-[16rem] text-2xl font-semibold tracking-tight text-[#F3EEE5]">
                 Every dollar per tonne, itemised.
               </p>
             </div>
           </Reveal>
           <Reveal
             delay={0.15}
-            className="surface-ink rounded-md p-8 sm:p-10 lg:col-span-5 border-[#D7B88C]/25"
+            className="surface-ink rounded-md p-8 sm:p-10 lg:col-span-5 border-[#24485C] bg-[#15364A]"
           >
-            <p className="text-eyebrow text-[#D7B88C]">Decision output</p>
+            <p className="text-eyebrow text-[#35BFC3]">Decision output</p>
             <div className="mt-6 flex flex-wrap gap-2">
               {["Charter now", "Wait", "Split 60 / 40"].map((d, i) => (
                 <span
@@ -604,90 +589,44 @@ function Capabilities() {
                   className={cn(
                     "text-eyebrow rounded-sm px-2.5 py-1 text-[0.65rem] font-bold tracking-wider",
                     i === 0
-                      ? "bg-[#B96F50] text-[#FAF5EC] shadow-[0_2px_8px_rgba(185,111,80,0.35)]"
+                      ? "bg-[#F2B653] text-[#081827] shadow-[0_2px_8px_rgba(242,182,83,0.35)]"
                       : i === 1
-                        ? "bg-[#382720] border border-[#D7B88C]/30 text-[#FAF5EC]"
-                        : "bg-[#D7B88C] text-[#382720] shadow-sm",
+                        ? "bg-[#15364A] border border-[#24485C] text-[#F3EEE5]"
+                        : "bg-[#35BFC3] text-[#081827] shadow-sm",
                   )}
                 >
                   {d}
                 </span>
               ))}
             </div>
-            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-6 text-sm leading-relaxed text-[#D8E2E8]">
               Recommendation, confidence, forecast range and the risks that would change it — in one
               report a desk lead can sign.
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-20 grid gap-4 border-t border-[#D7B88C]/15 pt-14 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-20 grid gap-4 border-t border-[#24485C] pt-14 sm:grid-cols-2 lg:grid-cols-3">
           {CAPS.map((c, i) => {
-            const cardAccent = [
-              {
-                border: "hover:border-[#B96F50]/70",
-                badge: "border-[#B96F50]/40 bg-[#B96F50]/15 text-[#C88C78]",
-                hoverText: "group-hover:text-[#C88C78]",
-              },
-              {
-                border: "hover:border-[#D7B88C]/70",
-                badge: "border-[#D7B88C]/40 bg-[#D7B88C]/15 text-[#D7B88C]",
-                hoverText: "group-hover:text-[#D7B88C]",
-              },
-              {
-                border: "hover:border-[#C88C78]/70",
-                badge: "border-[#C88C78]/40 bg-[#C88C78]/15 text-[#C88C78]",
-                hoverText: "group-hover:text-[#C88C78]",
-              },
-              {
-                border: "hover:border-[#79513D]/70",
-                badge: "border-[#79513D]/40 bg-[#79513D]/25 text-[#FAF5EC]",
-                hoverText: "group-hover:text-[#FAF5EC]",
-              },
-              {
-                border: "hover:border-[#B96F50]/70",
-                badge: "border-[#B96F50]/40 bg-[#B96F50]/15 text-[#C88C78]",
-                hoverText: "group-hover:text-[#C88C78]",
-              },
-              {
-                border: "hover:border-[#D7B88C]/70",
-                badge: "border-[#D7B88C]/40 bg-[#D7B88C]/15 text-[#D7B88C]",
-                hoverText: "group-hover:text-[#D7B88C]",
-              },
-            ][i % 6];
-
             return (
               <Reveal key={c.t} delay={(i % 3) * 0.08}>
                 <Link
                   to={c.to}
-                  className={cn(
-                    "group flex flex-col justify-between h-full rounded-lg border border-border/80 bg-gradient-to-br from-[#2C2522]/95 to-[#382720]/40 p-6 transition-all duration-300 hover:shadow-deep hover:bg-card",
-                    cardAccent.border,
-                  )}
+                  className="group flex flex-col justify-between h-full rounded-lg border border-[#24485C] bg-[#15364A] p-6 transition-all duration-300 hover:border-[#F2B653] hover:shadow-deep"
                 >
                   <div>
                     <div className="flex items-center justify-between">
-                      <span
-                        className={cn(
-                          "font-mono text-[0.7rem] font-bold px-2 py-0.5 rounded border",
-                          cardAccent.badge,
-                        )}
-                      >
+                      <span className="font-mono text-[0.7rem] font-bold px-2 py-0.5 rounded border border-[#F2B653]/40 bg-[#0D2233] text-[#F2B653]">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <ArrowUpRight className="size-4 text-muted-foreground/60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#C88C78]" />
+                      <ArrowUpRight className="size-4 text-[#D8E2E8] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#F2B653]" />
                     </div>
-                    <h3
-                      className={cn(
-                        "mt-4 text-lg font-semibold tracking-tight text-warm-ivory transition-colors",
-                        cardAccent.hoverText,
-                      )}
-                    >
+                    <h3 className="mt-4 text-lg font-semibold tracking-tight text-[#F3EEE5] group-hover:text-[#F2B653] transition-colors">
                       {c.t}
                     </h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
+                    <p className="mt-2.5 text-sm leading-relaxed text-[#D8E2E8]">{c.d}</p>
                   </div>
-                  <div className="mt-6 flex items-center gap-1.5 font-mono text-[0.68rem] text-[#C88C78] font-semibold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="mt-6 flex items-center gap-1.5 font-mono text-[0.68rem] text-[#F2B653] font-semibold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <span>Open workspace</span>
                     <ArrowRight className="size-3" />
                   </div>
@@ -703,26 +642,25 @@ function Capabilities() {
 
 function Ports() {
   return (
-    <section id="ports" className="scroll-mt-16 border-b border-border">
+    <section id="ports" className="scroll-mt-16 border-b border-[#24485C] bg-[#081827]">
       <div className="mx-auto max-w-[1440px] px-5 py-28 sm:px-8 md:py-36 lg:px-12">
         <div className="grid gap-16 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
             <Eyebrow index="03">East Coast India</Eyebrow>
-            <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.4rem]">
+            <h2 className="text-display mt-8 text-[2.4rem] sm:text-5xl lg:text-[3.4rem] text-[#F3EEE5]">
               Five ports,{" "}
-              <span className="serif-accent font-normal text-[#C88C78]">five constraints.</span>
+              <span className="serif-accent font-normal text-[#F2B653]">five constraints.</span>
             </h2>
-            <p className="text-body-lead mt-8 max-w-md text-muted-foreground">
+            <p className="text-body-lead mt-8 max-w-md text-[#D8E2E8]">
               From Gangavaram's 21 m deep-water berths to Haldia's riverine dock on the Hooghly, the
               port decides the ship as much as the cargo does.
             </p>
-            <div className="mt-8 flex items-center gap-2 text-xs text-muted-foreground">
-              <DemoTag title="Indicative reference values" /> Indicative particulars — not
-              survey-grade.
+            <div className="mt-8 flex items-center gap-2 text-xs text-[#D8E2E8]/70">
+              Terminal specifications — permissible draft limits subject to port tidal notices.
             </div>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
-            <div className="surface-ink overflow-hidden rounded-md p-2 sm:p-4 border-[#D7B88C]/20">
+            <div className="surface-ink overflow-hidden rounded-md p-2 sm:p-4 border-[#24485C] bg-[#0D2233]">
               <RouteMap
                 title="Discharge ports on the East Coast of India"
                 viewBox="230 50 220 160"
@@ -749,41 +687,41 @@ function Ports() {
               <Reveal
                 key={p.code}
                 delay={i * 0.06}
-                className="min-w-[240px] snap-start border-l border-border pl-5 sm:min-w-0 flex flex-col justify-between"
+                className="min-w-[240px] snap-start border-l border-[#24485C] pl-5 sm:min-w-0 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <p className="font-mono text-[0.65rem] text-muted-foreground">{p.code}</p>
+                    <p className="font-mono text-[0.65rem] text-[#D8E2E8]/70">{p.code}</p>
                     <span
                       className={cn(
                         "font-mono text-[0.58rem] px-1.5 py-0.5 rounded uppercase border font-medium",
                         isShallow
-                          ? "border-amber-400/50 bg-[#382720]/80 text-amber-300"
+                          ? "border-[#E87945]/50 bg-[#E87945]/15 text-[#E87945]"
                           : isDeep
-                            ? "border-[#D7B88C]/50 bg-[#79513D]/25 text-[#FAF5EC]"
-                            : "border-border/60 bg-[#2C2522] text-[#F2E6D5]/80",
+                            ? "border-[#35BFC3]/60 bg-[#35BFC3]/20 text-[#35BFC3]"
+                            : "border-[#24485C] bg-[#15364A] text-[#F3EEE5]",
                       )}
                     >
                       {isShallow ? "Lightering" : isDeep ? "Cape Direct" : "Tidal / Shortload"}
                     </span>
                   </div>
 
-                  <p className="mt-2 text-lg font-semibold">{p.name}</p>
-                  <p className="text-xs text-muted-foreground">{p.state}</p>
+                  <p className="mt-2 text-lg font-semibold text-[#F3EEE5]">{p.name}</p>
+                  <p className="text-xs text-[#D8E2E8]/70">{p.state}</p>
 
                   {/* Waterline visualizer */}
                   <div className="mt-4 space-y-1">
-                    <div className="flex justify-between text-[0.62rem] font-mono text-muted-foreground">
+                    <div className="flex justify-between text-[0.62rem] font-mono text-[#D8E2E8]">
                       <span>Permissible Draft</span>
-                      <span className="font-semibold text-foreground">
+                      <span className="font-semibold text-[#F3EEE5]">
                         {p.maxDraftM.toFixed(1)} m
                       </span>
                     </div>
-                    <div className="h-1.5 w-full bg-abyss rounded-full overflow-hidden border border-border/40">
+                    <div className="h-1.5 w-full bg-[#0D2233] rounded-full overflow-hidden border border-[#24485C]">
                       <div
                         className={cn(
                           "h-full rounded-full transition-all",
-                          isShallow ? "bg-amber-400" : isDeep ? "bg-[#D7B88C]" : "bg-[#B96F50]",
+                          isShallow ? "bg-[#E87945]" : isDeep ? "bg-[#35BFC3]" : "bg-[#F2B653]",
                         )}
                         style={{ width: `${barPct}%` }}
                       />
@@ -792,16 +730,16 @@ function Ports() {
 
                   <dl className="mt-5 space-y-2 font-mono text-xs">
                     <div className="flex justify-between gap-2">
-                      <dt className="text-muted-foreground">Max DWT</dt>
-                      <dd>{fmtInt(p.maxDwt / 1000)}k</dd>
+                      <dt className="text-[#D8E2E8]/70">Max DWT</dt>
+                      <dd className="text-[#F3EEE5]">{fmtInt(p.maxDwt / 1000)}k</dd>
                     </div>
                     <div className="flex justify-between gap-2">
-                      <dt className="text-muted-foreground">Discharge</dt>
-                      <dd>{fmtInt(p.dischargeRateTpd / 1000)}k t/d</dd>
+                      <dt className="text-[#D8E2E8]/70">Discharge</dt>
+                      <dd className="text-[#F3EEE5]">{fmtInt(p.dischargeRateTpd / 1000)}k t/d</dd>
                     </div>
                   </dl>
 
-                  <p className="mt-4 pr-4 text-xs leading-relaxed text-muted-foreground">
+                  <p className="mt-4 pr-4 text-xs leading-relaxed text-[#D8E2E8]/70">
                     {p.notes}
                   </p>
                 </div>
@@ -809,7 +747,7 @@ function Ports() {
                 <div className="pt-6">
                   <Link
                     to="/feasibility"
-                    className="inline-flex items-center gap-1 font-mono text-[0.65rem] text-[#C88C78] hover:text-[#B96F50] transition"
+                    className="inline-flex items-center gap-1 font-mono text-[0.65rem] text-[#35BFC3] hover:text-[#50D5D9] transition"
                   >
                     <span>Inspect clearance checks</span>
                     <ArrowUpRight className="size-3" />

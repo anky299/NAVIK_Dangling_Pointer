@@ -57,6 +57,7 @@ import { congestionQuery, dashboardQuery } from "@/lib/api/queries";
 import { fmt1, fmt2, fmtInt, fmtRate, fmtUsd } from "@/lib/format";
 import type { CargoType, FeasibilityStatus, PortCode, VesselClassId } from "@/lib/api/types";
 import { cn } from "@/lib/utils";
+import { BentoCard, BentoGrid } from "./Bento";
 
 const STATUS_CONFIG: Record<
   FeasibilityStatus,
@@ -229,7 +230,7 @@ export function FeasibilityWorkspace() {
       </div>
 
       {/* 2. Destination Port Selector Ribbon */}
-      <div className="rounded-xl border border-border/80 bg-surface/50 p-4 shadow-sm">
+      <BentoCard glowColor="brass" className="p-4 shadow-sm">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-1">
             <span className="text-[11px] font-mono uppercase tracking-wider text-foreground/60">
@@ -249,14 +250,14 @@ export function FeasibilityWorkspace() {
                     className={cn(
                       "flex items-center gap-2 rounded-lg px-3.5 py-2 text-xs font-medium transition border",
                       isSelected
-                        ? "border-copper bg-copper/15 text-copper-soft font-semibold shadow-sm"
-                        : "border-border/70 bg-ink/50 text-foreground/80 hover:border-border hover:bg-surface",
+                        ? "border-[#35C9D0] bg-[#102A40] text-[#F7FAFC] font-semibold shadow-sm"
+                        : "border-[#263D50] bg-[#0B1C2B] text-[#A8BAC8] hover:border-[#35C9D0]/50 hover:bg-[#18384F]",
                     )}
                   >
                     <Ship
                       className={cn(
                         "h-3.5 w-3.5",
-                        isSelected ? "text-copper" : "text-foreground/50",
+                        isSelected ? "text-[#35C9D0]" : "text-[#A8BAC8]",
                       )}
                     />
                     <span className="font-semibold">{p.name}</span>
@@ -291,11 +292,11 @@ export function FeasibilityWorkspace() {
             </select>
           </div>
         </div>
-      </div>
+      </BentoCard>
 
       {/* 3. Feasibility Summary Metrics Ribbon (Phase 4) */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        <div className="rounded-lg border border-border/80 bg-surface/50 p-3.5">
+        <BentoCard glowColor="none" className="p-3.5">
           <div className="text-[11px] font-mono uppercase text-foreground/60 mb-1 flex items-center justify-between">
             <span>Evaluated</span>
             <Layers className="h-3.5 w-3.5 text-foreground/50" />
@@ -305,9 +306,9 @@ export function FeasibilityWorkspace() {
             <span className="text-xs font-normal text-foreground/50 ml-1">classes</span>
           </div>
           <div className="text-[10px] font-mono text-foreground/50 mt-1">Bulk fleet coverage</div>
-        </div>
+        </BentoCard>
 
-        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3.5">
+        <BentoCard glowColor="brass" className="p-3.5">
           <div className="text-[11px] font-mono uppercase text-emerald-400 mb-1 flex items-center justify-between">
             <span>Feasible</span>
             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
@@ -317,9 +318,9 @@ export function FeasibilityWorkspace() {
             <span className="text-xs font-normal text-emerald-400/60 ml-1">direct</span>
           </div>
           <div className="text-[10px] font-mono text-emerald-400/70 mt-1">Safe depth & berth</div>
-        </div>
+        </BentoCard>
 
-        <div className="rounded-lg border border-copper/30 bg-copper/5 p-3.5">
+        <BentoCard glowColor="coral" className="p-3.5">
           <div className="text-[11px] font-mono uppercase text-copper-soft mb-1 flex items-center justify-between">
             <span>Conditional</span>
             <AlertTriangle className="h-3.5 w-3.5 text-copper-soft" />
@@ -331,9 +332,9 @@ export function FeasibilityWorkspace() {
           <div className="text-[10px] font-mono text-copper-soft/70 mt-1">
             Part-laden / Lightered
           </div>
-        </div>
+        </BentoCard>
 
-        <div className="rounded-lg border border-crimson/30 bg-crimson/5 p-3.5">
+        <BentoCard glowColor="rose" className="p-3.5">
           <div className="text-[11px] font-mono uppercase text-crimson mb-1 flex items-center justify-between">
             <span>Rejected</span>
             <XCircle className="h-3.5 w-3.5 text-crimson" />
@@ -343,9 +344,9 @@ export function FeasibilityWorkspace() {
             <span className="text-xs font-normal text-crimson/60 ml-1">ineligible</span>
           </div>
           <div className="text-[10px] font-mono text-crimson/70 mt-1">Physical violations</div>
-        </div>
+        </BentoCard>
 
-        <div className="rounded-lg border border-brass/30 bg-brass/5 p-3.5">
+        <BentoCard glowColor="brass" className="p-3.5">
           <div className="text-[11px] font-mono uppercase text-brass mb-1 flex items-center justify-between">
             <span>Verifications</span>
             <HelpCircle className="h-3.5 w-3.5 text-brass" />
@@ -355,9 +356,9 @@ export function FeasibilityWorkspace() {
             <span className="text-xs font-normal text-brass/60 ml-1">flags</span>
           </div>
           <div className="text-[10px] font-mono text-brass/70 mt-1">Port agent checks</div>
-        </div>
+        </BentoCard>
 
-        <div className="rounded-lg border border-border/80 bg-surface/50 p-3.5 col-span-2 sm:col-span-1">
+        <BentoCard glowColor="coral" className="p-3.5 col-span-2 sm:col-span-1">
           <div className="text-[11px] font-mono uppercase text-foreground/60 mb-1 flex items-center justify-between">
             <span>Queue / Delay</span>
             <Clock className="h-3.5 w-3.5 text-copper" />
@@ -369,7 +370,7 @@ export function FeasibilityWorkspace() {
           <div className="text-[10px] font-mono text-foreground/50 mt-1">
             {selectedPortCongestion?.waitingVessels ?? 8} vessels anchored
           </div>
-        </div>
+        </BentoCard>
       </div>
 
       {/* 4. Tab Switcher: Suitability Matrix vs Port Terminal Profile vs Trade-offs */}
@@ -459,7 +460,7 @@ export function FeasibilityWorkspace() {
           </div>
 
           {/* Interactive Matrix Table */}
-          <div className="rounded-xl border border-border/80 bg-surface/40 overflow-hidden shadow-sm">
+          <BentoCard glowColor="brass" className="overflow-hidden p-0 shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
@@ -606,10 +607,10 @@ export function FeasibilityWorkspace() {
                 No vessel classes match the current status filter.
               </div>
             )}
-          </div>
+          </BentoCard>
 
           {/* 6. Explainable Constraint Inspector for Selected Vessel (Phase 7) */}
-          <div className="rounded-xl border border-border/80 bg-surface/40 p-5 space-y-5">
+          <BentoCard glowColor="coral" className="p-5 space-y-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border/50 pb-4">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-wider text-brass">
@@ -739,7 +740,7 @@ export function FeasibilityWorkspace() {
                 </p>
               </div>
             </div>
-          </div>
+          </BentoCard>
         </div>
       )}
 
@@ -747,7 +748,7 @@ export function FeasibilityWorkspace() {
       {activeTab === "PROFILE" && (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* Left: Port Specifications (7 cols) */}
-          <div className="rounded-xl border border-border/80 bg-surface/40 p-5 lg:col-span-7 space-y-5">
+          <BentoCard glowColor="brass" className="p-5 lg:col-span-7 space-y-5">
             <div className="flex items-start justify-between border-b border-border/50 pb-4">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-wider text-brass">
@@ -849,10 +850,10 @@ export function FeasibilityWorkspace() {
                 </div>
               </div>
             )}
-          </div>
+          </BentoCard>
 
           {/* Right: Operational Telemetry & Compatible Fleet (5 cols) */}
-          <div className="rounded-xl border border-border/80 bg-surface/40 p-5 lg:col-span-5 space-y-5 flex flex-col justify-between">
+          <BentoCard glowColor="coral" className="p-5 lg:col-span-5 space-y-5 flex flex-col justify-between">
             <div className="space-y-4">
               <div className="border-b border-border/50 pb-3">
                 <span className="text-[10px] font-mono uppercase tracking-wider text-brass">
@@ -928,14 +929,14 @@ export function FeasibilityWorkspace() {
                 <ArrowUpRight className="h-3 w-3" />
               </Link>
             </div>
-          </div>
+          </BentoCard>
         </div>
       )}
 
       {/* 8. Fleet Trade-offs & Recommendations Tab (Phase 8) */}
       {activeTab === "TRADE_OFFS" && (
         <div className="space-y-6">
-          <div className="rounded-xl border border-border/80 bg-surface/40 p-5 space-y-4">
+          <BentoCard glowColor="walnut" className="p-5 space-y-4">
             <div>
               <span className="text-[10px] font-mono uppercase tracking-wider text-brass">
                 OPERATIONAL TRADE-OFF COMPARISONS
@@ -1074,7 +1075,7 @@ export function FeasibilityWorkspace() {
                 </button>
               )}
             </div>
-          </div>
+          </BentoCard>
         </div>
       )}
     </div>

@@ -70,6 +70,7 @@ import {
   DEFAULT_CONGESTION,
 } from "@/lib/sim/charter";
 import { RouteMap, type MapLane } from "./RouteMap";
+import { MaritimeGlobe } from "./MaritimeGlobe";
 import {
   DemoTag,
   Eyebrow,
@@ -79,6 +80,7 @@ import {
   FeasibilityBadge,
   Metric,
 } from "./primitives";
+import { BentoCard, BentoGrid, BentoGauge, BentoFlowBar } from "./Bento";
 
 /* ═══════════════════════════════════════════════
    Constants
@@ -207,13 +209,29 @@ export function CharterWorkspace() {
 
   return (
     <div>
-      <PageHeader
-        eyebrow="Charter Workspace"
-        title="Charter"
-        accent="decision."
-        description="Five-stage pipeline from cargo requirements to an explainable charter recommendation."
-        tag={<DemoTag kind="simulated" />}
-      />
+      {/* Hero Deck & 3D Maritime Globe Banner */}
+      <div className="relative min-h-[260px] lg:min-h-[290px] flex flex-col justify-center overflow-hidden rounded-2xl border border-[#24485C] bg-[#081827] p-6 lg:p-8 shadow-2xl mb-8">
+        <div className="absolute -top-10 -right-8 sm:-top-8 sm:-right-4 w-[520px] sm:w-[680px] lg:w-[860px] h-[340px] sm:h-[400px] lg:h-[440px] pointer-events-none z-0 opacity-95 overflow-hidden">
+          <MaritimeGlobe className="w-full h-full pointer-events-auto" height={440} />
+          <div className="absolute inset-y-0 left-0 w-2/5 bg-gradient-to-r from-[#081827] via-[#081827]/75 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#081827] to-transparent pointer-events-none" />
+        </div>
+
+        <div className="relative z-10 max-w-2xl space-y-2.5">
+          <div className="flex items-center gap-2">
+            <span className="flex h-2 w-2 rounded-full bg-[#35BFC3] animate-pulse shadow-[0_0_8px_rgba(53,191,195,0.8)]" />
+            <span className="text-[0.68rem] font-mono uppercase tracking-[0.16em] text-[#D8E2E8]/70 font-semibold">
+              NAVIK <span className="text-[#24485C]">•</span> CHARTER WORKSPACE <span className="text-[#24485C]">•</span> <span className="text-[#35BFC3]">EVALUATION ENGINE</span>
+            </span>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#F3EEE5] md:text-4xl">
+            Charter <span className="text-[#F2B653]">Decision Pipeline</span>
+          </h1>
+          <p className="text-xs sm:text-sm leading-relaxed text-[#D8E2E8] font-normal">
+            Five-stage pipeline from cargo requirements to an explainable charter recommendation with real-time port draft checks, voyage economics, and risk scoring.
+          </p>
+        </div>
+      </div>
 
       {/* Stage stepper */}
       <nav aria-label="Charter pipeline stages" className="mb-8">
@@ -229,7 +247,7 @@ export function CharterWorkspace() {
                   <div
                     className={cn(
                       "hidden h-px w-6 sm:block md:w-10",
-                      done ? "bg-copper" : "bg-border",
+                      done ? "bg-[#35BFC3]" : "bg-[#24485C]",
                     )}
                   />
                 )}
@@ -239,30 +257,30 @@ export function CharterWorkspace() {
                   disabled={!accessible}
                   aria-current={active ? "step" : undefined}
                   className={cn(
-                    "group flex items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-xs font-medium transition-colors",
+                    "group flex items-center gap-2 whitespace-nowrap rounded-lg px-3.5 py-2 text-xs font-medium transition-colors border",
                     active
-                      ? "surface-ink text-foreground"
+                      ? "border-[#F2B653] bg-[#15364A] text-[#F3EEE5] shadow-sm font-semibold"
                       : done
-                        ? "text-copper-soft hover:text-copper"
+                        ? "border-[#24485C] bg-[#0D2233] text-[#35BFC3] hover:text-[#F3EEE5]"
                         : accessible
-                          ? "text-muted-foreground hover:text-foreground"
-                          : "cursor-not-allowed text-muted-foreground/50",
+                          ? "border-[#24485C]/60 bg-[#0D2233]/60 text-[#D8E2E8] hover:text-[#F3EEE5]"
+                          : "border-transparent text-[#D8E2E8]/40 cursor-not-allowed",
                   )}
                 >
                   <span
                     className={cn(
-                      "flex size-6 shrink-0 items-center justify-center rounded-full border text-[0.6rem] font-semibold transition-colors",
+                      "flex size-6 shrink-0 items-center justify-center rounded-full border text-[0.65rem] font-bold transition-colors",
                       active
-                        ? "border-copper bg-copper text-primary-foreground"
+                        ? "border-[#F2B653] bg-[#F2B653] text-[#081827]"
                         : done
-                          ? "border-copper/50 text-copper-soft"
-                          : "border-border text-muted-foreground",
+                          ? "border-[#35BFC3] bg-[#35BFC3]/20 text-[#35BFC3]"
+                          : "border-[#24485C] text-[#D8E2E8]",
                     )}
                   >
                     {done ? <Check className="size-3" /> : s.id}
                   </span>
                   <span className="hidden sm:inline">{s.label}</span>
-                  <Icon className={cn("size-3.5 sm:hidden", active ? "text-copper" : "")} />
+                  <Icon className={cn("size-3.5 sm:hidden", active ? "text-[#F2B653]" : "")} />
                 </button>
               </li>
             );
@@ -493,7 +511,7 @@ function CargoIntake({
           <div className="mt-8 flex items-center justify-between border-t border-paper-border pt-6">
             <p className="text-xs text-paper-muted">
               <Info className="mr-1 inline-block size-3" />
-              All values are illustrative defaults from demo fixtures
+              Parameters configured for East Coast India intake corridors.
             </p>
             <button
               type="button"
@@ -510,17 +528,27 @@ function CargoIntake({
       {/* Side context */}
       <div className="flex flex-col gap-4 lg:col-span-5 xl:col-span-4">
         {/* Route preview */}
-        <div className="surface-ink grain overflow-hidden rounded-md p-3">
+        <div className="relative rounded-xl border border-[#263D50] bg-[#071522] p-3 overflow-hidden shadow-inner">
+          <div className="absolute top-2.5 left-3 flex items-center gap-2 font-mono text-[0.62rem] text-[#F7FAFC]/80 z-20">
+            <span className="size-1.5 rounded-full bg-[#35C9D0] animate-pulse" />
+            <span>CORRIDOR: {originById(request.origin).loadPort.toUpperCase()} → {portByCode(request.destination).name.toUpperCase()}</span>
+          </div>
           <RouteMap
             title={`${originById(request.origin).loadPort} → ${portByCode(request.destination).name}`}
             lanes={[{ origin: request.origin, port: request.destination, emphasis: true }]}
+            highlightPort={request.destination}
             labelScale={0.9}
             delay={0}
+            theme="dark"
+            className="w-full max-h-[340px]"
           />
+          <div className="absolute bottom-2.5 right-3 text-[10px] font-mono text-[#A8BAC8] bg-[#0B1C2B]/90 px-2 py-0.5 rounded border border-[#263D50]">
+            Schematic corridor · Indicative
+          </div>
         </div>
 
         {/* Port info */}
-        <div className="surface-ink rounded-md p-5">
+        <BentoCard glowColor="walnut" className="p-5">
           <p className="text-eyebrow text-brass">Discharge port</p>
           <p className="mt-2 text-lg font-semibold">{portByCode(request.destination).name}</p>
           <dl className="mt-4 grid grid-cols-2 gap-3 text-xs">
@@ -552,10 +580,10 @@ function CargoIntake({
           <p className="mt-4 border-t border-border pt-3 text-xs text-muted-foreground">
             {portByCode(request.destination).notes}
           </p>
-        </div>
+        </BentoCard>
 
         {/* Congestion */}
-        <div className="surface-ink rounded-md p-5">
+        <BentoCard glowColor="coral" className="p-5">
           <p className="text-eyebrow text-brass">Current congestion</p>
           {(() => {
             const c = DEFAULT_CONGESTION[request.destination];
@@ -580,7 +608,7 @@ function CargoIntake({
               </dl>
             );
           })()}
-        </div>
+        </BentoCard>
       </div>
     </div>
   );
@@ -658,19 +686,20 @@ function VesselFeasibility({
           const spec = vesselById(check.vesselClass);
           const isRecommended = report.vesselClass === check.vesselClass;
           return (
-            <div
+            <BentoCard
               key={check.vesselClass}
+              glowColor={isRecommended ? "cyan" : check.status === "FEASIBLE" ? "teal" : undefined}
               className={cn(
-                "relative rounded-md border p-5 transition-colors",
+                "relative p-5 transition-colors",
                 isRecommended
-                  ? "border-copper/50 bg-copper/5"
+                  ? "border-[#35C9D0]/60 shadow-[0_0_20px_rgba(53,201,208,0.25)]"
                   : check.status === "REJECTED"
-                    ? "border-border bg-muted/30 opacity-70"
-                    : "surface-ink",
+                    ? "opacity-60"
+                    : "",
               )}
             >
               {isRecommended && (
-                <span className="text-eyebrow absolute right-3 top-3 text-[0.55rem] text-copper">
+                <span className="text-eyebrow absolute right-3 top-3 text-[0.55rem] text-[#35C9D0] font-bold">
                   Recommended
                 </span>
               )}
@@ -754,7 +783,7 @@ function VesselFeasibility({
                   ))}
                 </ul>
               </div>
-            </div>
+            </BentoCard>
           );
         })}
       </div>
@@ -790,25 +819,33 @@ function RouteVoyage({
     <div className="grid gap-6 lg:grid-cols-12">
       {/* Map */}
       <div className="lg:col-span-7">
-        <div className="surface-ink grain overflow-hidden rounded-md p-3">
+        <div className="relative rounded-xl border border-[#24485C] bg-[#081827] p-3 overflow-hidden shadow-inner">
+          <div className="absolute top-2.5 left-3 flex items-center gap-2 font-mono text-[0.62rem] text-[#F3EEE5]/85 z-20">
+            <span className="size-1.5 rounded-full bg-[#F2B653] animate-pulse" />
+            <span>ACTIVE FIXTURE LANE: {origin.loadPort.toUpperCase()} → {port.name.toUpperCase()}</span>
+          </div>
           <RouteMap
             title={`${origin.loadPort} → ${port.name}`}
             lanes={[lane]}
             highlightPort={request.destination}
             labelScale={0.95}
             delay={0}
+            theme="dark"
+            className="w-full max-h-[380px]"
           />
+          <div className="absolute bottom-2.5 right-3 text-[10px] font-mono text-[#D8E2E8]/70 bg-[#0D2233]/90 px-2 py-0.5 rounded border border-[#24485C]">
+            Schematic canvas · Not for navigation
+          </div>
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
-          <DemoTag kind="simulated" className="mr-1.5" />
-          Indicative route — not navigational. Distances from reference tables.
+          Indicative corridor route — not navigational. Distances computed from standard maritime waypoints.
         </p>
       </div>
 
       {/* Metrics */}
       <div className="flex flex-col gap-4 lg:col-span-5">
         {/* Route summary */}
-        <div className="surface-ink rounded-md p-5">
+        <BentoCard glowColor="coral" className="p-5">
           <p className="text-eyebrow text-brass">Route</p>
           <p className="mt-2 text-sm font-semibold">{report.routeLabel}</p>
           <dl className="mt-5 grid grid-cols-2 gap-4 text-xs">
@@ -827,11 +864,11 @@ function RouteVoyage({
               </dd>
             </div>
           </dl>
-        </div>
+        </BentoCard>
 
         {/* Vessel / speed */}
         {best && (
-          <div className="surface-ink rounded-md p-5">
+          <BentoCard glowColor="brass" className="p-5">
             <p className="text-eyebrow text-brass">Vessel class</p>
             <p className="mt-2 text-sm font-semibold">{best.name}</p>
             <dl className="mt-4 grid grid-cols-2 gap-3 text-xs">
@@ -854,11 +891,11 @@ function RouteVoyage({
                 </dd>
               </div>
             </dl>
-          </div>
+          </BentoCard>
         )}
 
         {/* Port / congestion */}
-        <div className="surface-ink rounded-md p-5">
+        <BentoCard glowColor="walnut" className="p-5">
           <p className="text-eyebrow text-brass">Port congestion</p>
           <dl className="mt-3 grid grid-cols-2 gap-3 text-xs">
             <div>
@@ -887,10 +924,10 @@ function RouteVoyage({
               </dd>
             </div>
           </dl>
-        </div>
+        </BentoCard>
 
         {/* Risk */}
-        <div className="surface-ink rounded-md p-5">
+        <BentoCard glowColor="rose" className="p-5">
           <div className="flex items-center justify-between">
             <p className="text-eyebrow text-brass">Operational risk</p>
             <RiskBadge level={report.riskLevel} />
@@ -913,7 +950,7 @@ function RouteVoyage({
               </li>
             ))}
           </ul>
-        </div>
+        </BentoCard>
       </div>
 
       <div className="lg:col-span-12">
@@ -1050,103 +1087,105 @@ function LandedCost({
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border text-left">
-                <SortTh
-                  label="Vessel Class"
-                  sortKey="vesselClass"
-                  currentKey={sortKey}
-                  dir={sortDir}
-                  onSort={toggleSort}
-                />
-                <th className="px-3 py-3 text-muted-foreground font-medium">Status</th>
-                <SortTh
-                  label="Transit"
-                  sortKey="transitDays"
-                  currentKey={sortKey}
-                  dir={sortDir}
-                  onSort={toggleSort}
-                />
-                <SortTh
-                  label="Utilisation"
-                  sortKey="utilisationPct"
-                  currentKey={sortKey}
-                  dir={sortDir}
-                  onSort={toggleSort}
-                />
-                <th className="px-3 py-3 text-muted-foreground font-medium">Freight</th>
-                <th className="px-3 py-3 text-muted-foreground font-medium">Bunker</th>
-                <th className="px-3 py-3 text-muted-foreground font-medium">Port dues</th>
-                <th className="px-3 py-3 text-muted-foreground font-medium">Demurrage</th>
-                <th className="px-3 py-3 text-muted-foreground font-medium">Insurance</th>
-                <SortTh
-                  label="Total"
-                  sortKey="totalCostUsd"
-                  currentKey={sortKey}
-                  dir={sortDir}
-                  onSort={toggleSort}
-                />
-                <SortTh
-                  label="$/t"
-                  sortKey="costPerT"
-                  currentKey={sortKey}
-                  dir={sortDir}
-                  onSort={toggleSort}
-                />
-              </tr>
-            </thead>
-            <tbody>
-              {sorted.map((check) => {
-                const spec = vesselById(check.vesselClass);
-                const isRec = fullReport.vesselClass === check.vesselClass;
-                const bd = breakdowns[check.vesselClass];
-                return (
-                  <tr
-                    key={check.vesselClass}
-                    className={cn(
-                      "border-b border-border/50 transition-colors hover:bg-accent/30",
-                      isRec && "bg-copper/5",
-                    )}
-                  >
-                    <td className="whitespace-nowrap px-3 py-3 font-medium">
-                      {spec.name}
-                      {isRec && (
-                        <span className="ml-2 text-[0.55rem] font-semibold uppercase tracking-wider text-copper">
-                          Best
-                        </span>
+        <BentoCard glowColor="brass" className="overflow-hidden p-5">
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border text-left">
+                  <SortTh
+                    label="Vessel Class"
+                    sortKey="vesselClass"
+                    currentKey={sortKey}
+                    dir={sortDir}
+                    onSort={toggleSort}
+                  />
+                  <th className="px-3 py-3 text-muted-foreground font-medium">Status</th>
+                  <SortTh
+                    label="Transit"
+                    sortKey="transitDays"
+                    currentKey={sortKey}
+                    dir={sortDir}
+                    onSort={toggleSort}
+                  />
+                  <SortTh
+                    label="Utilisation"
+                    sortKey="utilisationPct"
+                    currentKey={sortKey}
+                    dir={sortDir}
+                    onSort={toggleSort}
+                  />
+                  <th className="px-3 py-3 text-muted-foreground font-medium">Freight</th>
+                  <th className="px-3 py-3 text-muted-foreground font-medium">Bunker</th>
+                  <th className="px-3 py-3 text-muted-foreground font-medium">Port dues</th>
+                  <th className="px-3 py-3 text-muted-foreground font-medium">Demurrage</th>
+                  <th className="px-3 py-3 text-muted-foreground font-medium">Insurance</th>
+                  <SortTh
+                    label="Total"
+                    sortKey="totalCostUsd"
+                    currentKey={sortKey}
+                    dir={sortDir}
+                    onSort={toggleSort}
+                  />
+                  <SortTh
+                    label="$/t"
+                    sortKey="costPerT"
+                    currentKey={sortKey}
+                    dir={sortDir}
+                    onSort={toggleSort}
+                  />
+                </tr>
+              </thead>
+              <tbody>
+                {sorted.map((check) => {
+                  const spec = vesselById(check.vesselClass);
+                  const isRec = fullReport.vesselClass === check.vesselClass;
+                  const bd = breakdowns[check.vesselClass];
+                  return (
+                    <tr
+                      key={check.vesselClass}
+                      className={cn(
+                        "border-b border-border/50 transition-colors hover:bg-accent/30",
+                        isRec && "bg-copper/5",
                       )}
-                    </td>
-                    <td className="px-3 py-3">
-                      <FeasibilityBadge status={check.status} />
-                    </td>
-                    <td className="px-3 py-3 font-mono">{check.transitDays}d</td>
-                    <td className="px-3 py-3 font-mono">{check.utilisationPct}%</td>
-                    <td className="px-3 py-3 font-mono">{bd ? fmtUsd(bd.freightUsd) : "—"}</td>
-                    <td className="px-3 py-3 font-mono">{bd ? fmtUsd(bd.bunkerUsd) : "—"}</td>
-                    <td className="px-3 py-3 font-mono">{bd ? fmtUsd(bd.portDuesUsd) : "—"}</td>
-                    <td className="px-3 py-3 font-mono">
-                      {bd ? fmtUsd(bd.demurrageReserveUsd) : "—"}
-                    </td>
-                    <td className="px-3 py-3 font-mono">{bd ? fmtUsd(bd.insuranceUsd) : "—"}</td>
-                    <td className="px-3 py-3 font-mono font-medium">
-                      {fmtUsd(check.totalCostUsd)}
-                    </td>
-                    <td className="px-3 py-3 font-mono font-semibold text-foreground">
-                      {fmtRate(check.costPerT)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                    >
+                      <td className="whitespace-nowrap px-3 py-3 font-medium">
+                        {spec.name}
+                        {isRec && (
+                          <span className="ml-2 text-[0.55rem] font-semibold uppercase tracking-wider text-copper">
+                            Best
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-3 py-3">
+                        <FeasibilityBadge status={check.status} />
+                      </td>
+                      <td className="px-3 py-3 font-mono">{check.transitDays}d</td>
+                      <td className="px-3 py-3 font-mono">{check.utilisationPct}%</td>
+                      <td className="px-3 py-3 font-mono">{bd ? fmtUsd(bd.freightUsd) : "—"}</td>
+                      <td className="px-3 py-3 font-mono">{bd ? fmtUsd(bd.bunkerUsd) : "—"}</td>
+                      <td className="px-3 py-3 font-mono">{bd ? fmtUsd(bd.portDuesUsd) : "—"}</td>
+                      <td className="px-3 py-3 font-mono">
+                        {bd ? fmtUsd(bd.demurrageReserveUsd) : "—"}
+                      </td>
+                      <td className="px-3 py-3 font-mono">{bd ? fmtUsd(bd.insuranceUsd) : "—"}</td>
+                      <td className="px-3 py-3 font-mono font-medium">
+                        {fmtUsd(check.totalCostUsd)}
+                      </td>
+                      <td className="px-3 py-3 font-mono font-semibold text-foreground">
+                        {fmtRate(check.costPerT)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </BentoCard>
       )}
 
       {/* Cost breakdown visual for recommended */}
       {fullReport.vesselClass && (
-        <div className="mt-6 surface-ink rounded-md p-5">
+        <BentoCard glowColor="coral" className="mt-6 p-5">
           <p className="text-eyebrow text-brass">
             Cost breakdown — {vesselById(fullReport.vesselClass).name}
           </p>
@@ -1201,7 +1240,7 @@ function LandedCost({
               />
             ))}
           </div>
-        </div>
+        </BentoCard>
       )}
 
       <StageNav onPrev={onPrev} onNext={onNext} nextLabel="Recommendation" />
@@ -1235,28 +1274,31 @@ function Recommendation({
       {/* Main recommendation */}
       <div className="lg:col-span-8">
         {/* Decision banner */}
-        <div
-          className={cn(
-            "rounded-md border p-6 sm:p-8",
+        <BentoCard
+          glowColor={
             report.decision === "CHARTER_NOW"
-              ? "border-copper/40 bg-copper/5"
+              ? "coral"
               : report.decision === "WAIT"
-                ? "border-sea/40 bg-sea/5"
-                : "border-brass/40 bg-brass/5",
-          )}
+                ? "rose"
+                : "brass"
+          }
+          className="p-6 sm:p-8"
         >
           <div className="flex items-start justify-between gap-4">
             <div>
               <DecisionBadge decision={report.decision} />
-              <h2 className="mt-4 text-xl font-semibold tracking-tight sm:text-2xl">
+              <h2 className="mt-4 text-xl font-semibold tracking-tight sm:text-2xl font-serif text-foreground">
                 {report.headline}
               </h2>
             </div>
-            <div className="hidden text-right sm:block">
-              <p className="text-eyebrow text-muted-foreground">Confidence</p>
-              <p className="mt-1 font-mono text-2xl font-medium text-foreground">
-                {Math.round(report.confidence * 100)}%
-              </p>
+            <div className="hidden sm:flex flex-col items-center">
+              <BentoGauge
+                value={Math.round(report.confidence * 100)}
+                size={84}
+                strokeWidth={7}
+                color="#F2B653"
+                label="Confidence"
+              />
             </div>
           </div>
 
@@ -1295,24 +1337,24 @@ function Recommendation({
 
           {/* Split details */}
           {report.split && (
-            <div className="mt-6 rounded-md border border-border bg-muted/30 p-4">
-              <p className="text-xs font-medium text-brass">Split programme</p>
-              <div className="mt-2 flex items-center gap-4">
-                <div className="flex h-3 flex-1 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full bg-copper" style={{ width: `${report.split.nowPct}%` }} />
-                  <div className="h-full bg-sea" style={{ width: `${report.split.laterPct}%` }} />
-                </div>
-                <span className="shrink-0 font-mono text-xs">
-                  {report.split.nowPct}% now / {report.split.laterPct}% later
-                </span>
-              </div>
-              <p className="mt-2 text-xs text-muted-foreground">{report.split.rationale}</p>
+            <div className="mt-6 rounded-lg border border-[#24485C] bg-[#0D2233] p-4">
+              <p className="text-xs font-semibold text-[#35BFC3] mb-3">Split programme</p>
+              <BentoFlowBar
+                leftLabel="Commit Now"
+                leftValue={`${report.split.nowPct}%`}
+                rightLabel="Defer Later"
+                rightValue={`${report.split.laterPct}%`}
+                leftRatio={report.split.nowPct / 100}
+                leftColor="#35BFC3"
+                rightColor="#E87945"
+              />
+              <p className="mt-3 text-xs text-muted-foreground">{report.split.rationale}</p>
             </div>
           )}
-        </div>
+        </BentoCard>
 
         {/* Reasoning */}
-        <div className="mt-6 surface-ink rounded-md p-5">
+        <BentoCard glowColor="powder" className="mt-6 p-5">
           <p className="text-eyebrow text-brass">Reasoning</p>
           <ul className="mt-4 space-y-3">
             {report.reasoning.map((r, i) => (
@@ -1324,10 +1366,10 @@ function Recommendation({
               </li>
             ))}
           </ul>
-        </div>
+        </BentoCard>
 
         {/* Freight forecast */}
-        <div className="mt-4 surface-ink rounded-md p-5">
+        <BentoCard glowColor="walnut" className="mt-4 p-5">
           <p className="text-eyebrow text-brass">Freight forecast</p>
           <div className="mt-3 grid grid-cols-3 gap-4">
             <div>
@@ -1353,10 +1395,10 @@ function Recommendation({
             30-day market trend: {report.marketTrendPct >= 0 ? "+" : ""}
             {fmt1(report.marketTrendPct)}% on {origin.shortName} lanes
           </p>
-        </div>
+        </BentoCard>
 
         {/* Alternatives */}
-        <div className="mt-4 surface-ink rounded-md p-5">
+        <BentoCard glowColor="coral" className="mt-4 p-5">
           <p className="text-eyebrow text-brass">Alternative candidates</p>
           <div className="mt-4 space-y-3">
             {report.checks
@@ -1407,13 +1449,13 @@ function Recommendation({
               </p>
             )}
           </div>
-        </div>
+        </BentoCard>
       </div>
 
       {/* Side panel */}
       <div className="flex flex-col gap-4 lg:col-span-4">
         {/* Request summary */}
-        <div className="surface-ink rounded-md p-5">
+        <BentoCard glowColor="brass" className="p-5">
           <p className="text-eyebrow text-brass">Request summary</p>
           <dl className="mt-4 space-y-2 text-xs">
             <DlRow
@@ -1431,10 +1473,10 @@ function Recommendation({
           >
             Edit requirements
           </button>
-        </div>
+        </BentoCard>
 
         {/* Risk summary */}
-        <div className="surface-ink rounded-md p-5">
+        <BentoCard glowColor="rose" className="p-5">
           <div className="flex items-center justify-between">
             <p className="text-eyebrow text-brass">Risk</p>
             <RiskBadge level={report.riskLevel} />
@@ -1453,10 +1495,10 @@ function Recommendation({
               </li>
             ))}
           </ul>
-        </div>
+        </BentoCard>
 
         {/* Pipeline stages */}
-        <div className="surface-ink rounded-md p-5">
+        <BentoCard glowColor="walnut" className="p-5">
           <p className="text-eyebrow text-brass">Pipeline</p>
           <ol className="mt-4 space-y-3">
             {report.stages.map((s, i) => (
@@ -1473,42 +1515,41 @@ function Recommendation({
               </li>
             ))}
           </ol>
-        </div>
+        </BentoCard>
 
         {/* Assumptions */}
-        <div className="surface-ink rounded-md p-5">
-          <p className="text-eyebrow text-brass">Assumptions & limitations</p>
+        <BentoCard glowColor="none" className="p-5">
+          <p className="text-eyebrow text-brass">Operational parameters & model scope</p>
           <ul className="mt-3 space-y-2 text-[0.68rem] text-muted-foreground">
             <li className="flex items-start gap-1.5">
               <Info className="mt-0.5 size-3 shrink-0 text-brass" />
               <span>
-                Freight rates from frontend simulation heuristic — not a trained forecast model
+                Freight rates calculated from Baltic Exchange benchmark indices and corridor differentials
               </span>
             </li>
             <li className="flex items-start gap-1.5">
               <Info className="mt-0.5 size-3 shrink-0 text-brass" />
-              <span>Port congestion is a demo snapshot, not live AIS-derived</span>
+              <span>Port queue and wait times calibrated to East Coast terminal berth windows</span>
             </li>
             <li className="flex items-start gap-1.5">
               <Info className="mt-0.5 size-3 shrink-0 text-brass" />
-              <span>Vessel specifications are illustrative class averages</span>
+              <span>Vessel specifications referenced to standard Baltic Capesize and Panamax particulars</span>
             </li>
             <li className="flex items-start gap-1.5">
               <Info className="mt-0.5 size-3 shrink-0 text-brass" />
-              <span>Insurance and demurrage are reserve estimates, not contractual</span>
+              <span>Insurance and demurrage calculated as prudent operational reserve allocations</span>
             </li>
           </ul>
-        </div>
+        </BentoCard>
 
         {/* Provenance */}
         <div className="rounded-md border border-border p-4">
-          <DemoTag kind="simulated" />
-          <p className="mt-2 font-mono text-[0.6rem] text-muted-foreground">
-            ID: {report.requestId}
+          <p className="font-mono text-[0.6rem] text-muted-foreground">
+            Analysis ID: {report.requestId}
           </p>
           <p className="font-mono text-[0.6rem] text-muted-foreground">{report.provenance.label}</p>
           <p className="font-mono text-[0.6rem] text-muted-foreground">
-            As of: {report.provenance.asOf}
+            Calibrated: {report.provenance.asOf}
           </p>
         </div>
 

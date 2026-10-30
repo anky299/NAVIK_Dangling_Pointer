@@ -6,6 +6,7 @@ import {
   LineChart,
   MessagesSquare,
   ScrollText,
+  ShieldCheck,
   Ship,
   Waypoints,
   type LucideIcon,
@@ -15,6 +16,7 @@ export type AppPath =
   | "/dashboard"
   | "/charter"
   | "/market"
+  | "/insurance"
   | "/feasibility"
   | "/scenarios"
   | "/strategy"
@@ -41,6 +43,7 @@ export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     label: "Intelligence",
     items: [
       { to: "/market", label: "Freight Market", short: "Market", icon: LineChart },
+      { to: "/insurance", label: "Insurance Intelligence", short: "Insurance", icon: ShieldCheck },
       { to: "/feasibility", label: "Fleet & Port Feasibility", short: "Feasibility", icon: Ship },
       { to: "/scenarios", label: "Scenario Lab", short: "Scenarios", icon: FlaskConical },
       { to: "/strategy", label: "Portfolio & Repositioning", short: "Strategy", icon: Waypoints },

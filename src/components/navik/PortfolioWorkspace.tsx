@@ -128,6 +128,7 @@ import {
   PanelHeader,
   RiskBadge,
 } from "./primitives";
+import { BentoCard, BentoGrid } from "./Bento";
 
 /* ═══════════════════════════════════════════════
    Objective Constants & Presets
@@ -539,12 +540,6 @@ export function PortfolioWorkspace() {
         title="Portfolio Strategy"
         accent="& Fleet Repositioning"
         description="Strategic bulk-cargo procurement and sourcing optimization for India's East Coast steelmaking supply chain. Evaluates multi-origin allocations, discharge port constraints, contract duration mix, and ballast repositioning offsets."
-        tag={
-          <DemoTag
-            kind="simulated"
-            title="Frontend procurement optimization heuristic grounded in Charter & Scenario models"
-          />
-        }
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <button
@@ -569,7 +564,7 @@ export function PortfolioWorkspace() {
       />
 
       {/* 2. Procurement Programme Configuration Bar */}
-      <div className="rounded-lg border border-border/70 bg-card/60 p-5 shadow-sm backdrop-blur-sm space-y-4">
+      <BentoCard glowColor="brass" className="p-5 shadow-sm space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {/* Total Demand Input */}
           <div className="lg:col-span-1">
@@ -882,12 +877,12 @@ export function PortfolioWorkspace() {
             </div>
           </div>
         </div>
-      </div>
+      </BentoCard>
 
       {/* 3. Executive KPI Dashboard Strip */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
         {/* Total Landed Spend */}
-        <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+        <BentoCard glowColor="brass" className="p-4 shadow-sm">
           <p className="text-eyebrow text-muted-foreground">Total Landed Spend</p>
           <div className="mt-2 flex items-baseline justify-between">
             <span className="font-mono text-2xl font-semibold tracking-tight text-foreground">
@@ -913,10 +908,10 @@ export function PortfolioWorkspace() {
               {activeStrategy.coveragePct}% Coverage
             </span>
           </div>
-        </div>
+        </BentoCard>
 
         {/* Weighted Cost per Tonne */}
-        <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+        <BentoCard glowColor="coral" className="p-4 shadow-sm">
           <p className="text-eyebrow text-muted-foreground">Weighted Cost / Tonne</p>
           <div className="mt-2 flex items-baseline justify-between">
             <span className="font-mono text-2xl font-semibold tracking-tight text-copper">
@@ -932,10 +927,10 @@ export function PortfolioWorkspace() {
               Score {activeStrategy.recommendationScore}/100
             </span>
           </div>
-        </div>
+        </BentoCard>
 
         {/* Origin Concentration HHI */}
-        <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+        <BentoCard glowColor="walnut" className="p-4 shadow-sm">
           <p className="text-eyebrow text-muted-foreground">Origin Concentration</p>
           <div className="mt-2 flex items-baseline justify-between">
             <span
@@ -958,10 +953,10 @@ export function PortfolioWorkspace() {
             <span>Primary: {activeStrategy.originShares[0]?.shortName ?? "None"}</span>
             <span>{activeStrategy.originShares[0]?.sharePct ?? 0}% Share</span>
           </div>
-        </div>
+        </BentoCard>
 
         {/* Port Concentration HHI */}
-        <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+        <BentoCard glowColor="rose" className="p-4 shadow-sm">
           <p className="text-eyebrow text-muted-foreground">Port Concentration</p>
           <div className="mt-2 flex items-baseline justify-between">
             <span
@@ -980,10 +975,10 @@ export function PortfolioWorkspace() {
             <span>Top: {activeStrategy.portShares[0]?.name ?? "None"}</span>
             <span>{activeStrategy.portShares[0]?.sharePct ?? 0}%</span>
           </div>
-        </div>
+        </BentoCard>
 
         {/* Voyages & Schedule */}
-        <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+        <BentoCard glowColor="brass" className="p-4 shadow-sm">
           <p className="text-eyebrow text-muted-foreground">Voyages & Schedule</p>
           <div className="mt-2 flex items-baseline justify-between">
             <span className="font-mono text-2xl font-semibold tracking-tight text-foreground">
@@ -997,10 +992,10 @@ export function PortfolioWorkspace() {
               {activeStrategy.feasibilitySummary.feasiblePct}% Clean
             </span>
           </div>
-        </div>
+        </BentoCard>
 
         {/* Repositioning Offset */}
-        <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+        <BentoCard glowColor="coral" className="p-4 shadow-sm">
           <p className="text-eyebrow text-muted-foreground">Repositioning Offset</p>
           <div className="mt-2 flex items-baseline justify-between">
             <span className="font-mono text-2xl font-semibold tracking-tight text-brass">
@@ -1020,7 +1015,7 @@ export function PortfolioWorkspace() {
               {activeStrategy.repositioningOpportunities.length} Lanes
             </span>
           </div>
-        </div>
+        </BentoCard>
       </div>
 
       {/* 4. Tab Navigation Strip */}

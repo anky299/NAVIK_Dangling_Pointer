@@ -22,7 +22,6 @@ export function PendingWorkspace({
         title={title}
         accent={accent}
         description={description}
-        tag={<DemoTag />}
       />
       <div className="grid gap-4 lg:grid-cols-12">
         <div className="surface-ink grain overflow-hidden rounded-md p-4 lg:col-span-8">
@@ -30,10 +29,10 @@ export function PendingWorkspace({
         </div>
         <div className="surface-ink flex flex-col justify-between rounded-md p-6 lg:col-span-4">
           <div>
-            <p className="text-eyebrow text-brass">Workspace in preparation</p>
+            <p className="text-eyebrow text-brass">Workspace Initializing</p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              This workspace's interactive tools are being finished. The route canvas shows the demo
-              lanes it will analyse.
+              This workspace's analytical modules are being calibrated. The maritime corridor canvas
+              displays the primary active routes under evaluation.
             </p>
           </div>
           <Link

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
 
-describe("App routing across all 10 platform workspaces", () => {
+describe("App routing across all 11 platform workspaces", () => {
   const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
 
   const coreRoutes = [
@@ -12,6 +12,7 @@ describe("App routing across all 10 platform workspaces", () => {
     { path: "/dashboard", expectedRouteId: "/_command/dashboard" },
     { path: "/charter", expectedRouteId: "/_command/charter" },
     { path: "/market", expectedRouteId: "/_command/market" },
+    { path: "/insurance", expectedRouteId: "/_command/insurance" },
     { path: "/feasibility", expectedRouteId: "/_command/feasibility" },
     { path: "/scenarios", expectedRouteId: "/_command/scenarios" },
     { path: "/strategy", expectedRouteId: "/_command/strategy" },

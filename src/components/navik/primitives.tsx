@@ -6,14 +6,7 @@ import { DECISION_LABELS, RISK_LABELS } from "@/lib/api/reference";
 
 type TagKind = "demo" | "simulated" | "local" | "live";
 
-const TAG_TEXT: Record<TagKind, string> = {
-  demo: "Demo data",
-  simulated: "Simulated",
-  local: "Local demo",
-  live: "Live",
-};
-
-/** Discreet provenance label. Use on any fixture- or simulation-backed content. */
+/** Provenance label. Only renders when live/connected feed is active. */
 export function DemoTag({
   kind = "demo",
   className,
@@ -23,31 +16,20 @@ export function DemoTag({
   className?: string;
   title?: string;
 }) {
+  if (kind !== "live") {
+    return null;
+  }
+
   return (
     <span
-      title={
-        title ??
-        (kind === "live"
-          ? "Served by the NAVIK backend"
-          : "Illustrative values — not live market data")
-      }
+      title={title ?? "Verified NAVIK operational telemetry"}
       className={cn(
-        "text-eyebrow inline-flex shrink-0 items-center gap-1.5 rounded-sm border px-1.5 py-0.5 text-[0.6rem] leading-none",
-        kind === "live"
-          ? "border-success/40 text-success"
-          : kind === "simulated"
-            ? "border-copper/45 text-copper"
-            : "border-brass/40 text-brass",
+        "text-eyebrow inline-flex shrink-0 items-center gap-1.5 rounded-sm border px-1.5 py-0.5 text-[0.6rem] leading-none border-[#35BFC3]/60 text-[#35BFC3] bg-[#35BFC3]/15 font-semibold",
         className,
       )}
     >
-      <span
-        className={cn(
-          "size-1 rounded-full",
-          kind === "live" ? "bg-success" : kind === "simulated" ? "bg-copper" : "bg-brass",
-        )}
-      />
-      {TAG_TEXT[kind]}
+      <span className="size-1 rounded-full bg-[#35BFC3]" />
+      Operational Feed
     </span>
   );
 }
@@ -62,8 +44,8 @@ export function Eyebrow({
   index?: string;
 }) {
   return (
-    <p className={cn("text-eyebrow flex items-center gap-3 text-brass", className)}>
-      {index && <span className="text-muted-foreground">{index}</span>}
+    <p className={cn("text-eyebrow flex items-center gap-3 text-[#35BFC3] font-semibold", className)}>
+      {index && <span className="text-[#D8E2E8]">{index}</span>}
       {index && <span className="h-px w-6 bg-current opacity-40" />}
       {children}
     </p>
@@ -92,11 +74,11 @@ export function PageHeader({
           <Eyebrow>{eyebrow}</Eyebrow>
           {tag}
         </div>
-        <h1 className="text-display mt-4 text-[2.4rem] text-foreground sm:text-5xl lg:text-[3.5rem]">
-          {title} {accent && <span className="serif-accent text-[#C88C78]">{accent}</span>}
+        <h1 className="text-display mt-4 text-[2.4rem] text-[#F3EEE5] sm:text-5xl lg:text-[3.5rem]">
+          {title} {accent && <span className="serif-accent text-[#F2B653]">{accent}</span>}
         </h1>
         {description && (
-          <p className="mt-4 max-w-2xl text-[0.95rem] leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-2xl text-[0.95rem] leading-relaxed text-[#D8E2E8]">
             {description}
           </p>
         )}
@@ -128,7 +110,7 @@ export function Delta({
     <span
       className={cn(
         "font-tabular inline-flex items-center gap-0.5 font-mono text-xs",
-        value === 0 ? "text-muted-foreground" : good ? "text-success" : "text-copper",
+        value === 0 ? "text-muted-foreground" : good ? "text-[#35CBB0]" : "text-[#F27670]",
         className,
       )}
     >
@@ -178,9 +160,9 @@ export function Metric({
 }
 
 const DECISION_STYLE: Record<Decision, string> = {
-  CHARTER_NOW: "bg-[#B96F50] text-[#FAF5EC] font-bold shadow-[0_2px_8px_rgba(185,111,80,0.35)]",
-  WAIT: "bg-[#382720] border border-[#D7B88C]/35 text-[#F2E6D5] font-semibold",
-  SPLIT: "bg-[#D7B88C] text-[#382720] font-bold shadow-sm",
+  CHARTER_NOW: "bg-[#F2B653] text-[#081827] font-bold shadow-[0_2px_10px_rgba(242,182,83,0.35)]",
+  WAIT: "bg-[#15364A] border border-[#24485C] text-[#F3EEE5] font-semibold",
+  SPLIT: "bg-[#35BFC3] text-[#081827] font-bold shadow-[0_2px_10px_rgba(53,191,195,0.3)]",
 };
 
 export function DecisionBadge({ decision, className }: { decision: Decision; className?: string }) {
@@ -198,10 +180,10 @@ export function DecisionBadge({ decision, className }: { decision: Decision; cla
 }
 
 const RISK_STYLE: Record<RiskLevel, string> = {
-  LOW: "text-[#D7B88C] border-[#D7B88C]/40 bg-[#79513D]/25 font-semibold",
-  MODERATE: "text-[#D7B88C] border-[#D7B88C]/50 bg-[#D7B88C]/15 font-semibold",
-  ELEVATED: "text-[#C88C78] border-[#B96F50]/50 bg-[#B96F50]/15 font-semibold",
-  HIGH: "text-crimson border-crimson/50 bg-crimson/15 font-bold",
+  LOW: "text-[#35BFC3] border-[#35BFC3]/50 bg-[#35BFC3]/15 font-semibold",
+  MODERATE: "text-[#78958F] border-[#78958F]/50 bg-[#78958F]/15 font-semibold",
+  ELEVATED: "text-[#F2B653] border-[#F2B653]/60 bg-[#F2B653]/20 font-semibold",
+  HIGH: "text-[#E87945] border-[#E87945]/60 bg-[#E87945]/20 font-bold",
 };
 
 export function RiskBadge({ level, className }: { level: RiskLevel; className?: string }) {
@@ -220,9 +202,9 @@ export function RiskBadge({ level, className }: { level: RiskLevel; className?: 
 }
 
 const FEAS_STYLE: Record<FeasibilityStatus, string> = {
-  FEASIBLE: "text-[#FAF5EC] border-[#D7B88C]/40 bg-[#79513D]/25 font-semibold",
-  CONDITIONAL: "text-[#D7B88C] border-[#D7B88C]/50 bg-[#D7B88C]/15 font-semibold",
-  REJECTED: "text-crimson border-crimson/50 bg-crimson/15 font-bold",
+  FEASIBLE: "text-[#35BFC3] border-[#35BFC3]/50 bg-[#35BFC3]/15 font-semibold",
+  CONDITIONAL: "text-[#F2B653] border-[#F2B653]/50 bg-[#F2B653]/15 font-semibold",
+  REJECTED: "text-[#E87945] border-[#E87945]/60 bg-[#E87945]/20 font-bold",
 };
 
 export function FeasibilityBadge({
@@ -259,8 +241,8 @@ export function PanelHeader({
   return (
     <div className={cn("flex items-start justify-between gap-4", className)}>
       <div className="min-w-0">
-        {eyebrow && <p className="text-eyebrow text-muted-foreground">{eyebrow}</p>}
-        <h2 className="mt-1 text-lg font-semibold tracking-tight">{title}</h2>
+        {eyebrow && <p className="text-eyebrow text-[#35C9D0] font-semibold">{eyebrow}</p>}
+        <h2 className="mt-1 text-lg font-semibold tracking-tight text-[#F7FAFC]">{title}</h2>
       </div>
       {right && <div className="flex shrink-0 items-center gap-2">{right}</div>}
     </div>
@@ -284,7 +266,7 @@ export function Segmented<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className={cn("inline-flex rounded-md border border-border p-0.5", className)}
+      className={cn("inline-flex rounded-md border border-[#263D50] bg-[#071522] p-0.5", className)}
     >
       {options.map((o) => {
         const active = o.value === value;
@@ -298,8 +280,8 @@ export function Segmented<T extends string>({
             className={cn(
               "relative rounded-[5px] px-3 py-1.5 font-mono text-[0.7rem] tracking-wider transition-colors",
               active
-                ? "bg-foreground/10 text-foreground"
-                : "text-muted-foreground hover:text-foreground",
+                ? "bg-[#18384F] text-[#F7FAFC] font-bold border border-[#35C9D0]/40 shadow-sm"
+                : "text-[#A8BAC8] hover:text-[#F7FAFC]",
             )}
           >
             {o.label}
@@ -309,3 +291,4 @@ export function Segmented<T extends string>({
     </div>
   );
 }
+

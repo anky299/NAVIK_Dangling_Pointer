@@ -113,6 +113,7 @@ import {
   PanelHeader,
   RiskBadge,
 } from "./primitives";
+import { BentoCard, BentoGrid } from "./Bento";
 
 /* ═══════════════════════════════════════════════
    Saved Scenario Session Model
@@ -130,7 +131,7 @@ const INITIAL_SAVED_SCENARIOS: SavedScenarioSession[] = [
   {
     id: "scen-base",
     name: "Base Case",
-    description: "Current demo market conditions with no stress shocks applied.",
+    description: "Baseline market conditions without stress shocks applied.",
     input: { ...BASELINE_INPUT },
     presetId: "base",
   },
@@ -373,12 +374,6 @@ export function ScenarioWorkspace() {
         title="Scenario Lab"
         accent="& Maritime Stress Testing"
         description="Stress-test SAIL bulk-cargo procurement decisions against freight market shocks, bunker price surges, discharge-port congestion, and fleet tonnage crunches."
-        tag={
-          <DemoTag
-            kind="simulated"
-            title="Frontend deterministic stress simulation against baseline"
-          />
-        }
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <button
@@ -412,7 +407,7 @@ export function ScenarioWorkspace() {
       />
 
       {/* 2. Baseline Mission Context & Route Ribbon */}
-      <div className="rounded-lg border border-border/70 bg-card/60 p-4 shadow-sm backdrop-blur-sm">
+      <BentoCard glowColor="brass" className="p-4 shadow-sm">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-copper/15 text-copper">
@@ -587,7 +582,7 @@ export function ScenarioWorkspace() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </BentoCard>
 
       {/* 3. Session Scenarios Manager & View Mode Selector */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border/60 pb-3">
@@ -711,7 +706,7 @@ export function ScenarioWorkspace() {
           {/* 4. Scenario Parameter Controls Deck */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
             {/* Presets and Shocks Sliders */}
-            <div className="space-y-6 lg:col-span-12 rounded-lg border border-border/80 bg-card/70 p-5 shadow-sm">
+            <BentoCard glowColor="coral" className="space-y-6 lg:col-span-12 p-5 shadow-sm">
               {/* Preset selection bar */}
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
@@ -933,7 +928,7 @@ export function ScenarioWorkspace() {
                   </p>
                 </div>
               </div>
-            </div>
+            </BentoCard>
           </div>
 
           {/* 5. Key Outcome Metrics: Baseline vs Scenario */}
@@ -947,7 +942,7 @@ export function ScenarioWorkspace() {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
               {/* 1. Total Landed Voyage Spend */}
-              <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+              <BentoCard glowColor="brass" className="p-4 shadow-sm">
                 <p className="text-eyebrow text-muted-foreground">Total Landed Spend</p>
                 <div className="mt-2 flex items-baseline justify-between">
                   <span className="font-mono text-2xl font-semibold tracking-tight text-foreground">
@@ -975,10 +970,10 @@ export function ScenarioWorkspace() {
                     {fmtUsd(activeComparison.diff.totalCostUsd)}
                   </span>
                 </div>
-              </div>
+              </BentoCard>
 
               {/* 2. Landed Cost Per Tonne */}
-              <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+              <BentoCard glowColor="coral" className="p-4 shadow-sm">
                 <p className="text-eyebrow text-muted-foreground">Cost per Tonne</p>
                 <div className="mt-2 flex items-baseline justify-between">
                   <span className="font-mono text-2xl font-semibold tracking-tight text-foreground">
@@ -1006,10 +1001,10 @@ export function ScenarioWorkspace() {
                     {activeComparison.diff.costPerTUsd.toFixed(2)}/t
                   </span>
                 </div>
-              </div>
+              </BentoCard>
 
               {/* 3. Bunker Fuel Spend */}
-              <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+              <BentoCard glowColor="coral" className="p-4 shadow-sm">
                 <p className="text-eyebrow text-muted-foreground">Bunker Expenditure</p>
                 <div className="mt-2 flex items-baseline justify-between">
                   <span className="font-mono text-2xl font-semibold tracking-tight text-copper">
@@ -1037,10 +1032,10 @@ export function ScenarioWorkspace() {
                     {fmtUsd(activeComparison.diff.bunkerUsd)}
                   </span>
                 </div>
-              </div>
+              </BentoCard>
 
               {/* 4. Demurrage & Anchorage Reserve */}
-              <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+              <BentoCard glowColor="brass" className="p-4 shadow-sm">
                 <p className="text-eyebrow text-muted-foreground">Demurrage Reserve</p>
                 <div className="mt-2 flex items-baseline justify-between">
                   <span className="font-mono text-2xl font-semibold tracking-tight text-brass">
@@ -1057,10 +1052,10 @@ export function ScenarioWorkspace() {
                     {fmtUsd(activeComparison.diff.demurrageUsd)}
                   </span>
                 </div>
-              </div>
+              </BentoCard>
 
               {/* 5. Schedule Slack & Delivery Window */}
-              <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+              <BentoCard glowColor="rose" className="p-4 shadow-sm">
                 <p className="text-eyebrow text-muted-foreground">Arrival Slack</p>
                 <div className="mt-2 flex items-baseline justify-between">
                   <span
@@ -1091,10 +1086,10 @@ export function ScenarioWorkspace() {
                     ETA {activeComparison.simulated.totalDurationDays} d
                   </span>
                 </div>
-              </div>
+              </BentoCard>
 
               {/* 6. Recommended Decision */}
-              <div className="rounded-lg border border-border/80 bg-card p-4 shadow-sm">
+              <BentoCard glowColor="walnut" className="p-4 shadow-sm">
                 <p className="text-eyebrow text-muted-foreground">Procurement Decision</p>
                 <div className="mt-2 flex items-center gap-2">
                   <DecisionBadge decision={activeComparison.simulated.decision} />
@@ -1104,14 +1099,14 @@ export function ScenarioWorkspace() {
                   <span>Base: {DECISION_LABELS[activeComparison.baseline.decision]}</span>
                   <span>{activeComparison.simulated.vesselClassName}</span>
                 </div>
-              </div>
+              </BentoCard>
             </div>
           </div>
 
           {/* 6. Waterfall Driver Breakdown & Line-Item Table */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
             {/* Waterfall Contribution Chart */}
-            <div className="lg:col-span-6 rounded-lg border border-border/80 bg-card/70 p-5 shadow-sm">
+            <BentoCard glowColor="brass" className="lg:col-span-6 p-5 shadow-sm">
               <PanelHeader
                 title="Cost Driver Waterfall"
                 eyebrow="CONTRIBUTION DECOMPOSITION"
@@ -1209,10 +1204,10 @@ export function ScenarioWorkspace() {
                   <span>Scenario Landed</span>
                 </span>
               </div>
-            </div>
+            </BentoCard>
 
             {/* Line-Item Variance Table */}
-            <div className="lg:col-span-6 rounded-lg border border-border/80 bg-card/70 p-5 shadow-sm">
+            <BentoCard glowColor="walnut" className="lg:col-span-6 p-5 shadow-sm">
               <PanelHeader
                 title="Line-Item Expenditure Parity"
                 eyebrow="AUDIT TRAIL"
@@ -1357,11 +1352,11 @@ export function ScenarioWorkspace() {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </BentoCard>
           </div>
 
           {/* 7. Vessel Class Feasibility & Cost Sensitivity Matrix */}
-          <div className="rounded-lg border border-border/80 bg-card/70 p-5 shadow-sm">
+          <BentoCard glowColor="coral" className="p-5 shadow-sm">
             <PanelHeader
               title="Vessel Class Feasibility & Cost Matrix"
               eyebrow="CROSS-CLASS RESILIENCE"
@@ -1445,14 +1440,13 @@ export function ScenarioWorkspace() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </BentoCard>
 
           {/* 8. Explainable Decision Impact & Disclosures */}
-          <div className="rounded-lg border border-border/80 bg-card/70 p-5 shadow-sm space-y-4">
+          <BentoCard glowColor="brass" className="p-5 shadow-sm space-y-4">
             <PanelHeader
               title="Explainable Decision Diagnostics"
               eyebrow="ANALYTIC REASONING"
-              right={<DemoTag kind="simulated" />}
             />
             <p className="text-xs text-muted-foreground leading-relaxed">
               Deterministic causal explanations generated from model sensitivities. Distinguishes
@@ -1497,7 +1491,7 @@ export function ScenarioWorkspace() {
                 );
               })}
             </div>
-          </div>
+          </BentoCard>
 
           {/* 9. Model Boundaries & Unsupported Shocks (Honest Disclosures) */}
           <div className="rounded-lg border border-border/60 bg-card/40 p-4">
@@ -1554,7 +1548,7 @@ export function ScenarioWorkspace() {
         /* 10. Multi-Scenario Matrix Comparison View */
         <div className="space-y-6">
           {/* Comparison Bar Chart */}
-          <div className="rounded-lg border border-border/80 bg-card/70 p-5 shadow-sm">
+          <BentoCard glowColor="brass" className="p-5 shadow-sm">
             <PanelHeader
               title="Multi-Scenario Landed Cost Comparison"
               eyebrow="CROSS-SCENARIO BENCHMARK"
@@ -1651,10 +1645,10 @@ export function ScenarioWorkspace() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </BentoCard>
 
           {/* Comprehensive Multi-Scenario Table */}
-          <div className="rounded-lg border border-border/80 bg-card/70 p-5 shadow-sm">
+          <BentoCard glowColor="walnut" className="p-5 shadow-sm">
             <PanelHeader
               title="Session Scenarios Comparison Matrix"
               eyebrow="MULTI-VARIABLE STRESS MATRIX"
@@ -1748,7 +1742,7 @@ export function ScenarioWorkspace() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </BentoCard>
         </div>
       )}
 

@@ -1,13 +1,13 @@
 /**
- * NAVIK Operational Command Center Workspace.
- *
- * Provides executive and operations desk teams with a unified operational picture:
- * - Active East Coast India raw material inflow status
- * - Interactive schematic route canvas & discharge port telemetry
- * - Live maritime risk alerts & bottleneck tracker
- * - Recent chartering decisions with one-click workspace escalation
- * - Active fixture commitments & vessel class distributions
- */
+* NAVIK Operational Command Center Workspace.
+*
+* Provides executive and operations desk teams with a unified operational picture:
+* - Active East Coast India raw material inflow status
+* - Interactive schematic route canvas & discharge port telemetry
+* - Live maritime risk alerts & bottleneck tracker
+* - Recent chartering decisions with one-click workspace escalation
+* - Active fixture commitments & vessel class distributions
+*/
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -27,12 +27,14 @@ import {
   Info,
   Layers,
   LineChart,
+  MapPin,
   Navigation,
   RefreshCw,
   Search,
   ShieldAlert,
   Ship,
   Sparkles,
+  SunMedium,
   TrendingUp,
   Waves,
 } from "lucide-react";
@@ -44,46 +46,49 @@ import {
   summarizeInflowPipeline,
 } from "@/lib/sim/dashboard";
 import { RouteMap, ALL_LANES, type MapLane } from "@/components/navik/RouteMap";
+import { MaritimeGlobe } from "./MaritimeGlobe";
 import { fmtInt, fmtUsd, fmtRate } from "@/lib/format";
 import { ORIGINS, PORTS } from "@/lib/api/reference";
 import type { PortCode, RiskLevel } from "@/lib/api/types";
 import { cn } from "@/lib/utils";
-
-function Card({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn(
-        "rounded-xl border border-border/80 bg-card/60 backdrop-blur-md shadow-deep transition-all duration-200",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
+import {
+  BentoCard,
+  BentoGrid,
+  BentoKpi,
+  BentoGauge,
+  BentoFlowBar,
+  BentoSegmented,
+  BentoHeader,
+  BentoSparkline,
+} from "./Bento";
+import heroCarrier from "@/assets/hero-carrier.jpg";
+import portTerminal from "@/assets/port-terminal.jpg";
 
 function Badge({
   variant = "neutral",
   className,
   children,
 }: {
-  variant?: "brass" | "warning" | "danger" | "outline" | "neutral" | "success";
+  variant?: "brass" | "warning" | "danger" | "outline" | "neutral" | "success" | "cyan" | "amber" | "orange" | "violet";
   className?: string;
   children: React.ReactNode;
 }) {
   const styles = {
-    brass: "border-[#D7B88C]/50 bg-[#D7B88C]/15 text-[#D7B88C]",
-    warning: "border-[#B96F50]/50 bg-[#B96F50]/15 text-[#FAF5EC]",
-    danger: "border-crimson/50 bg-crimson/15 text-crimson",
-    success: "border-[#D7B88C]/40 bg-[#79513D]/25 text-[#FAF5EC]",
-    outline: "border-border/80 text-foreground/75 bg-card/40",
-    neutral: "border-border/60 bg-muted/40 text-foreground/80",
+    brass: "border-[#F2B653]/40 bg-[#F2B653]/15 text-[#F2B653] font-semibold",
+    warning: "border-[#F2B653]/40 bg-[#F2B653]/15 text-[#F2B653] font-semibold",
+    danger: "border-[#E87945]/50 bg-[#E87945]/15 text-[#E87945] font-bold",
+    success: "border-[#35BFC3]/40 bg-[#35BFC3]/15 text-[#35BFC3] font-semibold",
+    cyan: "border-[#35BFC3]/40 bg-[#35BFC3]/15 text-[#35BFC3] font-semibold",
+    amber: "border-[#F2B653]/40 bg-[#F2B653]/15 text-[#F2B653] font-semibold",
+    orange: "border-[#E87945]/50 bg-[#E87945]/15 text-[#E87945] font-semibold",
+    violet: "border-[#A78BFA]/40 bg-[#A78BFA]/15 text-[#A78BFA] font-semibold",
+    outline: "border-[#24485C] text-[#D8E2E8] bg-[#0D2233]",
+    neutral: "border-[#24485C] bg-[#15364A] text-[#F3EEE5]",
   };
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded px-2 py-0.5 text-xs font-mono font-medium border",
+        "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-mono font-medium border",
         styles[variant] ?? styles.neutral,
         className,
       )}
@@ -98,27 +103,27 @@ const SEVERITY_STYLES: Record<
   { border: string; bg: string; text: string; badge: "danger" | "warning" | "brass" | "outline" }
 > = {
   HIGH: {
-    border: "border-crimson/50",
-    bg: "bg-crimson/10",
-    text: "text-crimson",
+    border: "border-[#E87945]/60",
+    bg: "bg-[#E87945]/10",
+    text: "text-[#E87945]",
     badge: "danger",
   },
   ELEVATED: {
-    border: "border-[#B96F50]/50",
-    bg: "bg-[#B96F50]/10",
-    text: "text-[#C88C78]",
+    border: "border-[#F2B653]/50",
+    bg: "bg-[#F2B653]/15",
+    text: "text-[#F2B653]",
     badge: "warning",
   },
   MODERATE: {
-    border: "border-[#D7B88C]/40",
-    bg: "bg-[#D7B88C]/10",
-    text: "text-[#D7B88C]",
+    border: "border-[#78958F]/40",
+    bg: "bg-[#78958F]/15",
+    text: "text-[#78958F]",
     badge: "brass",
   },
   LOW: {
-    border: "border-[#79513D]/40",
-    bg: "bg-[#382720]/40",
-    text: "text-fog",
+    border: "border-[#24485C]",
+    bg: "bg-[#15364A]/50",
+    text: "text-[#D8E2E8]",
     badge: "outline",
   },
 };
@@ -184,424 +189,418 @@ export function CommandDashboardWorkspace() {
   };
 
   return (
-    <div className="space-y-8 pb-16">
-      {/* 1. Header & Desk Control Bar */}
-      <div className="flex flex-col gap-4 border-b border-border/60 pb-6 md:flex-row md:items-end md:justify-between">
-        <div className="space-y-1.5">
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-[#D7B88C] animate-pulse shadow-[0_0_8px_rgba(215,184,140,0.7)]" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.14em] text-[#D7B88C]">
-              NAVIK Command Center · Active Desk
-            </span>
-            <Badge variant="outline" className="font-mono text-[10px] uppercase">
-              East Coast India Inflow
-            </Badge>
+    <div className="space-y-6 pb-16">
+      {/* 1. Hero Deck & 3D Maritime Globe Banner */}
+      <div className="relative min-h-[320px] lg:min-h-[350px] flex flex-col justify-center overflow-hidden rounded-2xl border border-[#24485C] bg-[#081827] p-6 lg:p-8 shadow-2xl">
+        {/* 3D Rotating Maritime Globe in upper right background */}
+        <div className="absolute -top-10 -right-8 sm:-top-8 sm:-right-4 w-[560px] sm:w-[720px] lg:w-[920px] h-[380px] sm:h-[440px] lg:h-[480px] pointer-events-none z-0 opacity-95 overflow-hidden">
+          <MaritimeGlobe className="w-full h-full pointer-events-auto" height={480} />
+          {/* Subtle atmosphere gradient blend masks */}
+          <div className="absolute inset-y-0 left-0 w-2/5 bg-gradient-to-r from-[#081827] via-[#081827]/75 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#081827] to-transparent pointer-events-none" />
+        </div>
+
+        {/* Floating Weather Widget in upper right (matching reference screenshot) */}
+        <div className="absolute top-5 right-5 sm:top-6 sm:right-6 z-10 hidden sm:flex items-center gap-3.5 rounded-xl border border-[#24485C] bg-[#0D2233]/85 backdrop-blur-md px-4 py-2.5 shadow-lg">
+          <div>
+            <p className="text-[0.62rem] font-mono text-[#D8E2E8]/70 uppercase tracking-wider">Bay of Bengal</p>
+            <div className="flex items-center gap-2 mt-0.5">
+              <SunMedium className="size-4 text-[#F2B653]" />
+              <span className="text-base font-bold text-[#F3EEE5]">28° C</span>
+            </div>
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-            Command <span className="text-[#B96F50]">Deck</span>
+          <div className="border-l border-[#24485C] pl-3 space-y-0.5 text-[0.65rem] font-mono">
+            <p className="text-[#35BFC3] font-semibold">Moderate Seas</p>
+            <p className="text-[#D8E2E8]/70">Wind 12 kn | ESE</p>
+          </div>
+        </div>
+
+        {/* Hero Left Content */}
+        <div className="relative z-10 max-w-2xl space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="flex h-2 w-2 rounded-full bg-[#35BFC3] animate-pulse shadow-[0_0_8px_rgba(53,191,195,0.8)]" />
+            <span className="text-[0.68rem] font-mono uppercase tracking-[0.16em] text-[#D8E2E8]/70 font-semibold">
+              NAVIK <span className="text-[#24485C]">•</span> EAST COAST INDIA DESK <span className="text-[#24485C]">•</span> <span className="text-[#35BFC3]">ACTIVE</span>
+            </span>
+          </div>
+
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#F3EEE5] md:text-5xl">
+            Command <span className="text-[#F2B653]">Deck</span>
           </h1>
-          <p className="max-w-2xl text-sm text-foreground/70">
+
+          <p className="text-xs sm:text-sm leading-relaxed text-[#D8E2E8] font-normal max-w-xl">
             Real-time maritime telemetry, port draft limits, risk alerts, and operational decision
             support for dry-bulk intake across Paradip, Dhamra, Haldia, Vizag, and Gangavaram.
           </p>
+
+          <div className="flex flex-wrap items-center gap-2.5 pt-2">
+            <button
+              type="button"
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-[#24485C] bg-[#15364A] px-3.5 py-2 text-xs font-semibold text-[#F3EEE5] shadow-sm hover:border-[#35BFC3] hover:bg-[#1f435b] transition disabled:opacity-50"
+              title="Refresh operational data"
+            >
+              <RefreshCw
+                className={cn("size-3.5", isRefreshing && "animate-spin text-[#35BFC3]")}
+              />
+              <span>Sync Telemetry</span>
+            </button>
+
+            <Link
+              to="/market"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-[#24485C] bg-[#15364A] px-3.5 py-2 text-xs font-semibold text-[#F3EEE5] shadow-sm hover:border-[#F2B653] hover:text-[#F2B653] transition"
+            >
+              <LineChart className="size-3.5 text-[#F2B653]" />
+              <span>Market Terminal</span>
+            </Link>
+
+            <Link
+              to="/charter"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#F2B653] px-4 py-2 text-xs font-bold text-[#081827] shadow-[0_2px_12px_rgba(242,182,83,0.35)] hover:bg-[#F5C26B] transition"
+            >
+              <Anchor className="size-3.5 stroke-[2.5]" />
+              <span>Launch Charter Workspace</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Operational Bento KPI Ribbon Row 1 */}
+      <BentoGrid cols={12}>
+        {/* KPI 1: Baltic Dry Index (4 cols) */}
+        <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+          <BentoKpi
+            label="Baltic Dry Index"
+            value={snapshot ? fmtInt(snapshot.freightIndex) : "1,842"}
+            unit="pts"
+            changePct={snapshot?.freightIndexChangePct ?? 2.6}
+            changeLabel="7D"
+            sparklineData={[1740, 1765, 1785, 1810, 1800, 1825, snapshot?.freightIndex ?? 1842]}
+            sparklineColor="#35BFC3"
+            icon={TrendingUp}
+            accentColor="teal"
+            glowColor="teal"
+            className="h-full relative overflow-hidden"
+          />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
-          <button
-            type="button"
-            onClick={handleRefresh}
-            disabled={isRefreshing}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#D7B88C]/30 bg-surface/80 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-[#382720]/80 hover:text-[#FAF5EC] transition disabled:opacity-50"
-            title="Refresh operational data"
-          >
-            <RefreshCw
-              className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin text-[#B96F50]")}
+        {/* KPI 2: VLSFO Singapore Fuel (4 cols) */}
+        <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+          <BentoKpi
+            label="VLSFO Singapore"
+            value={snapshot ? fmtRate(snapshot.vlsfoUsdPerT) : "$574.00"}
+            unit="/t"
+            changePct={snapshot?.vlsfoChangePct ?? 4.1}
+            changeLabel="7D"
+            sparklineData={[545, 552, 558, 564, 560, 568, snapshot?.vlsfoUsdPerT ?? 574]}
+            sparklineColor="#F2B653"
+            icon={Flame}
+            accentColor="amber"
+            glowColor="amber"
+            className="h-full relative overflow-hidden"
+          />
+        </div>
+
+        {/* KPI 3: Fleet Basin Readiness Circular Gauge (4 cols) */}
+        <BentoCard glowColor="amber" variant="default" className="col-span-12 sm:col-span-12 lg:col-span-4 flex flex-col justify-between">
+          <BentoHeader
+            eyebrow="Fleet Basin Availability"
+            icon={Gauge}
+            action={
+              <span className="font-mono text-[10px] text-[#D8E2E8] bg-[#0D2233] border border-[#24485C] px-2 py-0.5 rounded-md font-medium flex items-center gap-1">
+                <MapPin className="size-2.5 text-[#F2B653]" /> Bay of Bengal
+              </span>
+            }
+          />
+          <div className="flex items-center justify-around py-2">
+            <BentoGauge
+              value={snapshot?.fleetAvailabilityPct ?? 79}
+              max={100}
+              label="READY"
+              color="#35BFC3"
+              trackColor="#0D2233"
+              size={96}
+              strokeWidth={8}
             />
-            <span>Sync Telemetry</span>
-          </button>
+            <div className="space-y-1.5 text-xs font-mono">
+              <div className="text-[#F3EEE5] font-semibold flex items-center gap-2">
+                <span className="size-2 rounded-full bg-[#35BFC3]" />
+                <span>Capesize: 74%</span>
+              </div>
+              <div className="text-[#F3EEE5] font-semibold flex items-center gap-2">
+                <span className="size-2 rounded-full bg-[#F2B653]" />
+                <span>Panamax: 82%</span>
+              </div>
+              <div className="text-[11px] text-[#35BFC3] font-semibold pt-1">
+                ✓ Adequate spot ballast
+              </div>
+            </div>
+          </div>
+        </BentoCard>
 
-          <Link
-            to="/market"
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-foreground hover:border-[#B96F50]/50 hover:text-[#FAF5EC] transition"
-          >
-            <LineChart className="h-3.5 w-3.5 text-[#B96F50]" />
-            <span>Market Terminal</span>
-          </Link>
+        {/* KPI 4: Anchorage Queue (5 cols) */}
+        <BentoCard glowColor="violet" variant="default" className="col-span-12 sm:col-span-6 lg:col-span-5 flex flex-col justify-between relative overflow-hidden">
+          <BentoHeader
+            eyebrow="East Coast Anchorage Queue"
+            icon={Clock}
+            action={
+              <span className="font-mono text-[10px] text-[#A78BFA] bg-[#A78BFA]/15 border border-[#A78BFA]/30 px-2 py-0.5 rounded-md font-semibold">
+                {congestionSummary.totalWaitingVessels ?? 48} vessels waiting
+              </span>
+            }
+          />
+          <div className="flex items-baseline justify-between pt-1">
+            <div>
+              <div className="font-mono text-2xl lg:text-3xl font-bold text-[#F3EEE5]">
+                {congestionSummary.averageWaitDays ?? 2.3} <span className="text-xs font-normal font-sans text-[#D8E2E8]">days avg</span>
+              </div>
+              <p className="mt-1 text-xs text-[#D8E2E8]/70 font-mono">
+                PRDP: 3.1d · DHMR: 2.4d · HLDA: 1.8d
+              </p>
+            </div>
+            <BentoSparkline
+              data={[2.8, 2.7, 2.5, 2.4, 2.3, 2.3, congestionSummary.averageWaitDays ?? 2.3]}
+              color="#A78BFA"
+              height={36}
+              width={110}
+            />
+          </div>
+        </BentoCard>
 
-          <Link
-            to="/charter"
-            className="inline-flex items-center gap-1.5 rounded-md bg-[#B96F50] px-3.5 py-1.5 text-xs font-semibold text-[#FAF5EC] shadow-sm hover:bg-[#C67C5E] transition"
-          >
-            <Anchor className="h-3.5 w-3.5" />
-            <span>Launch Charter Workspace</span>
-          </Link>
-        </div>
-      </div>
-
-      {/* 2. Operational KPI Ribbon with Enhanced Numerical Hierarchy & Distinct Thematic Tints */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {/* KPI 1: Baltic Dry Index (Muted Brass Theme) */}
-        <Card className="p-4 border-[#D7B88C]/40 bg-gradient-to-br from-card/95 via-card/70 to-[#D7B88C]/15 hover:border-[#D7B88C] transition-all duration-300 shadow-deep">
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[#D7B88C] font-semibold">
-              Baltic Dry Index
-            </span>
-            <TrendingUp className="h-3.5 w-3.5 text-[#D7B88C]" />
+        {/* KPI 5: Committed Inflow with Mirrored Flow Bar (7 cols) */}
+        <BentoCard glowColor="teal" variant="default" className="col-span-12 sm:col-span-6 lg:col-span-7 flex flex-col justify-between relative overflow-hidden">
+          <BentoHeader
+            eyebrow="Committed Inflow Volume"
+            icon={Ship}
+            title={`${fmtInt(inflowSummary.totalTonnage || 711000)} t Total Fixed`}
+            action={
+              <span className="font-mono text-[10px] text-[#D8E2E8] bg-[#0D2233] border border-[#24485C] px-2 py-0.5 rounded-md font-semibold">
+                {inflowSummary.activeFixturesCount || 6} active fixtures
+              </span>
+            }
+          />
+          <div className="pt-1">
+            <BentoFlowBar
+              leftLabel="Coking / Thermal Coal"
+              leftValue={Math.round((inflowSummary.totalTonnage || 711000) * 0.68)}
+              rightLabel="Iron Ore Fines"
+              rightValue={Math.round((inflowSummary.totalTonnage || 711000) * 0.32)}
+              unit="t"
+              leftColor="#35BFC3"
+              rightColor="#E87945"
+            />
           </div>
-          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
-            {snapshot ? fmtInt(snapshot.freightIndex) : "1,842"}
-            <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">pts</span>
-          </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#D7B88C] font-mono bg-[#D7B88C]/15 border border-[#D7B88C]/30 px-1.5 py-0.5 rounded w-fit">
-            <ArrowUpRight className="h-3 w-3" />
-            <span>+{snapshot?.freightIndexChangePct ?? 2.6}% 7D benchmark</span>
-          </div>
-        </Card>
-
-        {/* KPI 2: VLSFO Singapore (Burnt Coral Theme) */}
-        <Card className="p-4 border-[#B96F50]/40 bg-gradient-to-br from-card/95 via-card/70 to-[#B96F50]/15 hover:border-[#B96F50] transition-all duration-300 shadow-deep">
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[#B96F50] font-semibold">
-              VLSFO Singapore
-            </span>
-            <Flame className="h-3.5 w-3.5 text-[#B96F50]" />
-          </div>
-          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
-            {snapshot ? fmtRate(snapshot.vlsfoUsdPerT) : "$618.50"}
-            <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">/t</span>
-          </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#FAF5EC] font-mono bg-[#B96F50]/20 border border-[#B96F50]/40 px-1.5 py-0.5 rounded w-fit">
-            <ArrowUpRight className="h-3 w-3" />
-            <span>+{snapshot?.vlsfoChangePct ?? 4.1}% 7D fuel escalation</span>
-          </div>
-        </Card>
-
-        {/* KPI 3: Anchorage Queue (Dusty Rose Theme) */}
-        <Card className="p-4 border-[#C88C78]/40 bg-gradient-to-br from-card/95 via-card/70 to-[#C88C78]/15 hover:border-[#C88C78] transition-all duration-300 shadow-deep">
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[#C88C78] font-semibold">
-              Anchorage Queue
-            </span>
-            <Clock className="h-3.5 w-3.5 text-[#C88C78]" />
-          </div>
-          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
-            {congestionSummary.averageWaitDays}
-            <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">
-              days avg
-            </span>
-          </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#C88C78] font-mono bg-[#C88C78]/15 border border-[#C88C78]/30 px-1.5 py-0.5 rounded w-fit">
-            <span>{congestionSummary.totalWaitingVessels} vessels waiting berth</span>
-          </div>
-        </Card>
-
-        {/* KPI 4: Basin Fleet Avail (Walnut Theme) */}
-        <Card className="p-4 border-[#79513D]/40 bg-gradient-to-br from-card/95 via-card/70 to-[#79513D]/25 hover:border-[#79513D] transition-all duration-300 shadow-deep">
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[#FAF5EC] font-semibold">
-              Basin Fleet Avail
-            </span>
-            <Gauge className="h-3.5 w-3.5 text-[#FAF5EC]" />
-          </div>
-          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
-            {snapshot?.fleetAvailabilityPct ?? 79}
-            <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">%</span>
-          </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#FAF5EC] font-mono bg-[#79513D]/30 border border-[#79513D]/50 px-1.5 py-0.5 rounded w-fit">
-            <CheckCircle2 className="h-3 w-3" />
-            <span>Adequate spot tonnage</span>
-          </div>
-        </Card>
-
-        {/* KPI 5: Committed Inflow (Warm Ivory / Espresso Theme) */}
-        <Card className="p-4 border-[#FAF5EC]/30 bg-gradient-to-br from-card/95 via-card/70 to-[#382720]/40 hover:border-[#FAF5EC]/60 transition-all duration-300 shadow-deep col-span-2 sm:col-span-1">
-          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[#F2E6D5] font-semibold">
-              Committed Inflow
-            </span>
-            <Ship className="h-3.5 w-3.5 text-[#B96F50]" />
-          </div>
-          <div className="text-2xl font-bold font-mono text-[#FAF5EC] tracking-tight">
-            {fmtInt(inflowSummary.totalTonnage)}
-            <span className="text-xs font-normal font-sans text-muted-foreground ml-1.5">t</span>
-          </div>
-          <div className="mt-2 flex items-center gap-1 text-[11px] text-[#FAF5EC] font-mono bg-[#382720]/80 border border-[#D7B88C]/30 px-1.5 py-0.5 rounded w-fit">
-            <span>{inflowSummary.activeFixturesCount} active fixtures</span>
-          </div>
-        </Card>
-      </div>
+        </BentoCard>
+      </BentoGrid>
 
       {/* 3. Interactive Route Canvas & Port Terminal Inspector */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* Left: Schematic Map Canvas (7 cols) */}
-        <Card className="p-5 lg:col-span-7 bg-surface/40 flex flex-col justify-between">
+        <BentoCard glowColor="teal" className="p-5 lg:col-span-7 flex flex-col justify-between">
           <div>
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/50 pb-3 mb-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#24485C] pb-3 mb-4">
               <div>
-                <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
-                  <Navigation className="h-4 w-4 text-[#B96F50]" />
+                <h2 className="text-base font-semibold text-[#F3EEE5] flex items-center gap-2">
+                  <Navigation className="h-4 w-4 text-[#35BFC3]" />
                   Inbound Trade Corridors & Port Nodes
                 </h2>
-                <p className="text-xs text-foreground/60">
+                <p className="text-xs text-[#D8E2E8]">
                   Australia & Indonesia origin hubs to East Coast India terminals. Click any port
                   node to inspect limits.
                 </p>
               </div>
 
               {/* Corridor filter buttons */}
-              <div className="flex items-center gap-1 rounded-md border border-border bg-ink/60 p-0.5 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setSelectedLaneGroup("ALL")}
-                  className={cn(
-                    "px-2.5 py-1 rounded text-[11px] font-medium transition",
-                    selectedLaneGroup === "ALL"
-                      ? "bg-[#B96F50] text-[#FAF5EC] font-semibold"
-                      : "text-foreground/70 hover:text-foreground",
-                  )}
-                >
-                  All Corridors
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedLaneGroup("COAL")}
-                  className={cn(
-                    "px-2.5 py-1 rounded text-[11px] font-medium transition",
-                    selectedLaneGroup === "COAL"
-                      ? "bg-[#B96F50] text-[#FAF5EC] font-semibold"
-                      : "text-foreground/70 hover:text-foreground",
-                  )}
-                >
-                  Coal Lanes
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedLaneGroup("IRON_ORE")}
-                  className={cn(
-                    "px-2.5 py-1 rounded text-[11px] font-medium transition",
-                    selectedLaneGroup === "IRON_ORE"
-                      ? "bg-[#B96F50] text-[#FAF5EC] font-semibold"
-                      : "text-foreground/70 hover:text-foreground",
-                  )}
-                >
-                  Ore Lanes
-                </button>
-              </div>
+              <BentoSegmented
+                value={selectedLaneGroup}
+                onChange={(val) => setSelectedLaneGroup(val as "ALL" | "COAL" | "IRON_ORE")}
+                options={[
+                  { value: "ALL", label: "All Corridors" },
+                  { value: "COAL", label: "Coal Lanes" },
+                  { value: "IRON_ORE", label: "Ore Lanes" },
+                ]}
+              />
             </div>
 
             {/* SVG Animated Route Canvas */}
-            <div className="relative rounded-lg border border-border/40 bg-ink/70 p-3 overflow-hidden">
+            <div className="relative rounded-xl border border-[#24485C] bg-[#081827] p-3 overflow-hidden shadow-inner">
               <RouteMap
                 title="East Coast India Maritime Corridors"
                 lanes={activeLanes}
                 highlightPort={selectedPort}
                 onPortSelect={(code) => setSelectedPort(code)}
+                theme="dark"
                 className="w-full max-h-[380px]"
               />
-              <div className="absolute bottom-2 right-3 text-[10px] font-mono text-foreground/40 bg-ink/80 px-2 py-0.5 rounded border border-border/40">
+              <div className="absolute bottom-2.5 right-3 text-[10px] font-mono text-[#D8E2E8]/70 bg-[#0D2233]/90 px-2.5 py-0.5 rounded border border-[#24485C]">
                 Schematic canvas · Not for navigation
               </div>
             </div>
           </div>
 
           {/* Quick origin & transit pill reference */}
-          <div className="mt-4 pt-3 border-t border-border/40 flex flex-wrap items-center justify-between gap-2 text-xs">
-            <span className="text-foreground/50 font-mono text-[11px]">Primary Load Ports:</span>
+          <div className="mt-4 pt-3 border-t border-[#24485C] flex flex-wrap items-center justify-between gap-2 text-xs">
+            <span className="text-[#D8E2E8]/70 font-mono text-[11px]">Primary Load Ports:</span>
             <div className="flex flex-wrap gap-2">
               {ORIGINS.map((o) => (
                 <div
                   key={o.id}
-                  className="inline-flex items-center gap-1.5 rounded bg-surface/80 px-2 py-1 border border-border/60 text-[11px] font-mono"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#0D2233] px-2.5 py-1 border border-[#24485C] text-[11px] font-mono"
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-brass" />
-                  <span className="font-semibold text-foreground/80">{o.loadPort}</span>
-                  <span className="text-foreground/50">({o.country})</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#35BFC3]" />
+                  <span className="font-semibold text-[#F3EEE5]">{o.loadPort}</span>
+                  <span className="text-[#D8E2E8]/70">({o.country})</span>
                 </div>
               ))}
             </div>
           </div>
-        </Card>
+        </BentoCard>
 
-        {/* Right: Port Terminal Constraints Card (5 cols) */}
-        <Card className="p-5 lg:col-span-5 bg-surface/40 flex flex-col justify-between">
+        {/* Right: Terminal Telemetry matching reference image */}
+        <BentoCard glowColor="amber" className="p-5 lg:col-span-5 flex flex-col justify-between">
           <div>
-            <div className="flex items-start justify-between border-b border-border/50 pb-3 mb-4">
+            <div className="flex items-center justify-between border-b border-[#24485C] pb-3 mb-4">
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-brass">
-                  Terminal Telemetry
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#D8E2E8] font-semibold">
+                  TERMINAL TELEMETRY
                 </span>
-                <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                  {selectedPortDetail.name} Port ({selectedPortDetail.code})
+                <h3 className="text-lg font-semibold text-[#F3EEE5]">
+                  Discharge Congestion
                 </h3>
-                <span className="text-xs text-foreground/60">
-                  {selectedPortDetail.state}, India
+              </div>
+              <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase px-2.5 py-1 rounded-md border border-[#E87945]/40 bg-[#E87945]/15 text-[#E87945]">
+                <span className="size-1.5 rounded-full bg-[#E87945] animate-pulse" />
+                CONGESTED
+              </span>
+            </div>
+
+            {/* 4 Terminal rows with progress bars (matching reference screenshot) */}
+            <div className="space-y-3.5 mb-5">
+              {[
+                { name: "Paradip", code: "PRDP", pct: 92, delta: "+2%", deltaColor: "text-[#E87945]", vessels: "12 vessels", barColor: "bg-[#E87945]" },
+                { name: "Dhamra", code: "DHMR", pct: 76, delta: "0%", deltaColor: "text-[#D8E2E8]", vessels: "8 vessels", barColor: "bg-[#F2B653]" },
+                { name: "Haldia", code: "HLDA", pct: 68, delta: "+1%", deltaColor: "text-[#F2B653]", vessels: "6 vessels", barColor: "bg-[#F2B653]" },
+                { name: "Vizag", code: "VIZG", pct: 54, delta: "-3%", deltaColor: "text-[#35BFC3]", vessels: "4 vessels", barColor: "bg-[#35BFC3]" },
+              ].map((item) => (
+                <div
+                  key={item.code}
+                  onClick={() => setSelectedPort(item.code as PortCode)}
+                  className={cn(
+                    "p-2 rounded-lg border transition-all cursor-pointer",
+                    selectedPort === item.code
+                      ? "border-[#F2B653] bg-[#15364A] shadow-[0_0_12px_rgba(242,182,83,0.15)]"
+                      : "border-[#24485C]/60 bg-[#0D2233] hover:border-[#24485C] hover:bg-[#15364A]",
+                  )}
+                >
+                  <div className="flex items-center justify-between text-xs font-mono mb-1.5">
+                    <div className="flex items-center gap-2">
+                      <Anchor className="size-3 text-[#D8E2E8]/70" />
+                      <span className="font-bold text-[#F3EEE5]">{item.name}</span>
+                      <span className="text-[10px] text-[#D8E2E8]/70">({item.code})</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-bold text-[#F3EEE5]">{item.pct}%</span>
+                      <span className={cn("text-[10px] font-semibold", item.deltaColor)}>
+                        {item.delta.startsWith("+") ? `↑ ${item.delta}` : item.delta.startsWith("-") ? `↓ ${item.delta}` : `→ ${item.delta}`}
+                      </span>
+                      <span className="text-[10px] text-[#D8E2E8]">{item.vessels}</span>
+                    </div>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-[#081827] overflow-hidden border border-[#24485C]/50">
+                    <div
+                      className={cn("h-full rounded-full transition-all duration-500", item.barColor)}
+                      style={{ width: `${item.pct}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Selected Port Inspection Panel */}
+            <div className="border-t border-[#24485C] pt-3.5 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-[#F3EEE5]">
+                  {selectedPortDetail.name} Port ({selectedPortDetail.code})
                 </span>
+                <Badge
+                  variant={
+                    selectedPortDetail.status === "CRITICAL"
+                      ? "danger"
+                      : selectedPortDetail.status === "CONGESTED"
+                        ? "warning"
+                        : "brass"
+                  }
+                >
+                  {selectedPortDetail.status}
+                </Badge>
               </div>
-              <Badge
-                variant={
-                  selectedPortDetail.status === "CRITICAL"
-                    ? "danger"
-                    : selectedPortDetail.status === "CONGESTED"
-                      ? "warning"
-                      : "brass"
-                }
-              >
-                {selectedPortDetail.status}
-              </Badge>
-            </div>
 
-            {/* Port Port Selector Switcher */}
-            <div className="grid grid-cols-5 gap-1.5 mb-5">
-              {PORTS.map((p) => {
-                const isSelected = p.code === selectedPort;
-                return (
-                  <button
-                    key={p.code}
-                    type="button"
-                    onClick={() => setSelectedPort(p.code)}
-                    className={cn(
-                      "py-1.5 text-center rounded border transition text-xs font-mono",
-                      isSelected
-                        ? "border-[#B96F50] bg-[#B96F50]/20 text-[#FAF5EC] font-bold"
-                        : "border-border/60 bg-ink/40 text-foreground/70 hover:border-border hover:text-foreground",
-                    )}
-                  >
-                    {p.code}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Detailed port specifications */}
-            <div className="space-y-3.5">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-md border border-border/60 bg-ink/40 p-3">
-                  <div className="text-[11px] font-mono text-foreground/60 mb-0.5">
-                    Maximum Draft
+              <div className="grid grid-cols-2 gap-2.5">
+                <div className="rounded-lg border border-[#24485C] bg-[#0D2233] p-2.5">
+                  <div className="text-[10px] font-mono text-[#D8E2E8]">Max Draft</div>
+                  <div className="text-base font-bold font-mono text-[#F3EEE5]">
+                    {selectedPortDetail.maxDraftM.toFixed(1)}m
                   </div>
-                  <div className="text-lg font-bold font-mono text-foreground flex items-baseline gap-1">
-                    {selectedPortDetail.maxDraftM.toFixed(1)}
-                    <span className="text-xs font-normal text-foreground/50">m</span>
-                  </div>
-                  {selectedPortDetail.draftRisk ? (
-                    <span className="text-[10px] text-amber-400 flex items-center gap-1 mt-1">
-                      <AlertTriangle className="h-3 w-3 shrink-0" />
-                      Capesize requires lightering
-                    </span>
-                  ) : (
-                    <span className="text-[10px] text-[#D7B88C] flex items-center gap-1 mt-1">
-                      <CheckCircle2 className="h-3 w-3 shrink-0" />
-                      Deepwater berths available
-                    </span>
-                  )}
-                </div>
-
-                <div className="rounded-md border border-border/60 bg-ink/40 p-3">
-                  <div className="text-[11px] font-mono text-foreground/60 mb-0.5">
-                    Queue / Wait Time
-                  </div>
-                  <div className="text-lg font-bold font-mono text-foreground flex items-baseline gap-1">
-                    {selectedPortDetail.avgWaitDays.toFixed(1)}
-                    <span className="text-xs font-normal text-foreground/50">days</span>
-                  </div>
-                  <span className="text-[10px] text-foreground/60 mt-1 block">
-                    {selectedPortDetail.waitingVessels} vessels at anchorage
+                  <span className={cn("text-[10px] block mt-0.5 font-semibold", selectedPortDetail.draftRisk ? "text-[#E87945]" : "text-[#35BFC3]")}>
+                    {selectedPortDetail.draftRisk ? "Capesize lightering" : "Deepwater ok"}
                   </span>
                 </div>
-              </div>
 
-              <div className="rounded-md border border-border/60 bg-ink/40 p-3">
-                <div className="flex items-center justify-between text-[11px] font-mono text-foreground/60 mb-1.5">
-                  <span>Berth Utilization</span>
-                  <span className="font-semibold text-foreground">
-                    {selectedPortDetail.berthOccupancyPct}%
+                <div className="rounded-lg border border-[#24485C] bg-[#0D2233] p-2.5">
+                  <div className="text-[10px] font-mono text-[#D8E2E8]">Queue / Wait</div>
+                  <div className="text-base font-bold font-mono text-[#F3EEE5]">
+                    {selectedPortDetail.avgWaitDays.toFixed(1)}d
+                  </div>
+                  <span className="text-[10px] text-[#D8E2E8] block mt-0.5">
+                    {selectedPortDetail.waitingVessels} at anchorage
                   </span>
-                </div>
-                <div className="h-2 w-full rounded-full bg-border overflow-hidden">
-                  <div
-                    className={cn(
-                      "h-full rounded-full transition-all duration-500",
-                      selectedPortDetail.berthOccupancyPct > 85
-                        ? "bg-crimson"
-                        : selectedPortDetail.berthOccupancyPct > 75
-                          ? "bg-[#B96F50]"
-                          : "bg-[#D7B88C]",
-                    )}
-                    style={{ width: `${selectedPortDetail.berthOccupancyPct}%` }}
-                  />
-                </div>
-              </div>
-
-              {/* Vessel Class Suitability */}
-              <div className="rounded-md border border-border/60 bg-ink/40 p-3">
-                <div className="text-[11px] font-mono uppercase text-foreground/60 mb-2">
-                  Vessel Class Compatibility
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {["Supramax", "Panamax", "Post-Panamax", "Capesize", "Newcastlemax"].map(
-                    (cls) => {
-                      const isSupported = selectedPortDetail.supportedClasses.includes(cls);
-                      return (
-                        <span
-                          key={cls}
-                          className={cn(
-                            "inline-flex items-center gap-1 rounded px-2 py-0.5 text-[11px] font-mono border",
-                            isSupported
-                              ? "border-[#D7B88C]/40 bg-[#79513D]/25 text-[#FAF5EC]"
-                              : "border-crimson/30 bg-crimson/10 text-crimson line-through opacity-70",
-                          )}
-                        >
-                          {isSupported ? "✓" : "✕"} {cls}
-                        </span>
-                      );
-                    },
-                  )}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-5 pt-3 border-t border-border/50 flex items-center justify-between">
-            <span className="text-xs text-foreground/50">Need full berth constraints?</span>
+          <div className="mt-4 pt-3 border-t border-[#24485C] flex items-center justify-between">
+            <span className="text-xs text-[#D8E2E8]/70">Need full berth constraints?</span>
             <Link
               to="/feasibility"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#B96F50] hover:text-[#C67C5E] transition"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#35BFC3] hover:text-[#50D5D9] transition"
             >
               <span>Port Feasibility Suite</span>
-              <ArrowUpRight className="h-3 w-3" />
+              <ArrowUpRight className="size-3" />
             </Link>
           </div>
-        </Card>
+        </BentoCard>
       </div>
 
       {/* 4. Active Voyage Fixtures Pipeline & Desk Decision History */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* Left: Active Contracts / Voyage Commitments (7 cols) */}
-        <Card className="p-5 lg:col-span-7 bg-surface/40">
-          <div className="flex items-center justify-between border-b border-border/50 pb-3 mb-4">
+        <BentoCard glowColor="teal" className="p-5 lg:col-span-7">
+          <div className="flex items-center justify-between border-b border-[#24485C] pb-3 mb-4">
             <div>
-              <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
-                <Layers className="h-4 w-4 text-brass" />
+              <h2 className="text-base font-semibold text-[#F3EEE5] flex items-center gap-2">
+                <Layers className="size-4 text-[#35BFC3]" />
                 Active Voyage Commitments & Fixtures
               </h2>
-              <p className="text-xs text-foreground/60">
+              <p className="text-xs text-[#D8E2E8]">
                 Fixed and pending charter contracts currently lifting raw materials for East Coast
                 India.
               </p>
             </div>
             <Link
               to="/contracts"
-              className="text-xs font-medium text-copper hover:underline inline-flex items-center gap-1"
+              className="text-xs font-semibold text-[#35BFC3] hover:text-[#50D5D9] inline-flex items-center gap-1"
             >
               <span>View All Records</span>
-              <ExternalLink className="h-3 w-3" />
+              <ExternalLink className="size-3" />
             </Link>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-border/60 text-foreground/50 font-mono">
+                <tr className="border-b border-[#24485C] text-[#D8E2E8] font-mono">
                   <th className="pb-2.5 font-medium">Vessel / Reference</th>
                   <th className="pb-2.5 font-medium">Class / Cargo</th>
                   <th className="pb-2.5 font-medium">Route</th>
@@ -610,14 +609,14 @@ export function CommandDashboardWorkspace() {
                   <th className="pb-2.5 font-medium text-right">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border/30">
+              <tbody className="divide-y divide-[#24485C]/60">
                 {contracts.slice(0, 5).map((c) => {
                   const originDef = ORIGINS.find((o) => o.id === c.origin);
                   return (
-                    <tr key={c.id} className="hover:bg-surface/50 transition">
+                    <tr key={c.id} className="hover:bg-[#15364A]/60 transition">
                       <td className="py-2.5">
-                        <div className="font-semibold text-foreground">{c.vesselName}</div>
-                        <div className="font-mono text-[10px] text-foreground/50">
+                        <div className="font-semibold text-[#F3EEE5]">{c.vesselName}</div>
+                        <div className="font-mono text-[10px] text-[#D8E2E8]/70">
                           {c.reference}
                         </div>
                       </td>
@@ -625,24 +624,24 @@ export function CommandDashboardWorkspace() {
                         <Badge variant="outline" className="font-mono text-[10px]">
                           {c.vesselClass}
                         </Badge>
-                        <div className="text-[10px] text-foreground/50 mt-0.5">{c.type}</div>
+                        <div className="text-[10px] text-[#D8E2E8] mt-0.5">{c.type}</div>
                       </td>
-                      <td className="py-2.5 font-mono text-[11px] text-foreground/80">
+                      <td className="py-2.5 font-mono text-[11px] text-[#F3EEE5]">
                         {originDef?.loadPort ?? c.origin} → {c.destination}
                       </td>
-                      <td className="py-2.5 text-right font-mono font-medium text-foreground">
+                      <td className="py-2.5 text-right font-mono font-medium text-[#F3EEE5]">
                         {fmtInt(c.tonnage)} t
                       </td>
-                      <td className="py-2.5 text-right font-mono font-medium text-[#FAF5EC]">
+                      <td className="py-2.5 text-right font-mono font-medium text-[#F3EEE5]">
                         ${c.rateUsdPerT.toFixed(2)}/t
                       </td>
                       <td className="py-2.5 text-right">
                         <Badge
                           variant={
                             c.status === "FIXED"
-                              ? "brass"
+                              ? "amber"
                               : c.status === "UNDER_REVIEW"
-                                ? "warning"
+                                ? "cyan"
                                 : c.status === "COMPLETED"
                                   ? "outline"
                                   : "neutral"
@@ -658,26 +657,26 @@ export function CommandDashboardWorkspace() {
               </tbody>
             </table>
           </div>
-        </Card>
+        </BentoCard>
 
         {/* Right: Recent Charter Decisions (5 cols) */}
-        <Card className="p-5 lg:col-span-5 bg-surface/40">
-          <div className="flex items-center justify-between border-b border-border/50 pb-3 mb-4">
+        <BentoCard glowColor="amber" className="p-5 lg:col-span-5">
+          <div className="flex items-center justify-between border-b border-[#24485C] pb-3 mb-4">
             <div>
-              <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
-                <Compass className="h-4 w-4 text-[#B96F50]" />
+              <h2 className="text-base font-semibold text-[#F3EEE5] flex items-center gap-2">
+                <Compass className="size-4 text-[#F2B653]" />
                 Recent Decision Logs
               </h2>
-              <p className="text-xs text-foreground/60">
-                Simulated recommendations generated by the chartering engine.
+              <p className="text-xs text-[#D8E2E8]">
+                Recent decision support logs generated by the chartering engine.
               </p>
             </div>
             <Link
               to="/charter"
-              className="text-xs font-medium text-[#B96F50] hover:underline inline-flex items-center gap-1"
+              className="text-xs font-semibold text-[#F2B653] hover:text-[#F5C26B] inline-flex items-center gap-1"
             >
               <span>Open Desk</span>
-              <ArrowUpRight className="h-3 w-3" />
+              <ArrowUpRight className="size-3" />
             </Link>
           </div>
 
@@ -685,64 +684,63 @@ export function CommandDashboardWorkspace() {
             {recent.map((d) => (
               <div
                 key={d.id}
-                className="flex items-center justify-between rounded-lg border border-border/50 bg-ink/40 p-3 hover:border-[#B96F50]/40 transition"
+                className="flex items-center justify-between rounded-xl border border-[#24485C] bg-[#0D2233] p-3 hover:border-[#F2B653]/50 hover:bg-[#15364A] transition"
               >
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-semibold text-foreground">{d.id}</span>
+                    <span className="font-mono text-xs font-semibold text-[#F3EEE5]">{d.id}</span>
                     <Badge
                       variant={
                         d.decision === "CHARTER_NOW"
-                          ? "brass"
+                          ? "amber"
                           : d.decision === "WAIT"
-                            ? "warning"
-                            : "outline"
+                            ? "outline"
+                            : "cyan"
                       }
                       className="text-[10px]"
                     >
                       {d.decision.replace("_", " ")}
                     </Badge>
                   </div>
-                  <div className="text-xs text-foreground/70 font-mono">
+                  <div className="text-xs text-[#D8E2E8] font-mono">
                     {fmtInt(d.cargoTonnes)}t {d.cargoType.replace("_", " ")}
                   </div>
-                  <div className="text-[10px] text-foreground/50 font-mono">
+                  <div className="text-[10px] text-[#D8E2E8]/70 font-mono">
                     {d.origin} → {d.destination} · {d.vesselClass}
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <div className="text-sm font-bold font-mono text-foreground">
+                  <div className="text-sm font-bold font-mono text-[#F3EEE5]">
                     ${d.rateUsdPerT.toFixed(2)}/t
                   </div>
-                  <div className="text-[10px] font-mono text-[#D7B88C]">
+                  <div className="text-[10px] font-mono text-[#F2B653] font-medium">
                     {Math.round(d.confidence * 100)}% conf
                   </div>
                   <Link
                     to="/charter"
-                    className="text-[10px] font-semibold text-[#B96F50] hover:underline inline-flex items-center gap-0.5 mt-1"
+                    className="text-[10px] font-semibold text-[#35BFC3] hover:underline inline-flex items-center gap-0.5 mt-1"
                   >
-                    <span>Simulate</span>
-                    <ArrowUpRight className="h-2.5 w-2.5" />
+                    <span>Evaluate</span>
+                    <ArrowUpRight className="size-2.5" />
                   </Link>
                 </div>
               </div>
             ))}
           </div>
-        </Card>
+        </BentoCard>
       </div>
 
       {/* 5. Operational Risk Alerts Feed */}
-      <Card className="p-5 bg-surface/40">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-border/50 pb-4 mb-5">
+      <BentoCard glowColor="orange" className="p-5">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-[#24485C] pb-4 mb-5">
           <div>
-            <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
-              <ShieldAlert className="h-4 w-4 text-crimson" />
+            <h2 className="text-base font-semibold text-[#F3EEE5] flex items-center gap-2">
+              <ShieldAlert className="size-4 text-[#E87945]" />
               Operational Maritime Risk Alerts
             </h2>
-            <p className="text-xs text-foreground/60">
-              Active voyage impediments, meteorological warnings, draft restrictions, and bunker
-              escalations.
+            <p className="text-xs text-[#D8E2E8]">
+              Active voyage impediments, meteorological warnings, draft restrictions, and bunker escalations.
             </p>
           </div>
 
@@ -750,38 +748,28 @@ export function CommandDashboardWorkspace() {
           <div className="flex flex-wrap items-center gap-2.5">
             {/* Search input */}
             <div className="relative">
-              <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-foreground/40" />
+              <Search className="absolute left-2.5 top-2 size-3.5 text-[#D8E2E8]" />
               <input
                 type="text"
                 placeholder="Filter alerts..."
                 value={alertSearch}
                 onChange={(e) => setAlertSearch(e.target.value)}
-                className="rounded-md border border-border/80 bg-ink/70 pl-8 pr-3 py-1.5 text-xs text-foreground placeholder:text-foreground/40 focus:border-[#B96F50] focus:outline-none w-44"
+                className="rounded-lg border border-[#24485C] bg-[#0D2233] pl-8 pr-3 py-1.5 text-xs text-[#F3EEE5] placeholder:text-[#D8E2E8]/60 focus:border-[#F2B653] focus:outline-none w-44"
               />
             </div>
 
             {/* Severity switcher */}
-            <div className="flex items-center gap-1 rounded-md border border-border bg-ink/60 p-0.5 text-xs">
-              {(["ALL", "HIGH", "ELEVATED", "MODERATE", "LOW"] as const).map((sev) => {
-                const count =
-                  sev === "ALL" ? alerts.length : alerts.filter((a) => a.severity === sev).length;
-                return (
-                  <button
-                    key={sev}
-                    type="button"
-                    onClick={() => setAlertSeverity(sev)}
-                    className={cn(
-                      "px-2 py-1 rounded text-[11px] font-mono transition",
-                      alertSeverity === sev
-                        ? "bg-[#B96F50] text-[#FAF5EC] font-semibold"
-                        : "text-foreground/70 hover:text-foreground",
-                    )}
-                  >
-                    {sev} ({count})
-                  </button>
-                );
-              })}
-            </div>
+            <BentoSegmented
+              value={alertSeverity}
+              onChange={(val) => setAlertSeverity(val as "ALL" | RiskLevel)}
+              options={(["ALL", "HIGH", "ELEVATED", "MODERATE", "LOW"] as const).map((sev) => ({
+                value: sev,
+                label: sev,
+                badge: String(
+                  sev === "ALL" ? alerts.length : alerts.filter((a) => a.severity === sev).length,
+                ),
+              }))}
+            />
           </div>
         </div>
 
@@ -792,11 +780,11 @@ export function CommandDashboardWorkspace() {
             const isHigh = alert.severity === "HIGH";
             const targetRoute =
               alert.title.toLowerCase().includes("draft") ||
-              alert.detail.toLowerCase().includes("draft") ||
-              alert.title.toLowerCase().includes("haldia")
+                alert.detail.toLowerCase().includes("draft") ||
+                alert.title.toLowerCase().includes("haldia")
                 ? "/feasibility"
                 : alert.title.toLowerCase().includes("bunker") ||
-                    alert.detail.toLowerCase().includes("vlsfo")
+                  alert.detail.toLowerCase().includes("vlsfo")
                   ? "/scenarios"
                   : "/charter";
 
@@ -804,9 +792,9 @@ export function CommandDashboardWorkspace() {
               <div
                 key={alert.id}
                 className={cn(
-                  "rounded-lg border p-4 transition-all duration-200 flex flex-col justify-between bg-card/60 backdrop-blur-sm hover:border-[#B96F50]/50",
+                  "rounded-xl border p-4 transition-all duration-200 flex flex-col justify-between bg-[#0D2233]/90 backdrop-blur-sm hover:border-[#F2B653]/60",
                   style.border,
-                  isHigh && "shadow-[0_0_20px_-8px_rgba(200,80,80,0.35)]",
+                  isHigh && "shadow-[0_0_20px_-8px_rgba(232,121,69,0.35)]",
                 )}
               >
                 <div>
@@ -814,29 +802,29 @@ export function CommandDashboardWorkspace() {
                     <div className="flex items-center gap-1.5">
                       {isHigh && (
                         <span className="relative flex size-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
-                          <span className="relative inline-flex rounded-full size-2 bg-rose-500" />
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E87945] opacity-75" />
+                          <span className="relative inline-flex rounded-full size-2 bg-[#E87945]" />
                         </span>
                       )}
                       <Badge variant={style.badge} className="text-[10px] font-mono">
                         {alert.severity}
                       </Badge>
                     </div>
-                    <span className="text-[10px] font-mono text-muted-foreground">{alert.id}</span>
+                    <span className="text-[10px] font-mono text-[#D8E2E8]/70">{alert.id}</span>
                   </div>
-                  <h4 className="text-sm font-semibold text-foreground mb-1 tracking-tight">
+                  <h4 className="text-sm font-semibold text-[#F3EEE5] mb-1 tracking-tight">
                     {alert.title}
                   </h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed mb-3">
+                  <p className="text-xs text-[#D8E2E8] leading-relaxed mb-3">
                     {alert.detail}
                   </p>
                 </div>
 
-                <div className="pt-2.5 border-t border-border/40 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-                  <span className="text-[#D7B88C]">{alert.region}</span>
+                <div className="pt-2.5 border-t border-[#24485C] flex items-center justify-between text-[11px] font-mono text-[#D8E2E8]/70">
+                  <span className="text-[#35BFC3] font-medium">{alert.region}</span>
                   <Link
                     to={targetRoute}
-                    className="inline-flex items-center gap-1 text-[11px] text-[#FAF5EC] hover:text-[#B96F50] transition font-medium"
+                    className="inline-flex items-center gap-1 text-[11px] text-[#F3EEE5] hover:text-[#F2B653] transition font-medium"
                   >
                     <span>Escalate</span>
                     <ArrowUpRight className="size-3" />
@@ -848,23 +836,23 @@ export function CommandDashboardWorkspace() {
         </div>
 
         {filteredAlerts.length === 0 && (
-          <div className="text-center py-10 text-foreground/50 text-xs font-mono">
+          <div className="text-center py-10 text-[#D8E2E8]/70 text-xs font-mono">
             No active risk alerts match your current filter parameters.
           </div>
         )}
-      </Card>
+      </BentoCard>
 
       {/* 6. Desk Provenance & Benchmark Model Disclaimer */}
-      <div className="rounded-lg border border-border/50 bg-surface/20 p-4 text-xs text-foreground/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="rounded-xl border border-[#24485C] bg-[#0D2233] p-4 text-xs text-[#D8E2E8]/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <Info className="h-4 w-4 text-brass shrink-0" />
+          <Info className="size-4 text-[#35BFC3] shrink-0" />
           <span>
             Telemetry and vessel scheduling calibrated against dry-bulk fixtures for East Coast
-            India (Q4 2026). All figures labelled as simulated desk intelligence.
+            India. Benchmark rates referenced to Baltic Exchange and Platts assessments.
           </span>
         </div>
-        <div className="font-mono text-[11px] text-foreground/40 whitespace-nowrap">
-          Engine: NAVIK SIM-V2.4 · Baltic / Platts Reference
+        <div className="font-mono text-[11px] text-[#D8E2E8] whitespace-nowrap">
+          Engine: NAVIK Decision Pipeline · Maritime Intelligence Core
         </div>
       </div>
     </div>

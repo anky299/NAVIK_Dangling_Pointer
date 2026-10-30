@@ -432,3 +432,84 @@ export async function listAuditEvents(): Promise<AuditEvent[]> {
   if (isDemoMode()) return [...audits()];
   return http("/audit");
 }
+
+/* ---------- Insurance Intelligence ---------- */
+export async function getInsuranceOverview(): Promise<import("./insurance-types").InsuranceOverviewMetrics> {
+  if (isDemoMode()) {
+    const { getOverviewMetrics } = await import("@/lib/sim/insurance");
+    return getOverviewMetrics();
+  }
+  return http("/insurance/overview");
+}
+
+export async function createInsuranceEstimate(
+  request: import("./insurance-types").InsuranceEstimateRequest,
+): Promise<import("./insurance-types").InsuranceEstimateResult> {
+  if (isDemoMode()) {
+    await sleep(API_CONFIG.demoLatencyMs);
+    const { calculateInsuranceEstimate } = await import("@/lib/sim/insurance");
+    return calculateInsuranceEstimate(request);
+  }
+  return http("/insurance/estimates", { method: "POST", body: request });
+}
+
+export async function getInsuranceEstimate(
+  id: string,
+): Promise<import("./insurance-types").InsuranceEstimateResult> {
+  if (isDemoMode()) {
+    const { getEstimateById } = await import("@/lib/sim/insurance");
+    const found = getEstimateById(id);
+    if (!found) throw new Error(`Insurance estimate not found: ${id}`);
+    return found;
+  }
+  return http(`/insurance/estimates/${id}`);
+}
+
+export async function listInsuranceEstimates(): Promise<import("./insurance-types").InsuranceEstimateResult[]> {
+  if (isDemoMode()) {
+    const { getEstimationHistory } = await import("@/lib/sim/insurance");
+    return getEstimationHistory();
+  }
+  return http("/insurance/estimates");
+}
+
+export async function getInsuranceHistoricalRecords(
+  filters?: import("./insurance-types").HistoricalRecordsFilter,
+): Promise<import("./insurance-types").PaginatedHistoricalRecords> {
+  if (isDemoMode()) {
+    const { getHistoricalRecords } = await import("@/lib/sim/insurance");
+    return getHistoricalRecords(filters);
+  }
+  return http("/insurance/records", { query: filters as Record<string, string | number | boolean | undefined> });
+}
+
+export async function getInsuranceAnalytics(
+  filters?: {
+    commodity?: import("./insurance-types").InsuranceCommodity | "ALL";
+    origin?: OriginRegion | "ALL";
+    destination?: PortCode | "ALL";
+    clause?: import("./insurance-types").CoverageClause | "ALL";
+  },
+): Promise<import("./insurance-types").InsuranceAnalyticsBundle> {
+  if (isDemoMode()) {
+    const { getInsuranceAnalyticsBundle } = await import("@/lib/sim/insurance");
+    return getInsuranceAnalyticsBundle(filters);
+  }
+  return http("/insurance/analytics", { query: filters as Record<string, string | number | boolean | undefined> });
+}
+
+export async function getInsuranceReferenceData() {
+  if (isDemoMode()) {
+    const { SUPPORTED_COMMODITIES, COVERAGE_CLAUSES, SUPPORTED_CURRENCIES } = await import(
+      "@/lib/sim/insurance"
+    );
+    return {
+      commodities: SUPPORTED_COMMODITIES,
+      coverageClauses: COVERAGE_CLAUSES,
+      currencies: SUPPORTED_CURRENCIES,
+      origins: ORIGINS,
+      ports: PORTS,
+    };
+  }
+  return http("/insurance/reference-data");
+}

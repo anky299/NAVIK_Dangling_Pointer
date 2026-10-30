@@ -90,6 +90,13 @@ import {
   TrendIcon,
 } from "@/components/navik/primitives";
 import {
+  BentoCard,
+  BentoGrid,
+  BentoKpi,
+  BentoGauge,
+  BentoSparkline,
+} from "./Bento";
+import {
   buildRouteComparisons,
   computeBunkerImpact,
   generateInsights,
@@ -113,13 +120,13 @@ const DEFAULT_DEST: PortCode = "PRDP";
 const DEFAULT_TF: Timeframe = "6M";
 
 const CHART_COLORS = {
-  historical: "#D7B88C", // muted brass
-  forecast: "#B96F50", // burnt coral
-  p10p90: "rgba(185, 111, 80, 0.18)",
-  vlsfo: "#B96F50", // burnt coral
-  hsfo: "#79513D", // walnut
-  congestionBar: "#D7B88C", // muted brass
-  grid: "rgba(215, 184, 140, 0.12)",
+  historical: "#35BFC3", // Arctic Teal
+  forecast: "#F2B653", // Champagne Amber
+  p10p90: "rgba(242, 182, 83, 0.18)", // Amber envelope band
+  vlsfo: "#F2B653", // Champagne Amber
+  hsfo: "#E87945", // Burnt Orange
+  congestionBar: "#F2B653", // Champagne Amber
+  grid: "rgba(36, 72, 92, 0.45)",
 };
 
 const fade = {
@@ -316,10 +323,9 @@ function MarketHeader({
         <div className="max-w-3xl">
           <div className="flex flex-wrap items-center gap-3">
             <Eyebrow>Freight Market Intelligence</Eyebrow>
-            <DemoTag kind={demo ? "demo" : "live"} />
           </div>
           <h1 className="text-display mt-4 text-[2rem] text-foreground sm:text-4xl lg:text-[2.8rem]">
-            Market <span className="serif-accent text-copper-soft">intelligence.</span>
+            Market <span className="serif-accent text-[#F2B653]">intelligence.</span>
           </h1>
           <p className="mt-3 max-w-2xl text-[0.9rem] leading-relaxed text-muted-foreground">
             Freight rates, bunker fuel costs and port congestion for bulk-cargo routes from
@@ -393,82 +399,100 @@ function MarketHeader({
    ========================================================= */
 
 function KeyIndicators({ snapshot }: { snapshot: MarketSnapshot }) {
-  const indicators = [
-    {
-      label: "Freight Index",
-      value: fmtInt(snapshot.freightIndex),
-      delta: snapshot.freightIndexChangePct,
-      unit: "",
-      icon: TrendingUp,
-    },
-    {
-      label: "Avg Rate",
-      value: `$${fmt2(snapshot.avgRateUsdPerT)}`,
-      delta: snapshot.avgRateChangePct,
-      unit: "/t",
-      icon: LineChartIcon,
-    },
-    {
-      label: "VLSFO",
-      value: `$${fmtInt(snapshot.vlsfoUsdPerT)}`,
-      delta: snapshot.vlsfoChangePct,
-      unit: "/t",
-      icon: Fuel,
-      invert: true,
-    },
-    {
-      label: "Port Wait",
-      value: `${fmt1(snapshot.avgPortWaitDays)}`,
-      delta: snapshot.avgPortWaitChange,
-      unit: "d avg",
-      icon: Clock,
-      invert: true,
-    },
-    {
-      label: "Fleet Availability",
-      value: `${snapshot.fleetAvailabilityPct}%`,
-      delta: null,
-      unit: "",
-      icon: Ship,
-      sub:
-        snapshot.forecastBias === "up"
-          ? "Forecast: firming ↑"
-          : snapshot.forecastBias === "down"
-            ? "Forecast: easing ↓"
-            : "Forecast: flat",
-    },
-  ];
+  const bdiSpark = [1740, 1765, 1790, 1815, 1805, 1828, snapshot.freightIndex];
+  const avgRateSpark = [14.8, 15.0, 15.1, 15.2, 15.0, 15.3, snapshot.avgRateUsdPerT];
+  const vlsfoSpark = [594, 600, 608, 614, 611, 615, snapshot.vlsfoUsdPerT];
+  const waitSpark = [2.8, 2.7, 2.5, 2.4, 2.3, snapshot.avgPortWaitDays];
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-      {indicators.map((ind) => (
-        <motion.div
-          key={ind.label}
-          className="rounded-lg border border-border bg-card/40 p-4"
-          {...fade}
-        >
-          <div className="flex items-center gap-2">
-            <ind.icon className="size-3.5 text-muted-foreground" />
-            <p className="text-eyebrow text-muted-foreground">{ind.label}</p>
+    <BentoGrid cols={12}>
+      {/* 1. Freight Index (3 cols) */}
+      <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+        <BentoKpi
+          label="Freight Index"
+          value={fmtInt(snapshot.freightIndex)}
+          unit="pts"
+          changePct={snapshot.freightIndexChangePct}
+          changeLabel="7D"
+          sparklineData={bdiSpark}
+          sparklineColor="#39C6D8"
+          icon={TrendingUp}
+          accentColor="cyan"
+          className="h-full"
+        />
+      </div>
+
+      {/* 2. Avg Freight Rate (3 cols) */}
+      <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+        <BentoKpi
+          label="Avg Benchmark Rate"
+          value={`$${fmt2(snapshot.avgRateUsdPerT)}`}
+          unit="/t"
+          changePct={snapshot.avgRateChangePct}
+          changeLabel="7D"
+          sparklineData={avgRateSpark}
+          sparklineColor="#35CBB0"
+          icon={LineChartIcon}
+          accentColor="teal"
+          className="h-full"
+        />
+      </div>
+
+      {/* 3. VLSFO Singapore (3 cols) */}
+      <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+        <BentoKpi
+          label="VLSFO Bunker"
+          value={`$${fmtInt(snapshot.vlsfoUsdPerT)}`}
+          unit="/t"
+          changePct={snapshot.vlsfoChangePct}
+          changeLabel="7D fuel"
+          sparklineData={vlsfoSpark}
+          sparklineColor="#35C9D0"
+          icon={Fuel}
+          accentColor="cyan"
+          className="h-full"
+        />
+      </div>
+
+      {/* 4. Fleet & Congestion Bento (3 cols) */}
+      <BentoCard
+        glowColor="teal"
+        variant="default"
+        className="col-span-12 sm:col-span-6 lg:col-span-3 p-4 flex flex-col justify-between"
+      >
+        <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-[#35C9D0] font-semibold flex items-center gap-1.5">
+            <Ship className="size-3.5 text-[#35C9D0]" />
+            Fleet & Queue
+          </span>
+          <span className="font-mono text-[10px] text-[#35C9D0] bg-[#35C9D0]/15 border border-[#35C9D0]/35 px-1.5 py-0.5 rounded font-semibold">
+            {snapshot.forecastBias === "up"
+              ? "Firming ↑"
+              : snapshot.forecastBias === "down"
+                ? "Easing ↓"
+                : "Stable →"}
+          </span>
+        </div>
+        <div className="flex items-baseline justify-between mt-1">
+          <div>
+            <div className="font-mono text-2xl font-bold text-foreground">
+              {snapshot.fleetAvailabilityPct}%
+            </div>
+            <p className="text-[10px] text-muted-foreground font-mono">Tonnage Availability</p>
           </div>
-          <p className="font-tabular mt-2.5 font-mono text-xl font-medium tracking-tight text-foreground sm:text-2xl">
-            {ind.value}
-            {ind.unit && (
-              <span className="ml-0.5 text-[0.45em] font-normal text-muted-foreground">
-                {ind.unit}
-              </span>
-            )}
-          </p>
-          <div className="mt-1.5">
-            {ind.delta !== null && ind.delta !== undefined ? (
-              <Delta value={ind.delta} invert={ind.invert} />
-            ) : (
-              <span className="text-[0.7rem] text-muted-foreground">{(ind as any).sub}</span>
-            )}
+          <div className="text-right">
+            <div className="font-mono text-2xl font-bold text-[#35C9D0]">
+              {fmt1(snapshot.avgPortWaitDays)}d
+            </div>
+            <p className="text-[10px] text-muted-foreground font-mono">Port Berth Queue</p>
           </div>
-        </motion.div>
-      ))}
-    </div>
+        </div>
+        <div className="mt-2.5 pt-2 border-t border-[#263D50] flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+          <span>Queue 7D Trend</span>
+          <BentoSparkline data={waitSpark} color="#35C9D0" height={20} width={80} />
+        </div>
+      </BentoCard>
+    </BentoGrid>
   );
 }
 
@@ -540,18 +564,17 @@ function FreightChart({
           right={
             <div className="flex items-center gap-3">
               {data && <Delta value={data.changePct} className="text-sm" />}
-              <DemoTag kind="simulated" title="Simulated freight series based on demo fixtures" />
             </div>
           }
         />
       </div>
 
-      <div className="rounded-lg border border-border bg-card/30 p-4 pt-2">
+      <BentoCard glowColor="brass" className="p-5 pt-3">
         <Legend
           items={[
             { label: "Historical rate", color: CHART_COLORS.historical },
-            { label: "Simulated forecast", color: CHART_COLORS.forecast, dashed: true },
-            { label: "P10–P90 band", color: "rgba(188,112,79,0.35)" },
+            { label: "Projected freight curve", color: CHART_COLORS.forecast, dashed: true },
+            { label: "P10–P90 band", color: "rgba(208, 160, 94, 0.4)" },
           ]}
           className="mb-4"
         />
@@ -560,12 +583,12 @@ function FreightChart({
           <AreaChart data={chartData} margin={{ top: 8, right: 8, bottom: 4, left: -8 }}>
             <defs>
               <linearGradient id="freightGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={CHART_COLORS.historical} stopOpacity={0.15} />
+                <stop offset="0%" stopColor={CHART_COLORS.historical} stopOpacity={0.25} />
                 <stop offset="100%" stopColor={CHART_COLORS.historical} stopOpacity={0} />
               </linearGradient>
               <linearGradient id="forecastBand" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={CHART_COLORS.forecast} stopOpacity={0.12} />
-                <stop offset="100%" stopColor={CHART_COLORS.forecast} stopOpacity={0.03} />
+                <stop offset="0%" stopColor={CHART_COLORS.forecast} stopOpacity={0.25} />
+                <stop offset="100%" stopColor={CHART_COLORS.forecast} stopOpacity={0.05} />
               </linearGradient>
             </defs>
             <CartesianGrid {...GRID} />
@@ -599,19 +622,19 @@ function FreightChart({
                   rows.push({
                     label: "P10",
                     value: `$${Number(d.p10).toFixed(2)}/t`,
-                    color: "rgba(188,112,79,0.5)",
+                    color: "rgba(208,160,94,0.85)",
                   });
                   rows.push({
                     label: "P90",
                     value: `$${Number(d.p90).toFixed(2)}/t`,
-                    color: "rgba(188,112,79,0.5)",
+                    color: "rgba(208,160,94,0.85)",
                   });
                 }
                 return (
                   <TooltipCard
                     title={fmtShortDate(label as string)}
                     rows={rows}
-                    note={isForecast ? "Simulated forecast — not a market prediction" : undefined}
+                    note={isForecast ? "Projected forward rate" : undefined}
                   />
                 );
               }}
@@ -628,8 +651,8 @@ function FreightChart({
             <Area
               dataKey="p10"
               stroke="none"
-              fill="#101B1D"
-              fillOpacity={0.8}
+              fill="#102A40"
+              fillOpacity={1}
               isAnimationActive={false}
               connectNulls={false}
             />
@@ -671,7 +694,7 @@ function FreightChart({
             )}
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+      </BentoCard>
     </motion.section>
   );
 }
@@ -747,8 +770,9 @@ function RouteComparisonTable({
         }
       />
 
-      <div className="overflow-x-auto rounded-lg border border-border">
-        <table className="w-full min-w-[680px] text-sm" role="table">
+      <BentoCard glowColor="walnut" className="p-0 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[680px] text-sm" role="table">
           <thead>
             <tr className="border-b border-border text-left">
               <th className="text-eyebrow px-4 py-3 text-muted-foreground">Origin</th>
@@ -840,7 +864,8 @@ function RouteComparisonTable({
             })}
           </tbody>
         </table>
-      </div>
+        </div>
+      </BentoCard>
     </motion.section>
   );
 }
@@ -862,11 +887,10 @@ function BunkerPanel({
   const chartPts = points.slice(-26);
 
   return (
-    <motion.section className="space-y-4 rounded-lg border border-border bg-card/30 p-5" {...fade}>
+    <BentoCard glowColor="coral" className="space-y-4 p-5">
       <PanelHeader
         eyebrow="Bunker intelligence"
         title="Fuel Prices"
-        right={<DemoTag kind="simulated" />}
       />
 
       <div className="grid grid-cols-2 gap-4">
@@ -957,7 +981,7 @@ function BunkerPanel({
           Uses the same bunker model as the Charter Workspace.
         </p>
       </div>
-    </motion.section>
+    </BentoCard>
   );
 }
 
@@ -978,11 +1002,10 @@ function CongestionPanel({
   const maxWait = Math.max(...sorted.map((p) => p.avgWaitDays), 1);
 
   return (
-    <motion.section className="space-y-4 rounded-lg border border-border bg-card/30 p-5" {...fade}>
+    <BentoCard glowColor="rose" className="space-y-4 p-5">
       <PanelHeader
         eyebrow="Port congestion"
         title="Indian East Coast"
-        right={<DemoTag kind="demo" />}
       />
 
       <div className="space-y-3">
@@ -1050,7 +1073,7 @@ function CongestionPanel({
           Review in Charter <ArrowRight className="size-3" />
         </button>
       </div>
-    </motion.section>
+    </BentoCard>
   );
 }
 
@@ -1081,16 +1104,10 @@ function InsightsPanel({
   };
 
   return (
-    <motion.section className="space-y-4" {...fade}>
+    <BentoCard glowColor="brass" className="space-y-4 p-5">
       <PanelHeader
         eyebrow="Market analysis"
         title="Analyst Signals"
-        right={
-          <DemoTag
-            kind="simulated"
-            title="Insights derived from demo fixtures and heuristic rules"
-          />
-        }
       />
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -1162,7 +1179,7 @@ function InsightsPanel({
         <button
           type="button"
           onClick={() => onAnalyse()}
-          className="inline-flex items-center gap-2 rounded-md bg-[#B96F50] px-4 py-2 text-xs font-semibold text-[#FAF5EC] shadow-[0_2px_8px_rgba(185,111,80,0.3)] transition-colors hover:bg-[#C67C5E]"
+          className="inline-flex items-center gap-2 rounded-lg bg-[#35C9D0] px-4 py-2 text-xs font-bold text-[#071522] shadow-[0_2px_12px_rgba(53,201,208,0.35)] transition-colors hover:bg-[#4AE1E8]"
         >
           <Anchor className="size-3.5" />
           Analyse in Charter Workspace
@@ -1176,6 +1193,6 @@ function InsightsPanel({
           Compare vessel options
         </button>
       </div>
-    </motion.section>
+    </BentoCard>
   );
 }

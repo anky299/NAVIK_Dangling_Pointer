@@ -17,6 +17,7 @@ import { Route as CommandCharterRouteImport } from './routes/_command.charter'
 import { Route as CommandContractsRouteImport } from './routes/_command.contracts'
 import { Route as CommandDashboardRouteImport } from './routes/_command.dashboard'
 import { Route as CommandFeasibilityRouteImport } from './routes/_command.feasibility'
+import { Route as CommandInsuranceRouteImport } from './routes/_command.insurance'
 import { Route as CommandMarketRouteImport } from './routes/_command.market'
 import { Route as CommandScenariosRouteImport } from './routes/_command.scenarios'
 import { Route as CommandStrategyRouteImport } from './routes/_command.strategy'
@@ -60,6 +61,11 @@ const CommandFeasibilityRoute = CommandFeasibilityRouteImport.update({
   path: '/feasibility',
   getParentRoute: () => CommandRoute,
 } as any)
+const CommandInsuranceRoute = CommandInsuranceRouteImport.update({
+  id: '/insurance',
+  path: '/insurance',
+  getParentRoute: () => CommandRoute,
+} as any)
 const CommandMarketRoute = CommandMarketRouteImport.update({
   id: '/market',
   path: '/market',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/contracts': typeof CommandContractsRoute
   '/dashboard': typeof CommandDashboardRoute
   '/feasibility': typeof CommandFeasibilityRoute
+  '/insurance': typeof CommandInsuranceRoute
   '/market': typeof CommandMarketRoute
   '/scenarios': typeof CommandScenariosRoute
   '/strategy': typeof CommandStrategyRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/contracts': typeof CommandContractsRoute
   '/dashboard': typeof CommandDashboardRoute
   '/feasibility': typeof CommandFeasibilityRoute
+  '/insurance': typeof CommandInsuranceRoute
   '/market': typeof CommandMarketRoute
   '/scenarios': typeof CommandScenariosRoute
   '/strategy': typeof CommandStrategyRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/_command/contracts': typeof CommandContractsRoute
   '/_command/dashboard': typeof CommandDashboardRoute
   '/_command/feasibility': typeof CommandFeasibilityRoute
+  '/_command/insurance': typeof CommandInsuranceRoute
   '/_command/market': typeof CommandMarketRoute
   '/_command/scenarios': typeof CommandScenariosRoute
   '/_command/strategy': typeof CommandStrategyRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/contracts'
     | '/dashboard'
     | '/feasibility'
+    | '/insurance'
     | '/market'
     | '/scenarios'
     | '/strategy'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/contracts'
     | '/dashboard'
     | '/feasibility'
+    | '/insurance'
     | '/market'
     | '/scenarios'
     | '/strategy'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/_command/contracts'
     | '/_command/dashboard'
     | '/_command/feasibility'
+    | '/_command/insurance'
     | '/_command/market'
     | '/_command/scenarios'
     | '/_command/strategy'
@@ -217,6 +229,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommandFeasibilityRouteImport
       parentRoute: typeof CommandRoute
     }
+    '/_command/insurance': {
+      id: '/_command/insurance'
+      path: '/insurance'
+      fullPath: '/insurance'
+      preLoaderRoute: typeof CommandInsuranceRouteImport
+      parentRoute: typeof CommandRoute
+    }
     '/_command/market': {
       id: '/_command/market'
       path: '/market'
@@ -248,6 +267,7 @@ interface CommandRouteChildren {
   CommandContractsRoute: typeof CommandContractsRoute
   CommandDashboardRoute: typeof CommandDashboardRoute
   CommandFeasibilityRoute: typeof CommandFeasibilityRoute
+  CommandInsuranceRoute: typeof CommandInsuranceRoute
   CommandMarketRoute: typeof CommandMarketRoute
   CommandScenariosRoute: typeof CommandScenariosRoute
   CommandStrategyRoute: typeof CommandStrategyRoute
@@ -260,6 +280,7 @@ const CommandRouteChildren: CommandRouteChildren = {
   CommandContractsRoute: CommandContractsRoute,
   CommandDashboardRoute: CommandDashboardRoute,
   CommandFeasibilityRoute: CommandFeasibilityRoute,
+  CommandInsuranceRoute: CommandInsuranceRoute,
   CommandMarketRoute: CommandMarketRoute,
   CommandScenariosRoute: CommandScenariosRoute,
   CommandStrategyRoute: CommandStrategyRoute,

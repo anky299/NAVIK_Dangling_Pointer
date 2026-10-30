@@ -79,6 +79,7 @@ import {
 } from "@/lib/api/services";
 import { fmtDate, fmtInt, fmtRate, fmtTonnes, fmtUsd } from "@/lib/format";
 import { DemoTag, Eyebrow, Metric, PageHeader, PanelHeader } from "./primitives";
+import { BentoCard, BentoGrid } from "./Bento";
 
 /* ═══════════════════════════════════════════════
    Contracts Workspace Component
@@ -161,7 +162,7 @@ export function ContractsWorkspace() {
     }
   };
 
-  // Reset demo store
+  // Reset contract store
   const handleResetStore = () => {
     resetContractStore();
     refreshContracts();
@@ -178,7 +179,6 @@ export function ContractsWorkspace() {
         title="Contract"
         accent="register."
         description="Freight commitment register, commercial term summaries, laycan conflict detection, and contractual risk monitoring."
-        tag={<DemoTag kind="local" title="Local browser store & illustrative fixtures" />}
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <button
@@ -225,7 +225,7 @@ export function ContractsWorkspace() {
         aria-label="Commercial overview metrics"
         className="grid grid-cols-2 gap-3 sm:grid-cols-5"
       >
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        <BentoCard glowColor="brass" className="p-3.5 shadow-sm">
           <Metric
             label="Total Committed"
             value={fmtTonnes(summary.totalTonnage)}
@@ -235,8 +235,8 @@ export function ContractsWorkspace() {
           <p className="mt-1 text-[0.68rem] text-muted-foreground">
             {summary.activeFixturesCount} active fixtures
           </p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        </BentoCard>
+        <BentoCard glowColor="coral" className="p-3.5 shadow-sm">
           <Metric
             label="Total Freight Spend"
             value={fmtUsd(summary.totalSpendUsd)}
@@ -246,8 +246,8 @@ export function ContractsWorkspace() {
           <p className="mt-1 text-[0.68rem] text-muted-foreground">
             Across {contractsList.length} total records
           </p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        </BentoCard>
+        <BentoCard glowColor="walnut" className="p-3.5 shadow-sm">
           <Metric
             label="Weighted Freight"
             value={`${fmtRate(summary.weightedRateUsdPerT)}`}
@@ -255,8 +255,8 @@ export function ContractsWorkspace() {
             size="sm"
           />
           <p className="mt-1 text-[0.68rem] text-muted-foreground">Voyage & TC volume-weighted</p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        </BentoCard>
+        <BentoCard glowColor="rose" className="p-3.5 shadow-sm">
           <Metric
             label="Laycan Concurrency"
             value={`${laycanConflicts.length}`}
@@ -266,13 +266,13 @@ export function ContractsWorkspace() {
           <p className="mt-1 text-[0.68rem] text-muted-foreground">
             {laycanConflicts.length > 0 ? "Berth queue risk flagged" : "Normal spacing"}
           </p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        </BentoCard>
+        <BentoCard glowColor="coral" className="p-3.5 shadow-sm">
           <Metric label="Commercial Risks" value={`${risks.length}`} unit="items" size="sm" />
           <p className="mt-1 text-[0.68rem] text-muted-foreground">
             {summary.unverifiedCount} unverified records
           </p>
-        </div>
+        </BentoCard>
       </section>
 
       {/* ── Commercial Risk & Deadline Alert Strip ── */}
@@ -494,14 +494,6 @@ export function ContractsWorkspace() {
                       <td className="px-3 py-3 font-mono">
                         <div className="font-semibold text-foreground flex items-center gap-1.5">
                           <span>{c.reference}</span>
-                          {c.isIllustrative && (
-                            <span
-                              className="rounded bg-muted px-1 py-0.2 text-[0.58rem] text-muted-foreground"
-                              title="Illustrative demo fixture"
-                            >
-                              DEMO
-                            </span>
-                          )}
                         </div>
                         <span className="text-[0.65rem] text-muted-foreground uppercase tracking-wider">
                           {c.type.replace(/_/g, " ")}
@@ -638,9 +630,6 @@ export function ContractsWorkspace() {
                       <h3 className="font-mono text-lg font-bold text-foreground">
                         {selectedContract.reference}
                       </h3>
-                      {selectedContract.isIllustrative && (
-                        <DemoTag kind="simulated" title="Illustrative fixture" />
-                      )}
                     </div>
                     <p className="mt-1 text-xs text-muted-foreground">
                       {selectedContract.counterparty} · Created{" "}

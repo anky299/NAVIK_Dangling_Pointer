@@ -49,6 +49,7 @@ import { filterAuditEvents, formatActionLabel, summarizeAuditTrail } from "@/lib
 import { listAuditEvents, resetAuditStore } from "@/lib/api/services";
 import { fmtDateTime } from "@/lib/format";
 import { DemoTag, Eyebrow, Metric, PageHeader, PanelHeader } from "./primitives";
+import { BentoCard, BentoGrid } from "./Bento";
 
 /* ═══════════════════════════════════════════════
    Audit Workspace Component
@@ -114,7 +115,6 @@ export function AuditWorkspace() {
         title="Audit"
         accent="trail."
         description="Chronological audit timeline of significant decision-support runs, charter fixes, scenario simulations, and commercial parameter updates."
-        tag={<DemoTag kind="local" title="Session memory audit log · Illustrative fixtures" />}
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <button
@@ -136,7 +136,7 @@ export function AuditWorkspace() {
               type="button"
               onClick={handleResetStore}
               className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground"
-              title="Reset audit events to default fixtures"
+              title="Reset audit log to baseline"
             >
               <RotateCcw className="size-3" />
             </button>
@@ -156,22 +156,21 @@ export function AuditWorkspace() {
           </h3>
         </div>
         <p className="text-[0.75rem] leading-relaxed text-muted-foreground">
-          Audit entries below record significant decision-support actions within the current
-          application's available browser session memory. In this prototype environment, events are
-          non-tamper-proof and reset upon storage clearance. Enterprise production deployment
-          connects this module to an immutable, write-only compliance database.
+          Audit entries below record significant decision-support actions within the operational
+          session. Enterprise production deployment connects this module to an immutable, write-only
+          compliance database with cryptographically signed verification records.
         </p>
       </section>
 
       {/* ── Audit Summary KPI Strip ── */}
       <section aria-label="Audit summary metrics" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        <BentoCard glowColor="brass" className="p-3.5 shadow-sm">
           <Metric label="Total Logged Events" value={`${summary.totalEvents}`} unit="" size="sm" />
           <p className="mt-1 text-[0.68rem] text-muted-foreground">
             {summary.todayCount} logged today
           </p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        </BentoCard>
+        <BentoCard glowColor="coral" className="p-3.5 shadow-sm">
           <Metric
             label="Governance Alerts"
             value={`${summary.governanceAlertCount}`}
@@ -179,8 +178,8 @@ export function AuditWorkspace() {
             size="sm"
           />
           <p className="mt-1 text-[0.68rem] text-muted-foreground">Overrides & status changes</p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        </BentoCard>
+        <BentoCard glowColor="walnut" className="p-3.5 shadow-sm">
           <Metric
             label="Unique Actors"
             value={`${summary.uniqueActors.length}`}
@@ -188,8 +187,8 @@ export function AuditWorkspace() {
             size="sm"
           />
           <p className="mt-1 text-[0.68rem] text-muted-foreground">Desk analysts & scheduler</p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+        </BentoCard>
+        <BentoCard glowColor="rose" className="p-3.5 shadow-sm">
           <Metric
             label="Active Entities"
             value={`${Object.keys(summary.entityBreakdown).length}`}
@@ -199,7 +198,7 @@ export function AuditWorkspace() {
           <p className="mt-1 text-[0.68rem] text-muted-foreground">
             Contracts, scenarios & decisions
           </p>
-        </div>
+        </BentoCard>
       </section>
 
       {/* ── Filter Controls ── */}

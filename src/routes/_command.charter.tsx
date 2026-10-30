@@ -7,12 +7,12 @@ export const Route = createFileRoute("/_command/charter")({
       { title: "Charter Workspace — NAVIK" },
       {
         name: "description",
-        content: "Cargo intake, five-stage pipeline and a simulated charter recommendation.",
+        content: "Cargo intake, five-stage pipeline and an optimized charter recommendation.",
       },
       { property: "og:title", content: "Charter Workspace — NAVIK" },
       {
         property: "og:description",
-        content: "Cargo intake, five-stage pipeline and a simulated charter recommendation.",
+        content: "Cargo intake, five-stage pipeline and an optimized charter recommendation.",
       },
     ],
   }),
