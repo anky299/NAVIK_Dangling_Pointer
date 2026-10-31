@@ -35,14 +35,20 @@ export const useContinuousTimeline = ({
   checkSeenFlag = false
 } = {}) => {
   const [isFinished, setIsFinished] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    const prefersReducedMotion = typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (typeof window === 'undefined') return;
 
-    timelineState.reducedMotion = prefersReducedMotion;
-    if (prefersReducedMotion) {
+    const mediaQuery = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)')
+      : null;
+    const isReduced = Boolean(mediaQuery && mediaQuery.matches);
+
+    timelineState.reducedMotion = isReduced;
+    setReducedMotion(isReduced);
+
+    if (isReduced) {
       timelineState.progress = 1.0;
       timelineState.isFinished = true;
       setIsFinished(true);
@@ -74,8 +80,36 @@ export const useContinuousTimeline = ({
       }
     });
 
-    return unsubscribe;
-  }, [autoPlay, checkSeenFlag, prefersReducedMotion]);
+    const handleChange = (e) => {
+      const prefersReduced = Boolean(e.matches);
+      timelineState.reducedMotion = prefersReduced;
+      setReducedMotion(prefersReduced);
+      if (prefersReduced) {
+        timelineState.progress = 1.0;
+        timelineState.isFinished = true;
+        setIsFinished(true);
+      }
+    };
+
+    if (mediaQuery) {
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', handleChange);
+      } else if (typeof mediaQuery.addListener === 'function') {
+        mediaQuery.addListener(handleChange);
+      }
+    }
+
+    return () => {
+      unsubscribe();
+      if (mediaQuery) {
+        if (typeof mediaQuery.removeEventListener === 'function') {
+          mediaQuery.removeEventListener('change', handleChange);
+        } else if (typeof mediaQuery.removeListener === 'function') {
+          mediaQuery.removeListener(handleChange);
+        }
+      }
+    };
+  }, [autoPlay, checkSeenFlag]);
 
   const restart = useCallback(() => {
     timelineState.progress = 0;
@@ -110,6 +144,7 @@ export const useContinuousTimeline = ({
   return {
     progress: timelineState.progress,
     isFinished,
+    reducedMotion,
     restart,
     skipToEnd,
     resetIntroSeen
