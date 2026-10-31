@@ -26,13 +26,41 @@ export interface FirebaseEnvConfig {
   appId: string;
 }
 
+/**
+ * Helper to defensively clean environment variables against common Vercel/dashboard
+ * formatting issues (e.g. accidentally pasting 'VAR_NAME=value' or extra newlines/quotes).
+ */
+function cleanEnvValue(val: unknown): string {
+  if (typeof val !== "string") return "";
+  let trimmed = val.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    trimmed = trimmed.slice(1, -1).trim();
+  }
+  const eqIdx = trimmed.indexOf("=");
+  if (eqIdx !== -1 && /^[A-Za-z0-9_]+=\s*/.test(trimmed)) {
+    trimmed = trimmed.slice(eqIdx + 1).trim();
+  }
+  if (trimmed.includes("\n") || trimmed.includes("\r")) {
+    const lines = trimmed
+      .split(/[\r\n]+/)
+      .map((l) => l.trim())
+      .filter(Boolean);
+    const validLine = lines.find((l) => !l.includes("=")) || lines[lines.length - 1];
+    trimmed = (validLine || "").trim();
+  }
+  return trimmed;
+}
+
 // 1. Validate required environment variables without exposing secrets
-const apiKey = (import.meta.env.VITE_FIREBASE_API_KEY as string) || "";
-const authDomain = (import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string) || "";
-const projectId = (import.meta.env.VITE_FIREBASE_PROJECT_ID as string) || "";
-const storageBucket = (import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string) || "";
-const messagingSenderId = (import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string) || "";
-const appId = (import.meta.env.VITE_FIREBASE_APP_ID as string) || "";
+const apiKey = cleanEnvValue(import.meta.env.VITE_FIREBASE_API_KEY);
+const authDomain = cleanEnvValue(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
+const projectId = cleanEnvValue(import.meta.env.VITE_FIREBASE_PROJECT_ID);
+const storageBucket = cleanEnvValue(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET);
+const messagingSenderId = cleanEnvValue(import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID);
+const appId = cleanEnvValue(import.meta.env.VITE_FIREBASE_APP_ID);
 
 export const isFirebaseConfigured = Boolean(
   apiKey &&
@@ -45,7 +73,7 @@ export const isFirebaseConfigured = Boolean(
 
 if (!isFirebaseConfigured && typeof window !== "undefined") {
   console.warn(
-    "[NAVIK Firebase] Firebase configuration missing or incomplete. Ensure VITE_FIREBASE_* variables are set in .env.local."
+    "[NAVIK Firebase] Firebase configuration missing or incomplete. Ensure VITE_FIREBASE_* variables are set in .env.local or Vercel Environment Variables."
   );
 }
 
@@ -99,20 +127,23 @@ export function getFirebaseErrorMessage(error: unknown): string {
       return "Authentication was cancelled because another sign-in request was initiated.";
     case "auth/network-request-failed":
       return "Network connection error. Please verify your internet connection and try again.";
-    case "auth/unauthorized-domain":
-      return "This domain is not authorized in Firebase Authentication Console. Please add your current domain to Firebase Console > Authentication > Settings > Authorized Domains.";
+    case "auth/unauthorized-domain": {
+      const currentHost = typeof window !== "undefined" ? window.location.hostname : "navik-dangling-pointer.vercel.app";
+      return `Domain "${currentHost}" is not authorized for Firebase Authentication. Please add "${currentHost}" to Firebase Console -> Authentication -> Settings -> Authorized Domains.`;
+    }
     case "auth/account-exists-with-different-credential":
       return "An account already exists with this email address under a different sign-in method.";
     case "auth/operation-not-allowed":
       return "Google sign-in is not enabled in Firebase Console. Please enable Google provider.";
     case "auth/user-disabled":
       return "This maritime operator account has been deactivated. Contact platform administration.";
-    default:
-      if ("message" in error && typeof error.message === "string") {
-        // Return clean message if available without raw stack trace
-        return error.message.replace(/^Firebase:\s*/i, "");
-      }
-      return "Google authentication failed. Please verify your credentials and try again.";
+    default: {
+      const rawMessage =
+        "message" in error && typeof (error as { message: unknown }).message === "string"
+          ? String((error as { message: unknown }).message).replace(/^Firebase:\s*/i, "")
+          : "Google authentication failed. Please verify your credentials and try again.";
+      return code ? `[${code}] ${rawMessage}` : rawMessage;
+    }
   }
 }
 
@@ -122,8 +153,14 @@ export function getFirebaseErrorMessage(error: unknown): string {
  */
 export async function signInWithGoogle(): Promise<User> {
   if (!isFirebaseConfigured || !auth || !googleProvider) {
+    const missing: string[] = [];
+    if (!apiKey) missing.push("VITE_FIREBASE_API_KEY");
+    if (!authDomain) missing.push("VITE_FIREBASE_AUTH_DOMAIN");
+    if (!projectId) missing.push("VITE_FIREBASE_PROJECT_ID");
+    if (!appId) missing.push("VITE_FIREBASE_APP_ID");
+    console.error("[NAVIK Firebase] Firebase is not configured. Missing variables:", missing);
     throw new Error(
-      "Firebase is not configured. Please ensure VITE_FIREBASE_* variables are set in .env.local."
+      `Firebase is not configured. Missing variables: ${missing.join(", ") || "Configuration incomplete"}. Ensure these are set in Vercel Environment Variables.`
     );
   }
 
@@ -131,10 +168,14 @@ export async function signInWithGoogle(): Promise<User> {
     const result = await signInWithPopup(auth, googleProvider);
     return result.user;
   } catch (error) {
+    const code =
+      error && typeof error === "object" && "code" in error
+        ? String((error as { code: unknown }).code)
+        : "unknown";
+    console.error(`[NAVIK Firebase] Google authentication error [code: ${code}]:`, error);
     const friendlyMessage = getFirebaseErrorMessage(error);
     const mappedError = new Error(friendlyMessage);
-    (mappedError as unknown as { code?: string }).code =
-      (error as { code?: string })?.code;
+    (mappedError as unknown as { code?: string }).code = code;
     throw mappedError;
   }
 }
